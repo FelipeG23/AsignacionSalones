@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <script src="../js/modernizr.js"></script> 
+        <script src="../js/jquery-2.1.4.js"></script>
+        <script src="../js/jquery.menu-aim.js"></script>
+        <script src="../js/main.js"></script>  
+        <script src="../js/angular.min.js"></script>
+        <script src="../js/sweetalert.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../css/reset.css"> 
+        <link rel="stylesheet" href="../css/style.css"> 
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> 
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css"> 
+        <link rel="stylesheet" href="../css/sweetalert.css"> 
+
+
+        <title>LOGICA MATEMATICA</title>
+        <style>
+            li{
+                list-style:none;
+            }
+
+
+
+
+            div.table-title {
+                display: block;
+                margin: auto;
+                max-width: 600px;
+                padding:5px;
+                width: 100%;
+            }
+
+            .table-title h3 {
+                color: #fafafa;
+                font-size: 30px;
+                font-weight: 400;
+                font-style:normal;
+                font-family: "Roboto", helvetica, arial, sans-serif;
+                text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+                text-transform:uppercase;
+            }
+
+
+            /*** Table Styles **/
+
+            .table-fill {
+                background: white;
+                border-radius:3px;
+                border-collapse: collapse;
+                height: 320px;
+                margin: auto;
+                max-width: 600px;
+                padding:5px;
+                width: 100%;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                animation: float 5s infinite;
+            }
+
+            th {
+                color:#D5DDE5;;
+                background:#1b1e24;
+                border-bottom:4px solid #9ea7af;
+                border-right: 1px solid #343a45;
+                font-size:23px;
+                font-weight: 100;
+                text-align:left;
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                vertical-align:middle;
+                height: 10px;
+            }
+
+            th:first-child {
+                border-top-left-radius:3px;
+            }
+
+            th:last-child {
+                border-top-right-radius:3px;
+                border-right:none;
+            }
+
+            tr {
+                border-top: 1px solid #C1C3D1;
+                border-bottom-: 1px solid #C1C3D1;
+                color:#666B85;
+                font-size:16px;
+                font-weight:normal;
+                text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+            }
+
+
+            tr:first-child {
+                border-top:none;
+            }
+
+            tr:last-child {
+                border-bottom:none;
+            }
+
+            tr:nth-child(odd) td {
+                background:#EBEBEB;
+            }
+
+            tr:nth-child(odd):hover td {
+                background:#4E5066;
+                color: white;
+            }
+
+            tr:last-child td:first-child {
+                border-bottom-left-radius:3px;
+            }
+
+            tr:last-child td:last-child {
+                border-bottom-right-radius:3px;
+            }
+
+            td {
+                background:#FFFFFF;
+                text-align:left;
+                vertical-align:middle;
+                font-weight:300;
+                font-size:18px;
+                text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+                border-right: 1px solid #C1C3D1;
+                height: 30px;
+            }
+
+            td:last-child {
+                border-right: 0px;
+            }
+
+            th.text-left {
+                text-align: left;
+            }
+
+            th.text-center {
+                text-align: center;
+            }
+
+            th.text-right {
+                text-align: right;
+            }
+
+            td.text-left {
+                text-align: left;
+            }
+
+            td.text-center {
+                text-align: center;
+            }
+
+            td.text-right {
+                text-align: right;
+            }
+
+        </style>
+        <script>
+            var app = angular.module('AsignaApp', []);
+            app.controller('ControladorAsigna', ['$scope', '$http', function ($scope, $http) {
+                    consultarTodosProp();
+                    $scope.seleccionados = [];
+                    $scope.actualizar2 = function () {
+                        var lista = $scope.seleccionados;
+                  
+                         for (var i = 0; i < lista.length; i++) {
+                          var envio = {};
+                             envio = {"prop_id": lista[i].propi.id, "apto_id": lista[i].aptos.id};
+                             envio = JSON.stringify(envio);
+                          var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AptoUsuario/actualizarInfo/"+envio;
+                        $http({
+                            method: 'GET',
+                            url: pUrl
+                        }).then(function (response) {
+                          
+                        }).catch(function (err) {
+                            alert(err);
+                        });
+                    }
+                    
+                          swal(
+                                    'Exito',
+                                    "Se actualizo correctamente",
+                                    'success'
+                                    );
+                        
+                         
+                    };
+                    $scope.actualizar = function () {
+                          var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AptoUsuario/eliminaRegistro/";
+                        $http({
+                            method: 'GET',
+                            url: pUrl
+                        }).then(function (response) {
+                            $scope.actualizar2();
+                        }).catch(function (err) {
+                            alert(err);
+                        });
+                            
+                        
+                        
+                        };
+                    $scope.addItem = function () {
+                        var aux = new Object();
+                        aux.aptos = JSON.parse($scope.listaAp);
+                        aux.propi = JSON.parse($scope.listaProp);
+                        var item = $scope.seleccionados.find(function (val) {
+
+                            if (aux.aptos.id == val.aptos.id && aux.propi.id == val.propi.id) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        });
+                        if (undefined == item) {
+                            $scope.seleccionados.push(aux);
+                        } else {
+                            alert('Este usuario ya se encuentra dentro de la lista');
+                        }
+
+
+                    };
+                    $scope.eliminarItem = function (datos) {
+                        $scope.seleccionados = $scope.seleccionados.filter(function (val) {
+                            if (datos.aptos.id == val.aptos.id && datos.propi.id == val.propi.id) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        });
+                    };
+                    function consultarTodosProp() {
+                        var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/consultarTodos";
+                        $http({
+                            method: 'GET',
+                            url: pUrl
+                        }).then(function (response) {
+                            $scope.listaPropietarios = response.data.objeto;
+                            consultarTodosAptos();
+                        }).catch(function (err) {
+                            alert(err);
+                        });
+                    }
+
+                    function consultarTodosAptos() {
+                        var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Apto/consultarTodos";
+                        $http({
+                            method: 'GET',
+                            url: pUrl
+                        }).then(function (response) {
+                            $scope.listaAptos = response.data.objeto;
+                        }).catch(function (err) {
+                            alert(err);
+                        });
+                    }
+                }]);
+        </script>
+    </head>
+    <body ng-app="AsignaApp">
+        <header class="cd-main-header">
+
+            <a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+
+        </header> 
+
+        <main class="cd-main-content" ng-controller="ControladorAsigna" >
+            <nav class="cd-side-nav">
+                <ul>
+                    <li class="cd-label">Menu</li>
+                    <li class="has-children users">
+                        <a>Propietarios</a>
+                        <ul>
+                            <li><a href="../pages/Insert.html">Insertar</a></li>
+                            <li><a href="../pages/Update.html">Actualizar</a></li>
+                            <li><a href="../pages/Delete.html">Eliminar</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-children bookmarks">
+                        <a href="#0">Apartamentos</a>
+                        <ul>
+                            <li><a href="../pagesApto/Insert.html">Insertar</a></li>
+                            <li><a href="../pagesApto/Update.html">Actualizar</a></li>
+                            <li><a href="../pagesApto/Delete.html">Eliminar</a></li>
+                        </ul>
+
+                    </li>
+                    <li class="has-children overview">
+                        <a href="../asignacion/Asignar.html">Asignar Apto/Prop</a>
+
+                    </li>
+                    <li class="has-children images">
+                        <a href="../asignacion/joins.html">SQL JOINS</a>
+                    </li>
+
+            </nav>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div class="content-wrapper"  >
+                <table class="table-fill">
+                    <tr>
+                        <th  class="text-center">ASIGNAR APARTAMENTO/PROPIETARIO</th>
+                    </tr>
+                    <tr >
+                        <td class="text-center">PROPIETARIO</td>
+                    </tr>
+                    <tr >
+                        <td>
+                            <select ng-model="listaProp" ng-init="listaProp = -1"style="width: 80%;    margin-left: 13%;" class="form-control">
+                                <option value="-1">...</option>
+                                <option value="{{p}}" ng-repeat="p in listaPropietarios">
+                                    {{p.nombre_P| uppercase}} {{p.apellido| uppercase}}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td class="text-center">APTO</td>
+                    </tr>
+                    <tr >
+                        <td>
+                            <select ng-model="listaAp"   ng-init="listaAp = -1" style="width: 80%;    margin-left: 13%;" class="form-control">
+                                <option value="-1">...</option>
+                                <option value="{{l}}" ng-repeat="l in listaAptos">
+                                    {{l.nombre| uppercase}}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr  align="right" >
+                        <td>
+                            <button type="button"  style="float:right "  ng-click="addItem()" class="btn btn-default"  >
+                                <span class="glyphicon glyphicon-plus-sign"> 
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+                <br/>
+
+                <table ng-show="seleccionados.length > 0" class="table-fill">
+
+                    <tr>
+                        <th class="text-center">APTO</th>
+                        <th class="text-center">PROPIETARIO</th>
+                        <th class="text-center">&nbsp;</th>
+                    </tr>
+                    <tr ng-repeat="s in seleccionados">
+                        <td class="text-center">
+                            {{s.aptos.nombre| uppercase}}
+                        </td>
+                        <td class="text-center">
+                            {{s.propi.nombre| uppercase}} {{s.propi.apellido| uppercase}}
+                        </td>
+
+                        <td  class="text-center">
+
+                            <button ng-click="eliminarItem(s)" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash">
+
+                                </span>
+
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr  align="right" >
+                        <td colspan="3">
+                            <button type="button" ng-click="actualizar()" style="float:right " class="btn btn-primary"  >
+                                <span class="glyphicon glyphicon-refresh"> 
+                                    Actualizar
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+            </div> 
+        </main> 
+
+    </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/Proyecto/css/estilos.css">
+        <link rel="stylesheet" href="/Proyecto/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/angular-material.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/mui/mui.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/sweetAlert/sweetalert.css">
+        <script src="/Proyecto/js/jquery.min.js"></script>
+        <script src="/Proyecto/js/funciones.js"></script>
+        <script src="/Proyecto/js/mui/mui.min.js"></script>
+        <script src="/Proyecto/js/bootstrap.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-animate.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-aria.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-messages.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-material.min.js"></script>
+        <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
+        <style>
+            h1{
+                font-family: 'roboto';
+            }
+            table{
+                font-family: 'roboto';
+            }
+            .imageBoton:active {
+                transform: translateY(4px);
+            }
+            .image-upload > input
+            {
+                display: none;
+            }
+        </style>
+        <script>
+            var app = angular.module('PrimerServicioApp', []);
+            app.controller('ControladorApp', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+                    $scope.uploadFile = function (files) {
+                        if (files.size > 0) {
+                            var nombre = document.forms[0].anexo.files[0].name;
+                            var extension = nombre.substring(nombre.lastIndexOf(".") + 1, nombre.lenght).toUpperCase();
+                            if (extension == 'CSV') {
+                                $("#subirImagen").show();
+                            } else {
+                                swal('Error...', 'Debe subir un archivo de tipo .CSV', 'error')
+                            }
+                        }
+
+                    };
+                    $scope.subirArchivo = function () {
+                        var oData = new FormData(document.forms[0]);
+                        oData.append("anexos", document.forms[0].anexo.files[0]);
+                        var oReq = new XMLHttpRequest();
+                        oReq.timeout = 2000; // time in milliseconds
+                        oReq.open("POST", "/Proyecto/subirArchivo", true);
+                        oReq.onload = function (oEvent) {
+                            if (oReq.status == 200) {
+
+                            } else {
+                                alert("Error al subir un anexo ");
+                            }
+                        };
+                        oReq.send(oData);
+                    }
+                    ;
+
+                }]);
+        </script>
+    </head>
+    <body ng-app="PrimerServicioApp">
+        <div ng-controller="ControladorApp">
+            <form  onsubmit="return false;" action="subirArchivo" method="post"  enctype="multipart/form-data" novalidate="true">
+                <center>
+                    <br/>
+                    <table style="width: 50%;" class="table table-striped">
+                        <tr style="text-align: center">
+                            <td colspan="2"><h1>Formulario </h1></td>
+                        </tr>
+                        <tr>
+                            <td>Nombre:</td>
+                            <td><input ng-model="nombre" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Apellido:</td>
+                            <td><input ng-model="apellido" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Documento:</td>
+                            <td><input ng-model="documento" class="form-control"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>Email:</td>
+                            <td><input ng-model="email" type="email" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Sexo:</td>
+                            <td>
+                                Masculino: <input style="display: inline;    width: 5%;" name="sexo"  type="radio"  class="form-control"/> 
+                                Femenino: <input  style="display: inline;    width: 5%;" name="sexo" type="radio" class="form-control"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Empresa:</td>
+                            <td>
+                                <select ng-model="empresa" class="form-control">
+                                    <option>...</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <div class="image-upload" style="display: inline">
+                                    <label for="anexo" style="display: inline">
+                                        <img src="/Proyecto/img/csv.png"  class="imageBoton" style="float: left;width: 15%;cursor: pointer"/>
+                                    </label>
+                                    <input id="anexo" valid-file required name="anexos" onchange="angular.element(this).scope().uploadFile(this)" ng-model="anexos" type="file" >
+
+                                </div>
+
+                                <img src="/Proyecto/img/upload.png" ng-click="subirArchivo()" id="subirImagen"  class="imageBoton" style="float: left;width: 15%;cursor: pointer;display: none"/>
+                            </td>
+                            <td>
+                                <img src="/Proyecto/img/save.png" class="imageBoton" style="float: right;width: 15%;cursor: pointer"/>
+                            </td>
+
+                        </tr>
+                    </table>
+                </center>  
+            </form>
+
+
+        </div>
+
+
+    </body>
+</html>
