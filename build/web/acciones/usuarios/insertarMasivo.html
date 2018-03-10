@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form>
+
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <center>
+                <table class="table table-bordered" style="width: 50%;">
+                    <tr style="text-align: center">
+                        <td colspan="2"><h3>Agregar desde .CSV</h3></td>
+                    </tr>
+                    <tr style="text-align: center">
+                        <td><h5>Seleccionar Archivo .csv</h5></td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="image-upload" style="display: inline">
+                                    <label for="anexo" style="display: inline">
+                                        <img src="/Proyecto/img/csv.png"  class="imageBoton" style="float: left;width: 15%;cursor: pointer;"/>
+                                    </label>
+                                    <input id="anexo" valid-file required name="anexos" on onchange="angular.element(this).scope().uploadFile(this)" ng-model="anexos" type="file" >
+                                    <span>Subir archivo: <span id="nombreArchivo"></span></span>
+                                    <button class="input-group-text" ng-click="subirArchivo()"  disabled="true"  id="botonUpload" style="background-color: #71bfe9;color: white;cursor: no-drop;margin-top: 20px;margin-left: 50%;" ><i class="material-icons">backup</i>&nbsp;&nbsp;SUBIR</button>
+                                </div>
+                            </div>
+                        </td>
+
+
+                    </tr>
+                </table>
+            </center>
+        </form>
+    </body>
+</html>

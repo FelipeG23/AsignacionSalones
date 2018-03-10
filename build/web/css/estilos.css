@@ -2,7 +2,36 @@
     font-family: roboto;
     src: url(/Proyecto/fonts/roboto/Roboto-Regular.ttf);
 }
+@font-face {
+    font-family: dosisBold;
+    src: url(/Proyecto/fonts/dosis/Dosis-Bold.otf);
+}
+@font-face {
+    font-family: dosisMedium;
+    src: url(/Proyecto/fonts/dosis/Dosis-Medium.otf);
+}
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/Proyecto/fonts/materialIcons/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
 
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
 #header {
     position: fixed;
     top: 0;

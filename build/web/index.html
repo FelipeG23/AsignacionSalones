@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="angularApp">
     <head>
         <title>Pagina Principal</title>
         <meta charset="utf-8">
@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="/Proyecto/css/bootstrap.min.css">
         <link rel="stylesheet" href="/Proyecto/css/angular-material.min.css">
         <link rel="stylesheet" href="/Proyecto/css/mui/mui.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/sweetAlert/sweetalert.css">
+
         <script src="/Proyecto/js/jquery.min.js"></script>
         <script src="/Proyecto/js/funciones.js"></script>
         <script src="/Proyecto/js/mui/mui.min.js"></script>
@@ -18,32 +20,42 @@
         <script src="/Proyecto/js/Angular/angular-aria.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-messages.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-material.min.js"></script>
-        <script>
-            var app = angular.module('InicioApp', []);
-            app.controller('ControladorApp', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-                    $scope.cambiarFrame = function (pagina) {
-                        $("#frameContenido").attr('src', '/Proyecto/acciones/' + pagina + '.html');
-                    };
-                }]);
-        </script>
+        <script src="/Proyecto/js/Angular/angular-ui-router.min.js"></script>
+        <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
+        <script src="/Proyecto/js/Angular/app.js"></script>
 
     </head>
-    <body ng-app="InicioApp">
-        <div ng-controller="ControladorApp">
+    <style>
+        h1,ul,.mui--text-title{
+            font-family: 'dosisBold';
+        }
+        table{
+            font-family: 'dosisMedium';
+        }
+        .imageBoton:active {
+            transform: translateY(4px);
+        }
+        .image-upload > input
+        {
+            display: none;
+        }
+    </style>
+    <body >
+        <div>
 
 
             <div id="sidedrawer" class="mui--no-user-select">
                 <div id="sidedrawer-brand" class="mui--appbar-line-height">
-                    <span class="mui--text-title">Proyecto POO</span>
+                    <span class="mui--text-title" id="titulo">Proyecto POO</span>
                 </div>
                 <div class="mui-divider"></div>
                 <ul>
                     <li>
-                        <strong>Categoria</strong>
+                        <strong>USUARIOS</strong>
                         <ul>
-                            <li><a ng-click="cambiarFrame('PrimerServicio')" href="#" >Usuarios</a></li>
-                            <li><a ng-click="cambiarFrame('SegundoServicio')" href="#" >Segunda Pagina</a></li>
-                            <li><a  ng-click="cambiarFrame('TercerServicio')" href="#" >Tercer Pagina</a></li>
+                            <li><a ui-sref="Usuarios" href="#" >Insertar Usuario</a></li>
+                            <li><a ui-sref="UsuariosMasivos" href="#" >Masivos</a></li>
+                            <li><a  ng-click="cambiarFrame('TercerServicio')" href="#" >Consultar Usuarios</a></li>
                             <li><a  ng-click="cambiarFrame('CuartoServicio')" href="#" >Cuarta Pagina</a></li>
                             <li><a ng-click="cambiarFrame('QuintoServicio')" href="#" >Quinta Pagina</a></li>
                         </ul>
@@ -77,7 +89,9 @@
             </header>
             <div id="content-wrapper">
                 <div class="mui--appbar-height"></div>
-                <iframe id="frameContenido" style="width: 100%;height: 630px;" src="/Proyecto/acciones/inicial.html"></iframe>
+                <div ui-view="main" style="height: 80%;">
+
+                </div>
             </div>
             <footer id="footer">
                 <div class="mui-container-fluid">
