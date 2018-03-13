@@ -52,7 +52,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
                 var extension = nombre.substring(nombre.lastIndexOf(".") + 1, nombre.lenght).toUpperCase();
                 if (extension == 'CSV') {
                     $("#subirImagen").show();
-                    $("#botonUpload").attr("disabled", "false");
+                    $("#botonUpload").removeAttr("disabled");
                     $("#botonUpload").css("background-color", "#0288D1");
                     $("#botonUpload").css("cursor", "pointer");
                     nombre = "<h4>" + nombre + "</h4>";
