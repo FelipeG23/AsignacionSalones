@@ -72,7 +72,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
             oReq.open("POST", "/Proyecto/subirArchivo", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
-
+                    alert(oReq.responseText);
                 } else {
                     alert("Error al subir un anexo ");
                 }

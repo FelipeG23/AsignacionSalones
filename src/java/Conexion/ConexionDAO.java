@@ -18,8 +18,8 @@ public class ConexionDAO {
     public static Connection GetConnection() {
         Connection conexion = null;
         try {
-            Class.forName("org.postgresql.Driver");
-            conexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Proyecto", "postgres", "postgres");
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/Clase", "root", "root");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,27 +11,20 @@ package Entities;
  */
 public class PersonaEntity {
     
-    private String id;
-    private String nombre_P;
+    private String nombre;
     private String apellido;
-    private Integer edad;
+    private Long documento;
+    private String email;
+    private String sexo;
+    private Long empresa;
 
-    public String getId() {
-        return id;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
-
-    public String getNombre_P() {
-        return nombre_P;
-    }
-
-    public void setNombre_P(String nombre_P) {
-        this.nombre_P = nombre_P;
-    }
-    
 
     public String getApellido() {
         return apellido;
@@ -41,12 +34,39 @@ public class PersonaEntity {
         this.apellido = apellido;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public Long getDocumento() {
+        return documento;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
+    public void setDocumento(Long documento) {
+        this.documento = documento;
     }
-     
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Long getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Long empresa) {
+        this.empresa = empresa;
+    }
+    
+    
+    
+    
 }
