@@ -10,6 +10,9 @@
     <service name="AptoUsuario">
       <implementation-class>Servicios.AptoUsuario</implementation-class>
     </service>
+    <service name="Empresa">
+      <implementation-class>Servicios.Empresa</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>

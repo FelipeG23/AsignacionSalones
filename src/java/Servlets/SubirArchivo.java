@@ -8,6 +8,7 @@ package Servlets;
 import DAO.EmpresaDAO;
 import DAO.UsuarioDAO;
 import Entities.PersonaEntity;
+import Utiles.DeserializaObjeto;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
@@ -34,7 +35,9 @@ public class SubirArchivo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String rutaTempFinal = "";
         String respuesta = "";
+
         try {
+            Integer contador = 0;
             String rutaTemp = System.getProperty("user.home");
             Part filePart = null;
             try {
@@ -57,6 +60,7 @@ public class SubirArchivo extends HttpServlet {
                 for (CSVRecord csvRecord : csvRecords) {
 
                     if (csvRecord.size() == 5) {
+                        contador++;
                         PersonaEntity persona = new PersonaEntity();
                         persona.setNombre(csvRecord.get(0));
                         persona.setApellido(csvRecord.get(1));
@@ -71,17 +75,18 @@ public class SubirArchivo extends HttpServlet {
                     }
                 }
                 csvParser.close();
-                respuesta = "OK";
+                respuesta = DeserializaObjeto.creaObjetoJson("OK", contador);
             } else {
-                respuesta = "Error al subir el archivo , intente de nuevo";
+                respuesta = DeserializaObjeto.creaObjetoJson("Error", "Error al subir el archivo , intente de nuevo");
             }
-            response.getWriter().write(respuesta);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 File f = new File(rutaTempFinal);
                 f.delete();
+                response.getWriter().write(respuesta);
             } catch (Exception e) {
                 e.printStackTrace();
             }

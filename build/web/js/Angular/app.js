@@ -7,6 +7,28 @@
 
 var app = angular.module("angularApp", ['ui.router']);
 
+
+/**
+ * 
+ */
+app.factory("empresas", ["$http", function ($http) {
+        var em = {
+            empresas: []
+        };
+
+        em.getEmpresas = function () {
+            return $http.get("/Proyecto/v1/empresas/consultarEmpresas/").then(function (data) {
+                angular.copy(data.data.objeto, em.empresas);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
+
+        return em;
+    }]);
+
+
+
 // REDIRECCIONES
 
 app.config([
@@ -33,8 +55,14 @@ app.config([
                     url: "/Usuarios",
                     views: {
                         "main": {
+                            controller: "UsuarioController",
                             templateUrl: "/Proyecto/acciones/usuarios/InsertarUsuario.html"
-                        }}
+                        }},
+                    resolve: {
+                        postPromise: ['empresas', function (empresas) {
+                                return empresas.getEmpresas();
+                            }]
+                    }
                 });
         $urlRouterProvider.otherwise("/Inicio");
     }
@@ -72,13 +100,35 @@ app.controller("MasivosController", ['$scope', function ($scope) {
             oReq.open("POST", "/Proyecto/subirArchivo", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
-                    alert(oReq.responseText);
+                    var obj = JSON.parse(oReq.responseText);
+                    if (obj.respuesta == 'OK') {
+                        swal('Atención', 'Se han procesado :' + obj.objeto + ' registros.', 'success');
+                        angular.element($scope.file).val(null);
+                    } else {
+                        swal('Atención', obj.objeto, 'error');
+
+                    }
                 } else {
                     alert("Error al subir un anexo ");
+                }
+            };
+            oReq.onreadystatechange = function (oEvent) {
+                if (oReq.readyState === 4) {
+                    var obj = JSON.parse(oReq.responseText);
+                    if (obj.respuesta === 200) {
+                        console.log(obj.objeto);
+                    } else {
+                        console.log(obj.objeto);
+                    }
                 }
             };
             oReq.send(oData);
         }
         ;
-
+    }]);
+/**
+ * Controlador de usuarios
+ */
+app.controller("UsuarioController", ['$scope', 'empresas', function ($scope, empresas) {
+        $scope.empresas = empresas.empresas;
     }]);

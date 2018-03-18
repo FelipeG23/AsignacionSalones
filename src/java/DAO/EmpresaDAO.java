@@ -6,9 +6,12 @@
 package DAO;
 
 import Conexion.ConexionDAO;
+import Entities.EmpresaEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -51,4 +54,46 @@ public class EmpresaDAO {
         }
         return rta;
     }
+
+    /**
+     * Metodo para buscar todas las empresas en la BD
+     *
+     * @return
+     */
+    public List<EmpresaEntity> consultarEmpresas() {
+        List<EmpresaEntity> lista = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("select ID_EMPRESA,NOMBRE_EMPRESA from empresa");            
+            ps = conn.prepareStatement(sql.toString());
+            rs = ps.executeQuery();
+            while(rs.next()){
+                if(lista == null){
+                    lista = new ArrayList<>();
+                }
+                EmpresaEntity aux = new EmpresaEntity();
+                aux.setId_Empresa(rs.getLong("ID_EMPRESA"));
+                aux.setNombre_Empresa(rs.getString("NOMBRE_EMPRESA"));
+                lista.add(aux);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+    }
+
 }

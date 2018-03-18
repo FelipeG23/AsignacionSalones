@@ -31,6 +31,11 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Empresa</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/v1/*</url-pattern>
@@ -51,6 +56,10 @@
     <servlet-mapping>
         <servlet-name>AptoUsuario</servlet-name>
         <url-pattern>/AptoUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Empresa</servlet-name>
+        <url-pattern>/Empresa</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
