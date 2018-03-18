@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Repositorios/Proyecto/web/acciones/usuarios/insertarMasivo.html</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/Conexion/ConexionDAO.java</file>
-            <file>file:/C:/Repositorios/Proyecto/web/js/Angular/app.js</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/DAO/EmpresaDAO.java</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/Servicios/Usuario.java</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/DAO/UsuarioDAO.java</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/Entities/PersonaEntity.java</file>
-            <file>file:/C:/Repositorios/Proyecto/src/java/Servlets/SubirArchivo.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

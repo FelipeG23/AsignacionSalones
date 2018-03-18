@@ -129,6 +129,60 @@ app.controller("MasivosController", ['$scope', function ($scope) {
 /**
  * Controlador de usuarios
  */
-app.controller("UsuarioController", ['$scope', 'empresas', function ($scope, empresas) {
+app.controller("UsuarioController", ['$scope', 'empresas','$http', function ($scope, empresas,$http) {
         $scope.empresas = empresas.empresas;
+
+        $scope.registrarUsuario = function () {
+            var valida = $scope.validarDatos();
+            if (valida) {
+                var param;
+                var envio = new Object();
+                envio.nombre = $scope.nombre;
+                envio.apellido = $scope.apellido;
+                envio.documento = $scope.documento;
+                envio.sexo = document.forms[0].sexo.value;
+                envio.email = $scope.email;
+                envio.empresa = $scope.empresa;
+                param = JSON.stringify(envio);
+                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/insertarUsuario/" + param;
+                $http({
+                    method: 'GET',
+                    url: pUrl
+                }).then(function (response) {
+                    console.log(response);
+                    swal(
+                            'Exito',
+                            "Se agrego correctamente un usuario",
+                            'success'
+                            );
+                    $scope.nombre = "";
+                    $scope.apellido = "";
+                    $scope.documento = "";
+                    $scope.email = "";
+                    $scope.empresa = "-1";
+                }).catch(function (err) {
+                    alert(err);
+                });
+            }
+        };
+        $scope.validarDatos = function () {
+            var valida = true;
+            if ($scope.nombre == undefined) {
+                swal('Atención', 'El campo nombre es obligatorio', 'warning');
+                valida = false;
+            } else if ($scope.apellido == undefined) {
+                swal('Atención', 'El campo apellido es obligatorio', 'warning');
+                valida = false;
+            } else if ($scope.documento == undefined) {
+                swal('Atención', 'El campo apellido es obligatorio', 'warning');
+                valida = false;
+            } else if ($scope.email == undefined) {
+                swal('Atención', 'El campo email es obligatorio', 'warning');
+                valida = false;
+            } else if ($scope.email == '-1') {
+                swal('Atención', 'Debe seleccionar una empresa', 'warning');
+                valida = false;
+            }
+            return valida;
+        };
     }]);

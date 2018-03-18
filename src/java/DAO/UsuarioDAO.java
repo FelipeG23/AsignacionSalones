@@ -49,7 +49,7 @@ public class UsuarioDAO {
             ps.setString(2, usuario.getApellido());
             ps.setLong(3, usuario.getDocumento());
             ps.setString(4, usuario.getEmail());
-            ps.setString(5, "M");
+            ps.setString(5, usuario.getSexo());
             ps.setLong(6, usuario.getEmpresa());
             ps.executeUpdate();
             rta = "OK";

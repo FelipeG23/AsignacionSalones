@@ -31,7 +31,16 @@ public class Usuario {
         JSONObject json = new JSONObject(datos);
         String objJson = "";
         try {
-      
+            UsuarioDAO dao = new UsuarioDAO();
+            PersonaEntity usuario = new PersonaEntity();
+            usuario.setNombre(json.getString("nombre"));
+            usuario.setApellido(json.getString("apellido"));
+            usuario.setDocumento(json.getLong("documento"));
+            usuario.setSexo(json.getString("sexo"));
+            usuario.setEmail(json.getString("email"));
+            usuario.setEmpresa(json.getLong("empresa"));
+            String rta = dao.insertarUsuario(usuario);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -49,13 +49,13 @@ and open the template in the editor.
 
                         <tr>
                             <td>Email:</td>
-                            <td><input ng-model="email" type="email" class="form-control"/></td>
+                            <td><input ng-model="email"  class="form-control"/></td>
                         </tr>
                         <tr>
                             <td>Sexo:</td>
                             <td>
-                                Masculino: <input style="display: inline;    width: 5%;" name="sexo"  type="radio"  class="form-control"/> 
-                                Femenino: <input  style="display: inline;    width: 5%;" name="sexo" type="radio" class="form-control"/>
+                                Masculino: <input ng-model="sexo" value="M" style="display: inline;    width: 5%;" name="sexo"  type="radio"  class="form-control"/> 
+                                Femenino: <input  ng-model="sexo" value="F" style="display: inline;    width: 5%;" name="sexo" type="radio" class="form-control"/>
                             </td>
                         </tr>
                         <tr>
@@ -72,7 +72,7 @@ and open the template in the editor.
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <img src="/Proyecto/img/save.png" class="imageBoton" style="float: right;width: 15%;cursor: pointer"/>
+                                <img src="/Proyecto/img/save.png" ng-click="registrarUsuario()" class="imageBoton" style="float: right;width: 15%;cursor: pointer"/>
                             </td>
 
                         </tr>

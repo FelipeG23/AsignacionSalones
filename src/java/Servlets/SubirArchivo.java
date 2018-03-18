@@ -68,6 +68,7 @@ public class SubirArchivo extends HttpServlet {
                         persona.setEmail(csvRecord.get(3));
                         Long idEmpresa = daoEmpresa.consultarEmpresaXNombre(csvRecord.get(4));
                         persona.setEmpresa(idEmpresa);
+                        persona.setSexo("M");
                         String rta = daoUsuario.insertarUsuario(persona);
                         if (!rta.equalsIgnoreCase("OK")) {
                             respuesta = rta;
