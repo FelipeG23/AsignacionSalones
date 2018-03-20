@@ -56,6 +56,42 @@ public class EmpresaDAO {
     }
 
     /**
+     * Metodo para consulta el nombre de una empresa por su codigo
+     *
+     * @param nombreEmpresa
+     * @return
+     */
+    public String consultarEmpresaXID(Long idEmpresa) {
+        String rta = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("    SELECT  NOMBRE_EMPRESA FROM CLASE.EMPRESA        ");
+            sql.append("    WHERE ID_EMPRESA = ?                    ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setLong(1, idEmpresa);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                rta = rs.getString("NOMBRE_EMPRESA");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+    }
+
+    /**
      * Metodo para buscar todas las empresas en la BD
      *
      * @return
@@ -68,11 +104,11 @@ public class EmpresaDAO {
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("select ID_EMPRESA,NOMBRE_EMPRESA from empresa");            
+            sql.append("select ID_EMPRESA,NOMBRE_EMPRESA from empresa");
             ps = conn.prepareStatement(sql.toString());
             rs = ps.executeQuery();
-            while(rs.next()){
-                if(lista == null){
+            while (rs.next()) {
+                if (lista == null) {
                     lista = new ArrayList<>();
                 }
                 EmpresaEntity aux = new EmpresaEntity();

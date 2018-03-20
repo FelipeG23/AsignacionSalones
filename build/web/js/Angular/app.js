@@ -5,11 +5,11 @@
  */
 
 
-var app = angular.module("angularApp", ['ui.router']);
+var app = angular.module("angularApp", ['ui.router', 'ngMaterial', 'md.data.table']);
 
 
 /**
- * 
+ * Factoria de empresas
  */
 app.factory("empresas", ["$http", function ($http) {
         var em = {
@@ -25,6 +25,24 @@ app.factory("empresas", ["$http", function ($http) {
         };
 
         return em;
+    }]);
+/**
+ * Factoria de usuarios
+ */
+app.factory("usuariosConsulta", ["$http", function ($http) {
+        var us = {
+            usuariosConsulta: []
+        };
+
+        us.getUsuarios = function () {
+            return $http.get("/Proyecto/v1/Usuario/consultarTodos/").then(function (data) {
+                angular.copy(data.data.objeto, us.usuariosConsulta);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
+
+        return us;
     }]);
 
 
@@ -50,6 +68,19 @@ app.config([
                             controller: "MasivosController",
                             templateUrl: "/Proyecto/acciones/usuarios/insertarMasivo.html"
                         }}
+                })
+                .state('ConsultaUsuarios', {
+                    url: "/ConsultaUsuarios",
+                    views: {
+                        "main": {
+                            controller: "UsuarioConsultaController",
+                            templateUrl: "/Proyecto/acciones/usuarios/ConsultaUsuarios.html"
+                        }},
+                    resolve: {
+                        postPromise: ['usuariosConsulta', function (usuariosConsulta) {
+                                return usuariosConsulta.getUsuarios();
+                            }]
+                    }
                 })
                 .state('Usuarios', {
                     url: "/Usuarios",
@@ -129,7 +160,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
 /**
  * Controlador de usuarios
  */
-app.controller("UsuarioController", ['$scope', 'empresas','$http', function ($scope, empresas,$http) {
+app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($scope, empresas, $http) {
         $scope.empresas = empresas.empresas;
 
         $scope.registrarUsuario = function () {
@@ -185,4 +216,75 @@ app.controller("UsuarioController", ['$scope', 'empresas','$http', function ($sc
             }
             return valida;
         };
+    }]);
+/**
+ * Controlador de la consulta de usuarios
+ */
+app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$http', '$mdDialog', function ($scope, usuariosConsulta, $http, $mdDialog) {
+        $scope.selected = [];
+        $scope.limitOptions = [5, 10, 15];
+        $scope.usuariosGeneral = usuariosConsulta.usuariosConsulta;
+        /***
+         * FUNCIONES NECESARIAS PARA EL FUNCIONAMIENTO 
+         * DEL DATA TABLE
+         */
+        $scope.options = {
+            rowSelection: true,
+            multiSelect: true,
+            autoSelect: true,
+            decapitate: false,
+            largeEditDialog: false,
+            boundaryLinks: false,
+            limitSelect: true,
+            pageSelect: true
+        };
+
+        $scope.query = {
+            order: 'nombre',
+            limit: 5,
+            page: 1
+        };
+
+
+        $scope.toggleLimitOptions = function () {
+            $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
+        };
+
+
+        $scope.loadStuff = function () {
+            $scope.promise = $timeout(function () {
+                // loading
+            }, 2000);
+        }
+
+        $scope.logItem = function (item) {
+        };
+
+        $scope.logOrder = function (order) {
+        };
+
+        $scope.logPagination = function (page, limit) {
+        };
+
+        $scope.enviarCorreo = function () {
+            if ($scope.selected.length == 0) {
+                swal('Atención', 'Debe seleccionar al menos un usuario', 'warning');
+            } else {
+                swal({
+                    title: "Digite el mensaje que se enviara",
+                    html: true,
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    type: 'info',
+                    cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Enviar',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    text: "<textarea class='form-control' style='resize:none;'>"
+                });
+            }
+        };
+
+
+
     }]);

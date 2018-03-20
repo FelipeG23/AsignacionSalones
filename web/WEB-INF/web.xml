@@ -22,16 +22,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>Apto</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>AptoUsuario</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
         <servlet-name>Empresa</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -48,14 +38,6 @@
     <servlet-mapping>
         <servlet-name>Usuario</servlet-name>
         <url-pattern>/Usuario</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Apto</servlet-name>
-        <url-pattern>/Apto</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AptoUsuario</servlet-name>
-        <url-pattern>/AptoUsuario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Empresa</servlet-name>

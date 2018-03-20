@@ -4,12 +4,6 @@
     <service name="Usuario">
       <implementation-class>Servicios.Usuario</implementation-class>
     </service>
-    <service name="Apto">
-      <implementation-class>Servicios.Apto</implementation-class>
-    </service>
-    <service name="AptoUsuario">
-      <implementation-class>Servicios.AptoUsuario</implementation-class>
-    </service>
     <service name="Empresa">
       <implementation-class>Servicios.Empresa</implementation-class>
     </service>

@@ -9,6 +9,9 @@ import Conexion.ConexionDAO;
 import Entities.PersonaEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -68,45 +71,49 @@ public class UsuarioDAO {
         }
         return rta;
     }
-//
-//    public ArrayList<PersonaEntity> consultarTodasPersonas() {
-//        Connection conn = null;
-//        Statement st = null;
-//        ResultSet rs = null;
-//        ArrayList<PersonaEntity> rta = null;
-//        try {
-//
-//            conn = ConexionDAO.GetConnection();
-//            StringBuilder sql = new StringBuilder();
-//            sql.append("SELECT id ,nombre, apellidos, edad FROM propietario ORDER BY ID ASC");
-//            st = conn.createStatement();
-//            rs = st.executeQuery(sql.toString());
-//            while (rs.next()) {
-//                if (null == rta) {
-//                    rta = new ArrayList<>();
-//                }
-//                PersonaEntity aux = new PersonaEntity();
-//                aux.setId(rs.getString("ID"));
-//                aux.setNombre_P(rs.getString("nombre"));
-//                aux.setApellido(rs.getString("apellidos"));
-//                aux.setEdad(rs.getInt("edad"));
-//                rta.add(aux);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        } finally {
-//            try {
-//                if (null != conn) {
-//                    conn.close();
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//        return rta;
-//    }
+
+    public ArrayList<PersonaEntity> consultarTodasPersonas() {
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<PersonaEntity> rta = null;
+        try {
+            EmpresaDAO daoEmp = new EmpresaDAO();
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("select ID_USUARIO, NOMBRES, APELLIDOS, DOCUMENTO, EMAIL, SEXO, ID_EMPRESA from usuario order by id_usuario");
+            st = conn.createStatement();
+            rs = st.executeQuery(sql.toString());
+            while (rs.next()) {
+                if (null == rta) {
+                    rta = new ArrayList<>();
+                }
+                PersonaEntity aux = new PersonaEntity();
+                aux.setId_Persona(rs.getLong("ID_USUARIO"));
+                aux.setNombre(rs.getString("NOMBRES"));
+                aux.setApellido(rs.getString("APELLIDOS"));
+                aux.setDocumento(rs.getLong("DOCUMENTO"));
+                aux.setEmail(rs.getString("EMAIL"));
+                aux.setSexo(rs.getString("SEXO"));
+                aux.setEmpresa(rs.getLong("ID_EMPRESA"));
+                aux.setEmpresaNombre(daoEmp.consultarEmpresaXID(aux.getEmpresa()));
+                rta.add(aux);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            try {
+                if (null != conn) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return rta;
+    }
 //
 //    public PersonaEntity consultarEspecifico(String id) {
 //        Connection conn = null;

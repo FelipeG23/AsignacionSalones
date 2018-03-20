@@ -3,7 +3,7 @@ package Servicios;
 import DAO.UsuarioDAO;
 import Entities.PersonaEntity;
 import Utiles.DeserializaObjeto;
-import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
@@ -46,20 +46,25 @@ public class Usuario {
         }
         return objJson;
     }
-//    @GET
-//    @Path("consultarTodos/")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public String consultarTodos() {
-//        String objJson = "";
-//        try {
-//            UsuarioDAO dao = new UsuarioDAO();
-//            ArrayList<PersonaEntity> rta = dao.consultarTodasPersonas();
-//            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return objJson;
-//    }
+    /***
+     * Metodo para consultar todos los usuarios
+     * @return 
+     */
+    @GET
+    @Path("consultarTodos/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarTodos() {
+        String objJson = "";
+        try {
+            UsuarioDAO dao = new UsuarioDAO();
+            List<PersonaEntity> rta = dao.consultarTodasPersonas();
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
 //    @GET
 //    @Path("consultarEspecifico/{id}")
 //    @Produces(MediaType.APPLICATION_JSON)

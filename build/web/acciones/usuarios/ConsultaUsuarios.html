@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon{
+                background-color: #2196f3;
+            }
+            .md-checkbox.md-default-theme.md-checked .md-ink-ripple, md-checkbox.md-checked .md-ink-ripple {
+                color: rgb(33, 150, 243);
+            }
+            .md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
+                background-color :#2196f3;
+            }
+        </style>
+    </head>
+    <body>
+        <br/>
+        <br/>
+        <br/>
+
+
+    <md-content>
+
+        <md-card>
+
+            <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                <div class="md-toolbar-tools">
+                    <span>USUARIOS</span>
+                    <div flex></div>
+                    <md-button class="md-icon-button" ng-click="loadStuff()">
+                        <md-icon>refresh</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                <div class="md-toolbar-tools">
+                    <span>{{selected.length}} {{selected.length > 1 ? 'usuarios seleccionados' : 'usuario seleccionado'}} </span>
+                </div>
+            </md-toolbar>
+
+            <md-table-container >
+                <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
+                    <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                        <tr md-row>
+                            <th md-column md-order-by="usuario.nombre"><span>Nombre</span></th>
+                            <th md-column md-order-by="usuario.apellido" md-desc><span>Apellido</span></th>
+                            <th md-column md-numeric md-order-by="usuario.documento"><span>Documento</span></th>
+                            <th md-column  md-order-by="usuario.email"><span>Email</span></th>
+                            <th md-column  md-order-by="usuario.empresaNombre"><span>Empresa</span></th>
+
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="usuario" md-on-select="logItem" md-auto-select="options.autoSelect"
+                            ng-repeat="usuario in usuariosGeneral| filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                            <td md-cell>{{usuario.nombre}}</td>
+                            <td md-cell>{{usuario.apellido}}</td>
+                            <td md-cell>{{usuario.documento}}</td>
+                            <td md-cell>{{usuario.email}}</td>
+                            <td md-cell>{{usuario.empresaNombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{usuariosGeneral.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+            <button type="button" style="width: 10%;float: right;margin-left: 90%;" ng-click="enviarCorreo()" class="btn btn-primary">
+                ENVIAR CORREO
+            </button>
+        </md-card>
+    </md-content>
+
+
+
+</body>
+</html>

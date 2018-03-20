@@ -10,13 +10,31 @@ package Entities;
  * @author Felipe
  */
 public class PersonaEntity {
-    
+
+    private Long id_Persona;
     private String nombre;
     private String apellido;
     private Long documento;
     private String email;
     private String sexo;
     private Long empresa;
+    private String empresaNombre;
+
+    public String getEmpresaNombre() {
+        return empresaNombre;
+    }
+
+    public void setEmpresaNombre(String empresaNombre) {
+        this.empresaNombre = empresaNombre;
+    }
+
+    public Long getId_Persona() {
+        return id_Persona;
+    }
+
+    public void setId_Persona(Long id_Persona) {
+        this.id_Persona = id_Persona;
+    }
 
     public String getNombre() {
         return nombre;
@@ -65,8 +83,5 @@ public class PersonaEntity {
     public void setEmpresa(Long empresa) {
         this.empresa = empresa;
     }
-    
-    
-    
-    
+
 }
