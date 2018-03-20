@@ -163,6 +163,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
 app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($scope, empresas, $http) {
         $scope.empresas = empresas.empresas;
 
+
         $scope.registrarUsuario = function () {
             var valida = $scope.validarDatos();
             if (valida) {
@@ -266,25 +267,53 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
         $scope.logPagination = function (page, limit) {
         };
 
-        $scope.enviarCorreo = function () {
+        $scope.mostrarModalCorreo = function () {
             if ($scope.selected.length == 0) {
                 swal('Atención', 'Debe seleccionar al menos un usuario', 'warning');
             } else {
-                swal({
-                    title: "Digite el mensaje que se enviara",
-                    html: true,
-                    showCancelButton: true,
-                    showCloseButton: true,
-                    type: 'info',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Enviar',
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    text: "<textarea class='form-control' style='resize:none;'>"
+                $("#overlay").show();
+                $("#modalCorreo").show();
+
+            }
+        };
+        $scope.enviarCorreo = function () {
+            if ($('#mensajeCorreo').val() == '') {
+                alert('Digite un comentario');
+            } else {
+                var envio = "";
+                $($scope.selected).each(function (index, element) {
+                    envio = envio + element.email + ",";
+                });
+                envio = envio.substring(0, envio.length - 1);
+                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/envioCorreos/" + envio + "/" + $('#mensajeCorreo').val();
+                $http({
+                    method: 'GET',
+                    url: pUrl
+                }).then(function (response) {
+                    console.log(response);
+                }).catch(function (err) {
+                    alert(err);
                 });
             }
         };
 
 
+        $scope.limpiarModalCorreo = function () {
+            $('#modalCorreo').hide();
+            $('#overlay').hide();
+            $('#mensajeCorreo').empty();
+            $('#mensajeCorreo').val('');
+
+        };
+
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                $('#modalCorreo').hide();
+                $('#overlay').hide();
+                $('#mensajeCorreo').empty();
+                $('#mensajeCorreo').val('');
+            }
+
+        });
 
     }]);
