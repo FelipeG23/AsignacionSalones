@@ -124,10 +124,17 @@ app.controller("MasivosController", ['$scope', function ($scope) {
 
         };
         $scope.subirArchivo = function () {
+            swal({
+                title: 'PROCESANDO INFORMACION...',
+                imageUrl: './img/source.gif',
+                imageWidth: 358,
+                imageHeight: 285,
+                imageAlt: 'Custom image'
+            });
             var oData = new FormData(document.forms[0]);
             oData.append("anexos", document.forms[0].anexo.files[0]);
             var oReq = new XMLHttpRequest();
-            oReq.timeout = 2000; // time in milliseconds
+            oReq.timeout = 20000000000; // time in milliseconds
             oReq.open("POST", "/Proyecto/subirArchivo", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
@@ -135,6 +142,11 @@ app.controller("MasivosController", ['$scope', function ($scope) {
                     if (obj.respuesta == 'OK') {
                         swal('Atención', 'Se han procesado :' + obj.objeto + ' registros.', 'success');
                         angular.element($scope.file).val(null);
+                        $("#botonUpload").attr("disabled");
+                        $("#botonUpload").css("background-color", "#71bfe9");
+                        $("#botonUpload").css("cursor", "no-drop");
+                        var nombre = "<h4></h4>";
+                        $("#nombreArchivo").html(nombre);
                     } else {
                         swal('Atención', obj.objeto, 'error');
 
@@ -143,16 +155,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
                     alert("Error al subir un anexo ");
                 }
             };
-            oReq.onreadystatechange = function (oEvent) {
-                if (oReq.readyState === 4) {
-                    var obj = JSON.parse(oReq.responseText);
-                    if (obj.respuesta === 200) {
-                        console.log(obj.objeto);
-                    } else {
-                        console.log(obj.objeto);
-                    }
-                }
-            };
+
             oReq.send(oData);
         }
         ;
@@ -162,8 +165,6 @@ app.controller("MasivosController", ['$scope', function ($scope) {
  */
 app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($scope, empresas, $http) {
         $scope.empresas = empresas.empresas;
-
-
         $scope.registrarUsuario = function () {
             var valida = $scope.validarDatos();
             if (valida) {
@@ -239,19 +240,14 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
             limitSelect: true,
             pageSelect: true
         };
-
         $scope.query = {
             order: 'nombre',
             limit: 5,
             page: 1
         };
-
-
         $scope.toggleLimitOptions = function () {
             $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
         };
-
-
         $scope.loadStuff = function () {
             $scope.promise = $timeout(function () {
                 // loading
@@ -260,52 +256,57 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
 
         $scope.logItem = function (item) {
         };
-
         $scope.logOrder = function (order) {
         };
-
         $scope.logPagination = function (page, limit) {
         };
-
         $scope.mostrarModalCorreo = function () {
             if ($scope.selected.length == 0) {
                 swal('Atención', 'Debe seleccionar al menos un usuario', 'warning');
             } else {
                 $("#overlay").show();
                 $("#modalCorreo").show();
-
             }
         };
         $scope.enviarCorreo = function () {
+            var envia = true;
+
+
             if ($('#mensajeCorreo').val() == '') {
                 alert('Digite un comentario');
             } else {
+
                 var envio = "";
                 $($scope.selected).each(function (index, element) {
                     envio = envio + element.email + ",";
                 });
                 envio = envio.substring(0, envio.length - 1);
                 var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/envioCorreos/" + envio + "/" + $('#mensajeCorreo').val();
-                $http({
-                    method: 'GET',
-                    url: pUrl
-                }).then(function (response) {
-                    console.log(response);
-                }).catch(function (err) {
-                    alert(err);
-                });
+                if (envia) {
+                    $http({
+                        method: 'GET',
+                        url: pUrl
+                    }).then(function (response) {
+                        if (response.data.respuesta == 'Ok') {
+                            envia = false;
+                            $('#modalCorreo').hide();
+                            $('#overlay').hide();
+                            alert('Se han enviado correctamente los correos');
+                        }
+
+                    }).catch(function (err) {
+                        alert(err);
+                    });
+                }
+
             }
         };
-
-
         $scope.limpiarModalCorreo = function () {
             $('#modalCorreo').hide();
             $('#overlay').hide();
             $('#mensajeCorreo').empty();
             $('#mensajeCorreo').val('');
-
         };
-
         $(document).keyup(function (e) {
             if (e.keyCode == 27) {
                 $('#modalCorreo').hide();
@@ -315,5 +316,4 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
             }
 
         });
-
     }]);

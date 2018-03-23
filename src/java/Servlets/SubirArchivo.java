@@ -28,7 +28,7 @@ import org.apache.commons.csv.CSVRecord;
  *
  * @author Estudiante 2018
  */
-@WebServlet(urlPatterns = {"/subirArchivo"})
+@WebServlet(urlPatterns = {"/subirArchivo"}, asyncSupported=false)
 public class SubirArchivo extends HttpServlet {
 
     @Override
@@ -80,6 +80,7 @@ public class SubirArchivo extends HttpServlet {
             } else {
                 respuesta = DeserializaObjeto.creaObjetoJson("Error", "Error al subir el archivo , intente de nuevo");
             }
+            response.getWriter().write(respuesta);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +88,6 @@ public class SubirArchivo extends HttpServlet {
             try {
                 File f = new File(rutaTempFinal);
                 f.delete();
-                response.getWriter().write(respuesta);
             } catch (Exception e) {
                 e.printStackTrace();
             }
