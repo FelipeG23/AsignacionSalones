@@ -4,9 +4,6 @@
     <service name="Usuario">
       <implementation-class>Servicios.Usuario</implementation-class>
     </service>
-    <service name="Empresa">
-      <implementation-class>Servicios.Empresa</implementation-class>
-    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>

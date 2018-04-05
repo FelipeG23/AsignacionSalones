@@ -5,9 +5,6 @@
  */
 package Servlets;
 
-import DAO.EmpresaDAO;
-import DAO.UsuarioDAO;
-import Entities.PersonaEntity;
 import Utiles.DeserializaObjeto;
 import java.io.File;
 import java.io.InputStream;
@@ -55,26 +52,8 @@ public class SubirArchivo extends HttpServlet {
                 Reader reader = Files.newBufferedReader(Paths.get(file.toString()));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
                 Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-                EmpresaDAO daoEmpresa = new EmpresaDAO();
-                UsuarioDAO daoUsuario = new UsuarioDAO();
-                for (CSVRecord csvRecord : csvRecords) {
-
-                    if (csvRecord.size() == 5) {
-                        contador++;
-                        PersonaEntity persona = new PersonaEntity();
-                        persona.setNombre(csvRecord.get(0));
-                        persona.setApellido(csvRecord.get(1));
-                        persona.setDocumento(Long.parseLong(csvRecord.get(2)));
-                        persona.setEmail(csvRecord.get(3));
-                        Long idEmpresa = daoEmpresa.consultarEmpresaXNombre(csvRecord.get(4));
-                        persona.setEmpresa(idEmpresa);
-                        persona.setSexo("M");
-                        String rta = daoUsuario.insertarUsuario(persona);
-                        if (!rta.equalsIgnoreCase("OK")) {
-                            respuesta = rta;
-                        }
-                    }
-                }
+                
+               
                 csvParser.close();
                 respuesta = DeserializaObjeto.creaObjetoJson("OK", contador);
             } else {

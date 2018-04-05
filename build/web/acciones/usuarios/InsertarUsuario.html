@@ -32,7 +32,7 @@ and open the template in the editor.
                     <br/>
                     <table style="width: 50%;" class="table table-striped">
                         <tr style="text-align: center">
-                            <td colspan="2"><h1>Formulario </h1></td>
+                            <td colspan="2"><h1>INSERTAR USUARIO </h1></td>
                         </tr>
                         <tr>
                             <td>Nombre:</td>
@@ -46,26 +46,9 @@ and open the template in the editor.
                             <td>Documento:</td>
                             <td><input ng-model="documento" class="form-control"/></td>
                         </tr>
-
                         <tr>
-                            <td>Email:</td>
-                            <td><input ng-model="email"  class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td>Sexo:</td>
-                            <td>
-                                Masculino: <input ng-model="sexo" value="M" style="display: inline;    width: 5%;" name="sexo"  type="radio"  class="form-control"/> 
-                                Femenino: <input  ng-model="sexo" value="F" style="display: inline;    width: 5%;" name="sexo" type="radio" class="form-control"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Empresa:</td>
-                            <td>
-                                <select ng-model="empresa" ng-init='empresa = "-1"' class="form-control">
-                                    <option disabled value="-1" >...</option>
-                                    <option value="{{emp.id_Empresa}}" ng-repeat="emp in empresas">{{emp.nombre_Empresa}}</option>
-                                </select>
-                            </td>
+                            <td>Clave:</td>
+                            <td><input ng-model="clave" type="password" class="form-control"/></td>
                         </tr>
                         <tr>
                             <td><br/></td>

@@ -2026,7 +2026,8 @@ pre code {
     display: block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 14px;
+    font-family:'roboto';
     line-height: 1.5;
     color: #495057;
     background-color: #fff;

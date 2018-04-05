@@ -82,18 +82,13 @@ app.config([
                             }]
                     }
                 })
-                .state('Usuarios', {
-                    url: "/Usuarios",
+                .state('InsertarUsuario', {
+                    url: "/InsertarUsuario",
                     views: {
                         "main": {
                             controller: "UsuarioController",
                             templateUrl: "/Proyecto/acciones/usuarios/InsertarUsuario.html"
-                        }},
-                    resolve: {
-                        postPromise: ['empresas', function (empresas) {
-                                return empresas.getEmpresas();
-                            }]
-                    }
+                        }}
                 });
         $urlRouterProvider.otherwise("/Inicio");
     }
@@ -163,8 +158,7 @@ app.controller("MasivosController", ['$scope', function ($scope) {
 /**
  * Controlador de usuarios
  */
-app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($scope, empresas, $http) {
-        $scope.empresas = empresas.empresas;
+app.controller("UsuarioController", ['$scope', '$http', function ($scope, $http) {
         $scope.registrarUsuario = function () {
             var valida = $scope.validarDatos();
             if (valida) {
@@ -173,9 +167,7 @@ app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($s
                 envio.nombre = $scope.nombre;
                 envio.apellido = $scope.apellido;
                 envio.documento = $scope.documento;
-                envio.sexo = document.forms[0].sexo.value;
-                envio.email = $scope.email;
-                envio.empresa = $scope.empresa;
+                envio.clave = $scope.clave;
                 param = JSON.stringify(envio);
                 var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/insertarUsuario/" + param;
                 $http({
@@ -191,8 +183,7 @@ app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($s
                     $scope.nombre = "";
                     $scope.apellido = "";
                     $scope.documento = "";
-                    $scope.email = "";
-                    $scope.empresa = "-1";
+                    $scope.clave = "";
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -207,13 +198,10 @@ app.controller("UsuarioController", ['$scope', 'empresas', '$http', function ($s
                 swal('Atención', 'El campo apellido es obligatorio', 'warning');
                 valida = false;
             } else if ($scope.documento == undefined) {
-                swal('Atención', 'El campo apellido es obligatorio', 'warning');
+                swal('Atención', 'El campo documento es obligatorio', 'warning');
                 valida = false;
-            } else if ($scope.email == undefined) {
-                swal('Atención', 'El campo email es obligatorio', 'warning');
-                valida = false;
-            } else if ($scope.email == '-1') {
-                swal('Atención', 'Debe seleccionar una empresa', 'warning');
+            } else if ($scope.clave == undefined) {
+                swal('Atención', 'El campo clave es obligatorio', 'warning');
                 valida = false;
             }
             return valida;

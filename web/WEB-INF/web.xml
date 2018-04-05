@@ -4,7 +4,6 @@
     <filter>
         <filter-name>CORS</filter-name>
         <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
-
         <init-param>
             <param-name>cors.allowOrigin</param-name>
             <param-value>*</param-value>
@@ -42,11 +41,6 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>Empresa</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/v1/*</url-pattern>
@@ -59,10 +53,6 @@
     <servlet-mapping>
         <servlet-name>Usuario</servlet-name>
         <url-pattern>/Usuario</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Empresa</servlet-name>
-        <url-pattern>/Empresa</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

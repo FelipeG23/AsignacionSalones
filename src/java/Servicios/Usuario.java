@@ -34,12 +34,7 @@ public class Usuario {
         try {
             UsuarioDAO dao = new UsuarioDAO();
             PersonaEntity usuario = new PersonaEntity();
-            usuario.setNombre(json.getString("nombre"));
-            usuario.setApellido(json.getString("apellido"));
-            usuario.setDocumento(json.getLong("documento"));
-            usuario.setSexo(json.getString("sexo"));
-            usuario.setEmail(json.getString("email"));
-            usuario.setEmpresa(json.getLong("empresa"));
+
             String rta = dao.insertarUsuario(usuario);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
@@ -60,9 +55,9 @@ public class Usuario {
     public String consultarTodos() {
         String objJson = "";
         try {
-            UsuarioDAO dao = new UsuarioDAO();
-            List<PersonaEntity> rta = dao.consultarTodasPersonas();
-            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+//            UsuarioDAO dao = new UsuarioDAO();
+//            List<PersonaEntity> rta = dao.consultarTodasPersonas();
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
