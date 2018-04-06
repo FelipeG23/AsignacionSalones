@@ -226,43 +226,19 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
         };
         $scope.logItem = function (item) {
             console.log(item);
-            var confirm = $mdDialog.prompt()
-                    .title('What would you name your dog?')
-                    .textContent('Bowser is a common name.')
-                    .placeholder('dog name')
-                    .ariaLabel('Dog name')
-                    .ok('Okay!')
-                    .openFrom({
-                        top: -50,
-                        width: 30,
-                        height: 80
-                    })
-                    .closeTo({
-                        left: 1500
-                    })
-                    .cancel('I\'m a cat person');
-
-
-            $mdDialog.show(confirm).then(function (result) {
-                if (result != undefined) {
-                    $scope.status = 'You decided to name your dog ' + result + '.';
-                } else {
-                    alert("Wrong Input Enter ");
-                }
-
-            });
-
 //            /// MODAL CON TEMPLATE
-//            $mdDialog.show({
-//                controller: 'SaveDataController',
-//                targetEvent: $event,
-//                templateUrl: 'save-dialog.tmpl.html'
-//            })
-//                    .then(function (answer) {
-//                        console.log(answer);
-//                    }, function () {
-//                        console.log('failure');
-//                    });
+            $mdDialog.show({
+                locals: {dataToPass: item},
+                controller: ['$scope', 'dataToPass', function ($scope, dataToPass) {
+                        $scope.item = dataToPass;
+                    }],
+                templateUrl: 'acciones/utiles/modalTemplate.html'
+            }).then(function (answer) {
+                console.log(answer);
+            }, function () {
+                console.log('failure');
+            });
+          
         };
         $scope.logOrder = function (order) {
         };

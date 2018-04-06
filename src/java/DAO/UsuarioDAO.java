@@ -88,6 +88,7 @@ public class UsuarioDAO {
                 aux.setNombre(rs.getString("NOMBRE"));
                 aux.setApellido(rs.getString("APELLIDO"));
                 aux.setDocumento(rs.getLong("DOCUMENTO"));
+                aux.setClave(rs.getString("CLAVE"));
                 lista.add(aux);
             }
         } catch (Exception e) {
