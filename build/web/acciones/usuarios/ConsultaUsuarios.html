@@ -29,7 +29,8 @@ and open the template in the editor.
 
     <md-content>
 
-        <md-card>
+
+        <md-card >
 
             <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
                 <div class="md-toolbar-tools">
@@ -46,7 +47,6 @@ and open the template in the editor.
                     <span>{{selected.length}} {{selected.length > 1 ? 'usuarios seleccionados' : 'usuario seleccionado'}} </span>
                 </div>
             </md-toolbar>
-
             <md-table-container >
                 <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
                     <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
@@ -54,9 +54,6 @@ and open the template in the editor.
                             <th md-column md-order-by="usuario.nombre"><span>Nombre</span></th>
                             <th md-column md-order-by="usuario.apellido" md-desc><span>Apellido</span></th>
                             <th md-column md-numeric md-order-by="usuario.documento"><span>Documento</span></th>
-                            <th md-column  md-order-by="usuario.email"><span>Email</span></th>
-                            <th md-column  md-order-by="usuario.empresaNombre"><span>Empresa</span></th>
-
                         </tr>
                     </thead>
                     <tbody md-body>
@@ -65,18 +62,15 @@ and open the template in the editor.
                             <td md-cell>{{usuario.nombre}}</td>
                             <td md-cell>{{usuario.apellido}}</td>
                             <td md-cell>{{usuario.documento}}</td>
-                            <td md-cell>{{usuario.email}}</td>
-                            <td md-cell>{{usuario.empresaNombre}}</td>
                         </tr>
                     </tbody>
                 </table>
             </md-table-container>
 
             <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{usuariosGeneral.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
-            <button type="button" style="width: 10%;float: right;margin-left: 90%;" ng-click="mostrarModalCorreo()" class="btn btn-primary">
-                ENVIAR CORREO
-            </button>
+          
         </md-card>
+
     </md-content>
 
 

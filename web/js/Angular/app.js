@@ -8,24 +8,7 @@
 var app = angular.module("angularApp", ['ui.router', 'ngMaterial', 'md.data.table']);
 
 
-/**
- * Factoria de empresas
- */
-app.factory("empresas", ["$http", function ($http) {
-        var em = {
-            empresas: []
-        };
 
-        em.getEmpresas = function () {
-            return $http.get("/Proyecto/v1/empresas/consultarEmpresas/").then(function (data) {
-                angular.copy(data.data.objeto, em.empresas);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        };
-
-        return em;
-    }]);
 /**
  * Factoria de usuarios
  */
@@ -240,9 +223,46 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
             $scope.promise = $timeout(function () {
                 // loading
             }, 2000);
-        }
-
+        };
         $scope.logItem = function (item) {
+            console.log(item);
+            var confirm = $mdDialog.prompt()
+                    .title('What would you name your dog?')
+                    .textContent('Bowser is a common name.')
+                    .placeholder('dog name')
+                    .ariaLabel('Dog name')
+                    .ok('Okay!')
+                    .openFrom({
+                        top: -50,
+                        width: 30,
+                        height: 80
+                    })
+                    .closeTo({
+                        left: 1500
+                    })
+                    .cancel('I\'m a cat person');
+
+
+            $mdDialog.show(confirm).then(function (result) {
+                if (result != undefined) {
+                    $scope.status = 'You decided to name your dog ' + result + '.';
+                } else {
+                    alert("Wrong Input Enter ");
+                }
+
+            });
+
+//            /// MODAL CON TEMPLATE
+//            $mdDialog.show({
+//                controller: 'SaveDataController',
+//                targetEvent: $event,
+//                templateUrl: 'save-dialog.tmpl.html'
+//            })
+//                    .then(function (answer) {
+//                        console.log(answer);
+//                    }, function () {
+//                        console.log('failure');
+//                    });
         };
         $scope.logOrder = function (order) {
         };
@@ -256,39 +276,33 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
                 $("#modalCorreo").show();
             }
         };
-        $scope.enviarCorreo = function () {
-            var envia = true;
 
+        $scope.actualizar = function () {
+            $scope.selected;
+// if auto selection is enabled you will want to stop the event
+            // from propagating and selecting the row
+            event.stopPropagation();
 
-            if ($('#mensajeCorreo').val() == '') {
-                alert('Digite un comentario');
-            } else {
+            /* 
+             * messages is commented out because there is a bug currently
+             * with ngRepeat and ngMessages were the messages are always
+             * displayed even if the error property on the ngModelController
+             * is not set, I've included it anyway so you get the idea
+             */
 
-                var envio = "";
-                $($scope.selected).each(function (index, element) {
-                    envio = envio + element.email + ",";
+            var promise = $mdEditDialog.small({});
+
+            promise.then(function (ctrl) {
+                var input = ctrl.getInput();
+
+                input.$viewChangeListeners.push(function () {
+                    input.$setValidity('test', input.$modelValue !== 'test');
                 });
-                envio = envio.substring(0, envio.length - 1);
-                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/envioCorreos/" + envio + "/" + $('#mensajeCorreo').val();
-                if (envia) {
-                    $http({
-                        method: 'GET',
-                        url: pUrl
-                    }).then(function (response) {
-                        if (response.data.respuesta == 'Ok') {
-                            envia = false;
-                            $('#modalCorreo').hide();
-                            $('#overlay').hide();
-                            alert('Se han enviado correctamente los correos');
-                        }
+            });
 
-                    }).catch(function (err) {
-                        alert(err);
-                    });
-                }
-
-            }
         };
+
+
         $scope.limpiarModalCorreo = function () {
             $('#modalCorreo').hide();
             $('#overlay').hide();

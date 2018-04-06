@@ -1,7 +1,7 @@
 package Servicios;
 
 import DAO.UsuarioDAO;
-import Entities.PersonaEntity;
+import Entities.UsuarioEntity;
 import Utiles.Correo;
 import Utiles.DeserializaObjeto;
 import java.util.List;
@@ -33,8 +33,11 @@ public class Usuario {
         String objJson = "";
         try {
             UsuarioDAO dao = new UsuarioDAO();
-            PersonaEntity usuario = new PersonaEntity();
-
+            UsuarioEntity usuario = new UsuarioEntity();
+            usuario.setNombre(json.getString("nombre"));
+            usuario.setApellido(json.getString("apellido"));
+            usuario.setDocumento(json.getLong("documento"));
+            usuario.setClave(json.getString("clave"));
             String rta = dao.insertarUsuario(usuario);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
@@ -55,9 +58,9 @@ public class Usuario {
     public String consultarTodos() {
         String objJson = "";
         try {
-//            UsuarioDAO dao = new UsuarioDAO();
-//            List<PersonaEntity> rta = dao.consultarTodasPersonas();
-            objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
+            UsuarioDAO dao = new UsuarioDAO();
+            List<UsuarioEntity> rta = dao.consultarTodosUsuarios();
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
         }

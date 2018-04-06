@@ -9,13 +9,23 @@ package Entities;
  *
  * @author Felipe
  */
-public class PersonaEntity {
+public class UsuarioEntity {
 
     private Long codigo;
     private String nombre;
     private String apellido;
     private Long documento;
-    private String clase;
+    private String clave;
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    
+    
 
     public Long getCodigo() {
         return codigo;
@@ -49,15 +59,6 @@ public class PersonaEntity {
         this.documento = documento;
     }
 
-    public String getClase() {
-        return clase;
-    }
-
-    public void setClase(String clase) {
-        this.clase = clase;
-    }
-    
-    
     
     
     
