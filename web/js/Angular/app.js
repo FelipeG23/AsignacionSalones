@@ -231,14 +231,55 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
                 locals: {dataToPass: item},
                 controller: ['$scope', 'dataToPass', function ($scope, dataToPass) {
                         $scope.item = dataToPass;
+
+                        $scope.closeDialog = function () {
+                            alert('asdasd');
+                            $mdDialog.hide();
+                        };
+
+                        $scope.eliminarUsuario = function () {
+                            swal(
+                                    'Exito',
+                                    "Se agrego eliminó un usuario",
+                                    'success'
+                                    );
+
+                        };
+                        $scope.actualizarUsuario = function () {
+                            var param;
+                            var envio = new Object();
+                            envio.nombre = $scope.item.nombre;
+                            envio.apellido = $scope.item.apellido;
+                            envio.documento = $scope.item.documento;
+                            envio.clave = $scope.item.clave;
+                            envio.codigo = $scope.item.codigo;
+                            param = JSON.stringify(envio);
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/actualizarUsuario/" + param;
+                            $http({
+                                method: 'GET',
+                                url: pUrl
+                            }).then(function (response) {
+                                console.log(response);
+                                swal(
+                                        'Exito',
+                                        "Se agrego actualizo un usuario",
+                                        'success'
+                                        );
+                            }).catch(function (err) {
+                                alert(err);
+                            });
+                        };
+
+
                     }],
-                templateUrl: 'acciones/utiles/modalTemplate.html'
+                templateUrl: 'acciones/utiles/modal/modalInsertarUsuario.html'
             }).then(function (answer) {
                 console.log(answer);
             }, function () {
-                console.log('failure');
+                $scope.selected = new Array();
+                console.log('modal cerrado');
             });
-          
+
         };
         $scope.logOrder = function (order) {
         };

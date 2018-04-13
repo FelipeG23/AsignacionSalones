@@ -19,6 +19,9 @@ and open the template in the editor.
             .md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar){
                 background-color :#2196f3;
             }
+            .md-button.md-default-theme.md-accent.md-raised, .md-button.md-accent.md-raised, .md-button.md-default-theme.md-accent.md-fab, .md-button.md-accent.md-fab{
+                background-color: rgb(255, 42, 42);
+            }
         </style>
     </head>
     <body>
@@ -62,13 +65,14 @@ and open the template in the editor.
                             <td md-cell>{{usuario.nombre}}</td>
                             <td md-cell>{{usuario.apellido}}</td>
                             <td md-cell>{{usuario.documento}}</td>
-                        </tr>
+                        
+                    </tr>
                     </tbody>
                 </table>
             </md-table-container>
 
             <md-table-pagination md-label="{page: 'Página:', rowsPerPage: 'Filas por página:', of: 'de'}" md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{usuariosGeneral.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
-          
+
         </md-card>
 
     </md-content>

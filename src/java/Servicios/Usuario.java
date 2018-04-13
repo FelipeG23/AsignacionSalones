@@ -45,6 +45,33 @@ public class Usuario {
         }
         return objJson;
     }
+    /**
+     * Web service operation
+     *
+     * @param datos
+     * @return
+     */
+    @GET
+    @Path("actualizarUsuario/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String actualizarUsuario(@PathParam("datos") String datos) {
+        JSONObject json = new JSONObject(datos);
+        String objJson = "";
+        try {
+            UsuarioDAO dao = new UsuarioDAO();
+            UsuarioEntity usuario = new UsuarioEntity();
+            usuario.setNombre(json.getString("nombre"));
+            usuario.setApellido(json.getString("apellido"));
+            usuario.setDocumento(json.getLong("documento"));
+            usuario.setClave(json.getString("clave"));
+            usuario.setCodigo(json.getLong("codigo"));
+            String rta = dao.actualizarUsuario(usuario);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
 
     /**
      * *
