@@ -233,11 +233,11 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
                         $scope.item = dataToPass;
 
                         $scope.closeDialog = function () {
-                            alert('asdasd');
                             $mdDialog.hide();
                         };
 
                         $scope.eliminarUsuario = function () {
+                            console.log($scope.item.codigo);
                             swal(
                                     'Exito',
                                     "Se agrego eliminó un usuario",

@@ -149,5 +149,39 @@ public class UsuarioDAO {
         }
         return rta;
     }
-
+    /***
+     * Metodo para eliminar un usuario de la BD
+     * @param idUsuario
+     * @return 
+     */
+    public String eliminarUsuario(Long idUsuario){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String rta = "";
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setLong(1, idUsuario);
+            ps.executeUpdate();
+            rta = "OK";
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            rta = "ERROR"+ e.getMessage();
+        }finally{
+            try {
+                if(null != conn){
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+    }
+    
+    
 }

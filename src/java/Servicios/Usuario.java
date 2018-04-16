@@ -45,6 +45,7 @@ public class Usuario {
         }
         return objJson;
     }
+
     /**
      * Web service operation
      *
@@ -66,6 +67,27 @@ public class Usuario {
             usuario.setClave(json.getString("clave"));
             usuario.setCodigo(json.getLong("codigo"));
             String rta = dao.actualizarUsuario(usuario);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    /* Web service operation
+     *
+     * @param datos
+     * @return
+     */
+    @GET
+    @Path("eliminarUsuario/{idUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String eliminarUsuario(@PathParam("idUsuario") String idUsuario) {
+        
+        String objJson = "";
+        try {
+            UsuarioDAO dao = new UsuarioDAO();
+            String rta = dao.eliminarUsuario(Long.parseLong(idUsuario));
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +119,7 @@ public class Usuario {
     @GET
     @Path("envioCorreos/{correos}/{mensaje}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String consultarEspecifico(@PathParam("correos") String correos,@PathParam("mensaje") String mensaje) {
+    public String consultarEspecifico(@PathParam("correos") String correos, @PathParam("mensaje") String mensaje) {
         String objJson = "";
         try {
             Correo logica = new Correo();
