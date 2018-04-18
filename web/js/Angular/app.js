@@ -237,6 +237,24 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
                         };
 
                         $scope.eliminarUsuario = function () {
+                            var param;
+                            var envio = new Object();
+                            envio.codigo = $scope.item.codigo;
+                            param = JSON.stringify(envio);
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/eliminarUsuario/" + param;
+                            $http({
+                                method: 'GET',
+                                url: pUrl
+                            }).then(function (response) {
+                                console.log(response);
+                                swal(
+                                        'Exito',
+                                        "Se agrego actualizo un usuario",
+                                        'success'
+                                        );
+                            }).catch(function (err) {
+                                alert(err);
+                            });
                             console.log($scope.item.codigo);
                             swal(
                                     'Exito',

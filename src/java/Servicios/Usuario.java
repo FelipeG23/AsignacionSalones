@@ -83,11 +83,11 @@ public class Usuario {
     @Path("eliminarUsuario/{idUsuario}")
     @Produces(MediaType.APPLICATION_JSON)
     public String eliminarUsuario(@PathParam("idUsuario") String idUsuario) {
-        
+        JSONObject json = new JSONObject(idUsuario);
         String objJson = "";
         try {
             UsuarioDAO dao = new UsuarioDAO();
-            String rta = dao.eliminarUsuario(Long.parseLong(idUsuario));
+            String rta = dao.eliminarUsuario(json.getLong("codigo"));
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
