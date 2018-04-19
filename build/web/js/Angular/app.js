@@ -377,27 +377,20 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
 
 app.controller("AsignacionController", ['$scope', '$http', 'usuariosConsulta', function ($scope, $http, usuariosConsulta) {
         $scope.usuariosGeneral = usuariosConsulta.usuariosConsulta;
-        $scope.consultarAplicaciones();
-        
-        
-        $scope.consultarAplicaciones = function () {
-            var param;
-            var envio = new Object();
-            envio.nombre = $scope.item.nombre;
-            envio.apellido = $scope.item.apellido;
-            envio.documento = $scope.item.documento;
-            envio.clave = $scope.item.clave;
-            envio.codigo = $scope.item.codigo;
-            param = JSON.stringify(envio);
-            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarAplicaciones/"
+        consultarAplicaciones();
+        $scope.aplicaciones = [];
+
+        function consultarAplicaciones() {
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarAplicaciones/";
             $http({
                 method: 'GET',
                 url: pUrl
             }).then(function (response) {
-                console.log(response);
+                $scope.aplicaciones = response.data.objeto;
             }).catch(function (err) {
                 alert(err);
             });
 
         };
+        
     }]);

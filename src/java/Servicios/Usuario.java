@@ -135,7 +135,7 @@ public class Usuario {
     @GET
     @Path("consultarLogin/{datos}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String consultarEspecifico(@PathParam("datos") String datos) {
+    public String consultarLogin(@PathParam("datos") String datos) {
         String objJson = "";
         try {
             JSONObject json = new JSONObject(datos);

@@ -45,6 +45,16 @@ and open the template in the editor.
                                 </select>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <select style="height: 32px;" ng-init="selectUsuarios = '-1'"  ng-model="selectUsuarios" class="form-control">
+                                    <option value="-1" selected="">...</option>
+                                    <option  ng-repeat="us in usuariosGeneral" value="{{us.codigo}}">
+                                        {{us.nombre}} {{us.apellido}}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
                         
                         
                     </table>
