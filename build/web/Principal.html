@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="angularApp">
+    <head>
+        <title>Pagina Principal</title>
+        <meta charset="utf-8">
+        <meta http-equiv="expires" content="0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/Proyecto/css/estilos.css">
+        <link rel="stylesheet" href="/Proyecto/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/angular-material.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/mui/mui.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/sweetAlert/sweetalert.css">
+        <link rel="stylesheet" href="/Proyecto/css/dataTables/md-data-table.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/material/style.css">
+
+        <script src="/Proyecto/js/jquery.min.js"></script>
+        <script src="/Proyecto/js/funciones.js"></script>
+        <script src="/Proyecto/js/mui/mui.min.js"></script>
+        <script src="/Proyecto/js/bootstrap.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-animate.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-aria.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-messages.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-material.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-ui-router.min.js"></script>
+        <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
+        <script src="/Proyecto/js/dataTables/md-data-table.min.js"></script>
+        <script src="/Proyecto/js/Angular/app.js"></script>
+
+    </head>
+    <style>
+        h1,ul,.mui--text-title{
+            font-family: 'dosisBold';
+        }
+        table{
+            font-family: 'dosisMedium';
+        }
+        .imageBoton:active {
+            transform: translateY(4px);
+        }
+        .image-upload > input
+        {
+            display: none;
+        }
+    </style>
+    <body >
+        <div>
+
+
+            <div id="sidedrawer" class="mui--no-user-select">
+                <div id="sidedrawer-brand" class="mui--appbar-line-height">
+                    <span class="mui--text-title" id="titulo">Proyecto POO</span>
+                </div>
+                <div class="mui-divider"></div>
+                <ul>
+                    <li>
+                        <strong>PARAMETRIZACIÓN</strong>
+                        <ul style="padding-left: 10px;">
+                            <li>
+                                <strong>USUARIOS</strong>
+                                <ul>
+                                    <li><a ui-sref="InsertarUsuario" href="#" >Insertar Usuario</a></li>
+                                    <li><a  ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
+                                </ul> 
+                            </li>
+                            <li>
+                                <strong>APLICACIONES</strong>
+                                <ul>
+                                    <li><a ui-sref="Permisos" href="#" >Aplicaciones x Usuario</a></li>
+                                </ul> 
+                            </li>
+                        </ul> 
+                    </li>
+
+
+                    </li>
+                    <!--li>
+                        <strong></strong>
+                        <ul>
+                            <li><a href="#">Item 1</a></li>
+                            <li><a href="#">Item 2</a></li>
+                            <li><a href="#">Item 3</a></li>
+                        </ul>
+                    </li-->
+                    <!--li>
+                        <strong>Category 3</strong>
+                        <ul>
+                            <li><a href="#">Item 1</a></li>
+                            <li><a href="#">Item 2</a></li>
+                            <li><a href="#">Item 3</a></li>
+                        </ul>
+                    </li-->
+                </ul>
+            </div>
+            <header id="header">
+                <div class="mui-appbar mui--appbar-line-height">
+                    <div class="mui-container-fluid">
+                        <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
+                        <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
+                        <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Proyecto</span>
+                    </div>
+                </div>
+            </header>
+            <div id="content-wrapper">
+                <div class="mui--appbar-height"></div>
+                <div ui-view="main" style="height: 80%;">
+
+                </div>
+            </div>
+            <footer id="footer">
+                <div class="mui-container-fluid">
+                    <br>
+
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

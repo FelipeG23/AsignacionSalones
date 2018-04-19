@@ -137,7 +137,7 @@ public class UsuarioDAO {
             rta = "OK";
         } catch (Exception e) {
             e.printStackTrace();
-            rta = "ERROR "+ e.getMessage();
+            rta = "ERROR " + e.getMessage();
         } finally {
             try {
                 if (null != conn) {
@@ -149,31 +149,33 @@ public class UsuarioDAO {
         }
         return rta;
     }
-    /***
+
+    /**
+     * *
      * Metodo para eliminar un usuario de la BD
+     *
      * @param idUsuario
-     * @return 
+     * @return
      */
-    public String eliminarUsuario(Long idUsuario){
+    public String eliminarUsuario(Long idUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         String rta = "";
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("");
+            sql.append("    DELETE CLASE.USUARIOS       ");
+            sql.append("     WHERE CODIGO = ?           ");
             ps = conn.prepareStatement(sql.toString());
             ps.setLong(1, idUsuario);
             ps.executeUpdate();
             rta = "OK";
-            
-            
         } catch (Exception e) {
             e.printStackTrace();
-            rta = "ERROR"+ e.getMessage();
-        }finally{
+            rta = "ERROR" + e.getMessage();
+        } finally {
             try {
-                if(null != conn){
+                if (null != conn) {
                     conn.close();
                 }
             } catch (Exception e) {
@@ -182,6 +184,36 @@ public class UsuarioDAO {
         }
         return rta;
     }
-    
-    
+
+    public boolean consultarLogin(Integer cedula, String usuario) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean rta = false;
+        try {
+            StringBuilder sql = new StringBuilder();
+            sql.append("        SELECT COUNT(*) FROM USUARIOS ");
+            sql.append("        WHERE DOCUMENTO = ?           ");
+            sql.append("        AND CLAVE = ?                 ");
+            conn = ConexionDAO.GetConnection();
+            ps = conn.prepareStatement(sql.toString());
+            ps.setInt(1, cedula);
+            ps.setString(2, usuario);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                rta = rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != conn) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+    }
 }

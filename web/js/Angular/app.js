@@ -72,6 +72,19 @@ app.config([
                             controller: "UsuarioController",
                             templateUrl: "/Proyecto/acciones/usuarios/InsertarUsuario.html"
                         }}
+                })
+                .state('Permisos', {
+                    url: "/Permisos",
+                    views: {
+                        "main": {
+                            controller: "AsignacionController",
+                            templateUrl: "/Proyecto/acciones/usuarios/UsuariosAplicaciones.html"
+                        }},
+                    resolve: {
+                        postPromise: ['usuariosConsulta', function (usuariosConsulta) {
+                                return usuariosConsulta.getUsuarios();
+                            }]
+                    }
                 });
         $urlRouterProvider.otherwise("/Inicio");
     }
@@ -157,7 +170,7 @@ app.controller("UsuarioController", ['$scope', '$http', function ($scope, $http)
                     method: 'GET',
                     url: pUrl
                 }).then(function (response) {
-                    console.log(response);
+                    console.log(response.data.objeto);
                     swal(
                             'Exito',
                             "Se agrego correctamente un usuario",
@@ -246,21 +259,25 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
                                 method: 'GET',
                                 url: pUrl
                             }).then(function (response) {
-                                console.log(response);
-                                swal(
-                                        'Exito',
-                                        "Se agrego actualizo un usuario",
-                                        'success'
-                                        );
+                                console.log($scope.item.codigo);
+                                swal({
+                                    title: "Accion Correcta",
+                                    text: "El usuario se ha eliminado correctamente!",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "OK",
+                                    closeOnConfirm: false
+                                },
+                                        function (isConfirm) {
+                                            location.reload();
+
+                                        });
+
                             }).catch(function (err) {
                                 alert(err);
                             });
-                            console.log($scope.item.codigo);
-                            swal(
-                                    'Exito',
-                                    "Se agrego eliminó un usuario",
-                                    'success'
-                                    );
+
 
                         };
                         $scope.actualizarUsuario = function () {
@@ -353,4 +370,34 @@ app.controller("UsuarioConsultaController", ['$scope', 'usuariosConsulta', '$htt
             }
 
         });
+    }]);
+
+
+
+
+app.controller("AsignacionController", ['$scope', '$http', 'usuariosConsulta', function ($scope, $http, usuariosConsulta) {
+        $scope.usuariosGeneral = usuariosConsulta.usuariosConsulta;
+        $scope.consultarAplicaciones();
+        
+        
+        $scope.consultarAplicaciones = function () {
+            var param;
+            var envio = new Object();
+            envio.nombre = $scope.item.nombre;
+            envio.apellido = $scope.item.apellido;
+            envio.documento = $scope.item.documento;
+            envio.clave = $scope.item.clave;
+            envio.codigo = $scope.item.codigo;
+            param = JSON.stringify(envio);
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarAplicaciones/"
+            $http({
+                method: 'GET',
+                url: pUrl
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (err) {
+                alert(err);
+            });
+
+        };
     }]);

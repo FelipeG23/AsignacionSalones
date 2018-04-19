@@ -1,28 +1,4 @@
-    body {
-        background-color: #e6e9ea;
-        color: #212121;
-        font-family: 'Roboto', sans-serif;
-        padding: 100px 0 30px 0;
-    }
-    
-    .no-padding {
-        padding: 0;
-    }
-    
-    p {
-        display: inline;
-        color: #b0b3b4;
-    }
-    
-    a {
-        color: #b0b3b4;
-    }
-    
-    a:hover,
-    a:focus {
-        color: #2196f3;
-    }
-    
+
     .form-control-feedback {
         width: 20px;
     }
@@ -162,7 +138,7 @@
     .lt-register-btn:hover,
     .lt-register-btn:focus {
         color: #fff;
-        background: #11cc4a;
+        background: #00bcd4;
     }
     
     .lt-register-btn i {

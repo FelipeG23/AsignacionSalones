@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="angularApp">
+<!doctype HTML>
+<html lang="en" ng-app="loginApp">
+
     <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width,initial-scale=1" name="viewport">
         <title>Pagina Principal</title>
-        <meta charset="utf-8">
-        <meta http-equiv="expires" content="0">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/Proyecto/css/estilos.css">
-        <link rel="stylesheet" href="/Proyecto/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/Proyecto/css/angular-material.min.css">
-        <link rel="stylesheet" href="/Proyecto/css/mui/mui.min.css">
         <link rel="stylesheet" href="/Proyecto/css/sweetAlert/sweetalert.css">
-        <link rel="stylesheet" href="/Proyecto/css/dataTables/md-data-table.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/material/bootstrap.min.css">
         <link rel="stylesheet" href="/Proyecto/css/material/material.blue-deep_purple.min.css">
         <link rel="stylesheet" href="/Proyecto/css/material/fontello.css">
         <link rel="stylesheet" href="/Proyecto/css/material/bootstrap-offset-right.css">
         <link rel="stylesheet" href="/Proyecto/css/material/style.css">
-
-        <script src="/Proyecto/js/jquery.min.js"></script>
-        <script src="/Proyecto/js/funciones.js"></script>
-        <script src="/Proyecto/js/mui/mui.min.js"></script>
-        <script src="/Proyecto/js/bootstrap.min.js"></script>
-        <script src="/Proyecto/js/material.min.js"></script>
         <script src="/Proyecto/js/Angular/angular.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-animate.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-aria.min.js"></script>
@@ -28,95 +18,217 @@
         <script src="/Proyecto/js/Angular/angular-material.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-ui-router.min.js"></script>
         <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
-        <script src="/Proyecto/js/dataTables/md-data-table.min.js"></script>
-        <script src="/Proyecto/js/Angular/app.js"></script>
+        <script src="/Proyecto/js/Angular/appInicio.js"></script>
 
+        <style>
+            body {
+                background-color: #e6e9ea;
+                color: #212121;
+                font-family: 'Roboto', sans-serif;
+                padding: 100px 0 30px 0;
+            }
+
+            .no-padding {
+                padding: 0;
+            }
+
+            p {
+                display: inline;
+                color: #b0b3b4;
+            }
+
+            a {
+                color: #b0b3b4;
+            }
+
+            a:hover,
+            a:focus {
+                color: #2196f3;
+            }
+            .mdl-textfield__label {
+                margin-bottom: 0;
+                color: #d7dbdc;
+                font-weight: normal;
+            }
+
+            .mdl-textfield--floating-label.is-focused .mdl-textfield__label,
+            .mdl-textfield--floating-label.is-dirty .mdl-textfield__label {
+                text-transform: uppercase
+            }
+
+            .has-feedback label~.form-control-feedback {
+                top: 15px;
+            }
+
+            .mdl-textfield {
+                width: 100%;
+            }
+
+            .mdl-checkbox__label {
+                cursor: text;
+                font-size: 13px;
+                float: left;
+                color: #b0b3b4;
+                font-weight: normal;
+            }
+
+            .mdl-checkbox__box-outline {
+                border: 1px solid #b0b3b4;
+            }
+
+            .mdl-textfield__input {
+                border: none;
+                border-bottom: 1px solid rgba(0, 0, 0, .12);
+                display: block;
+                font-size: 16px;
+                margin: 0;
+                padding: 4px 0;
+                width: 100%;
+                background: 0 0;
+                text-align: left;
+                color: inherit;
+                font-weight: bold;
+            }
+
+            .mdl-switch__label {
+                float: left;
+                font-weight: normal;
+                color: #b0b3b4;
+                font-size: 14px;
+            }
+        </style>
     </head>
-    <style>
-        h1,ul,.mui--text-title{
-            font-family: 'dosisBold';
-        }
-        table{
-            font-family: 'dosisMedium';
-        }
-        .imageBoton:active {
-            transform: translateY(4px);
-        }
-        .image-upload > input
-        {
-            display: none;
-        }
-    </style>
-    <body >
-        <div>
 
+    <body ng-controller="LoginController">
+        <div class="container">
+            <div class="center-block">
+                <div class="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-12 col-xs-12 no-padding" style="z-index:1">
+                    <!-- Slider -->
 
-            <div id="sidedrawer" class="mui--no-user-select">
-                <div id="sidedrawer-brand" class="mui--appbar-line-height">
-                    <span class="mui--text-title" id="titulo">Proyecto POO</span>
-                </div>
-                <div class="mui-divider"></div>
-                <ul>
-                    <li>
-                        <strong>PARAMETRIZACIÓN</strong>
-                        <ul style="padding-left: 10px;">
-                            <li>
-                                <strong>USUARIOS</strong>
-                                <ul>
-                                    <li><a ui-sref="InsertarUsuario" href="#" >Insertar Usuario</a></li>
-                                    <li><a  ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
-                                </ul> 
-                            </li>
-                            <li>
-                                <strong>APLICACIONES</strong>
-                                <ul>
-                                    <li><a ui-sref="InsertarUsuario" href="#" >Aplicaciones x Usuario</a></li>
-                                </ul> 
-                            </li>
-                        </ul> 
-                    </li>
+                    <div class="mlt-carousel">
+                        <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <img class="img-responsive center-block" src="img/Rubic.png" alt="step1">
+                                    <div class="item-content">
+                                        <h3 >Programación Orientada A Objetos</h3>
 
+                                    </div>
+                                </div>
 
-                    </li>
-                    <!--li>
-                        <strong></strong>
-                        <ul>
-                            <li><a href="#">Item 1</a></li>
-                            <li><a href="#">Item 2</a></li>
-                            <li><a href="#">Item 3</a></li>
-                        </ul>
-                    </li-->
-                    <!--li>
-                        <strong>Category 3</strong>
-                        <ul>
-                            <li><a href="#">Item 1</a></li>
-                            <li><a href="#">Item 2</a></li>
-                            <li><a href="#">Item 3</a></li>
-                        </ul>
-                    </li-->
-                </ul>
-            </div>
-            <header id="header">
-                <div class="mui-appbar mui--appbar-line-height">
-                    <div class="mui-container-fluid">
-                        <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
-                        <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
-                        <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Proyecto</span>
+                            </div>
+                            <!-- Indicators -->
+
+                        </div>
+                        <!--mlt-carousel-->
                     </div>
+                    <!-- Slider -->
                 </div>
-            </header>
-            <div id="content-wrapper">
-                <div class="mui--appbar-height"></div>
-                <div ui-view="main" style="height: 80%;">
+                <!-- Login -->
 
+                <div class="col-lg-6 col-lg-offset-right-1 col-md-6 col-md-offset-right-1 col-sm-12 col-xs-12 no-padding">
+                    <div class="mlt-content">
+                        <ul class="nav nav-tabs">
+                            <li ><a href="#register" style='display:none'  data-toggle="tab">Register</a></li>
+                            <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade " id="register">
+                                <!--register form-->
+
+                                <form form data-feedback='{"success": "fa-check", "error": "fa-times"}'>
+                                    <div class="col-lg-10 col-lg-offset-1 col-lg-offset-right-1 col-md-10 col-md-offset-1 col-md-offset-right-1 col-sm-12 col-xs-12 pull-right ">
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label form-group has-feedback">
+                                            <input type="text" name="fname" id="fname" class="mdl-textfield__input" />
+                                            <label class="mdl-textfield__label " for="fullName ">Full Name</label>
+                                            <span class="form-control-feedback" aria-hidden="true" id="fname1"></span>
+                                        </div>
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                                            <input class="mdl-textfield__input " type="text " id="emailAddress ">
+                                            <label class="mdl-textfield__label " for="emailAddress ">Email Address</label>
+                                        </div>
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                                            <input class="mdl-textfield__input " type="text " pattern="-?[0-9]*(\.[0-9]+)? " id="mobileNumber ">
+                                            <label class="mdl-textfield__label " for="mobileNumber ">Mobile Number</label>
+                                            <span class="mdl-textfield__error ">Input is not a number!</span>
+                                        </div>
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                                            <input class="mdl-textfield__input " type="password " id="SetPassword ">
+                                            <label class="mdl-textfield__label " for="SetPassword ">Set Password</label>
+                                        </div>
+
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect termsLabel" for="ageFlag">
+                                            <input type="checkbox" id="ageFlag" class="mdl-checkbox__input " checked>
+                                            <span class="mdl-checkbox__label ">I herby certify that I am atleast 18 years of age</span>
+                                        </label>
+
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="termsFlag">
+                                            <input type="checkbox" id="termsFlag" class="mdl-checkbox__input ">
+                                            <span class="mdl-checkbox__label ">I have read and accept the <a href="# ">Terms of Use</a> and <a href="# ">Privacy Policy</a></span>
+                                        </label>
+
+                                        <button class="btn lt-register-btn " formaction="# ">register now <i class="icon-right pull-right "></i></button>
+                                    </div>
+                                </form>
+                                <!--register form-->
+                            </div>
+                            <div class="tab-pane fade in active" id="login">
+                                <!--login form-->
+                                <form>
+
+                                    <div class="col-lg-10 col-lg-offset-1 col-lg-offset-right-1 col-md-10 col-md-offset-1 col-md-offset-right-1 col-sm-12 col-xs-12 pull-right ">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input ng-model="usuario" class="mdl-textfield__input" type="text" id="emailAddress">
+                                            <label  class="mdl-textfield__label" for="emailAddress">Usuario</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-10 col-lg-offset-1 col-lg-offset-right-1 col-md-10 col-md-offset-1 col-md-offset-right-1 col-sm-12 col-xs-12 pull-right ">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input ng-model="clave" class="mdl-textfield__input" type="password" id="password">
+                                            <label class="mdl-textfield__label" for="password">Contraseña</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-10 col-lg-offset-1 col-lg-offset-right-1 col-md-10 col-md-offset-1 col-md-offset-right-1 col-sm-12 col-xs-12 pull-right ">
+                                        <div class="row">
+                                            <br>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style=" text-align:right;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-10 col-lg-offset-1 col-lg-offset-right-1 col-md-10 col-md-offset-1 col-md-offset-right-1 col-sm-12 col-xs-12 pull-right ">
+                                        <button class="btn lt-register-btn" ng-click="login();">INGRESAR <i class="icon-github-text"></i></button>
+                                    </div>
+                                </form>
+                                <!--login form-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--Login-->
                 </div>
+                <!--center-block-->
             </div>
-            <footer id="footer">
-                <div class="mui-container-fluid">
-                    <br>
-
-                </div>
-            </footer>
+            <!--container-->
         </div>
+
+        <script src="/Proyecto/js/jquery.min.js"></script>
+        <script src="/Proyecto/js/bootstrap.min.js"></script>
+        <script src="/Proyecto/js/material/material.min.js"></script>
+
+
+
+
+
     </body>
+
 </html>

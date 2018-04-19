@@ -131,4 +131,20 @@ public class Usuario {
         }
         return objJson;
     }
+
+    @GET
+    @Path("consultarLogin/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarEspecifico(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(datos);
+            UsuarioDAO dao = new UsuarioDAO();
+            boolean rta = dao.consultarLogin(json.getInt("usuario"), json.getString("clave"));
+             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
 }
