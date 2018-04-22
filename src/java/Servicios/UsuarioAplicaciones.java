@@ -6,9 +6,9 @@
 package Servicios;
 
 import DAO.AplicacionesDao;
-import DAO.UsuarioDAO;
+import DAO.UsuarioAplicacionDao;
 import Entities.AplicacionEntity;
-import Entities.UsuarioEntity;
+import Entities.UsuarioAplicacionEntity;
 import Utiles.DeserializaObjeto;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -38,6 +38,38 @@ public class UsuarioAplicaciones {
             AplicacionesDao dao = new AplicacionesDao();
             List<AplicacionEntity> lista = dao.consultarAplicaciones();
             objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("consultarPermisoXUsuario/{idUsuario}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarPermisoXUsuario(@PathParam("idUsuario") String datos) {
+        String objJson = "";
+        JSONObject json = new JSONObject(datos);
+        try {
+            UsuarioAplicacionDao dao = new UsuarioAplicacionDao();
+            List<UsuarioAplicacionEntity> lista = dao.consultarPermisosXUsuario(""+json.getString("codigo"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("actualizarPermisos/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String actualizarPermisos(@PathParam("datos") String listaPermisos) {
+        String objJson = "";
+        JSONObject jsonPermisos = new JSONObject(listaPermisos);
+        try {
+            UsuarioAplicacionDao dao = new UsuarioAplicacionDao();
+            String rta = dao.actualizarPermisos(jsonPermisos.getString("idUsuario"), jsonPermisos.getString("listaPermisos"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -38,12 +38,12 @@ public class UsuarioDAO {
             sql.append("                                        NOMBRE,                         ");
             sql.append("                                        APELLIDO,                       ");
             sql.append("                                        DOCUMENTO,                      ");
-            sql.append("                                        CLAVE)                          ");
+            sql.append("                                        CLAVE,ESTADO)                          ");
             sql.append("                VALUES ((SELECT NVL(MAX(CODIGO)+1,1) FROM USUARIOS),    ");
             sql.append("                        ?,                                              ");
             sql.append("                        ?,                                              ");
             sql.append("                        ?,                                              ");
-            sql.append("                        ?                                               ");
+            sql.append("                        ?,'A'                                               ");
             sql.append("                        )                                               ");
             ps = conn.prepareStatement(sql.toString());
             ps.setString(1, usuario.getNombre());
@@ -76,7 +76,7 @@ public class UsuarioDAO {
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("    SELECT CODIGO, NOMBRE, APELLIDO, DOCUMENTO, CLAVE FROM CLASE.USUARIOS   ");
+            sql.append("    SELECT CODIGO, NOMBRE, APELLIDO, DOCUMENTO, CLAVE FROM CLASE.USUARIOS WHERE ESTADO = 'A'   ");
             st = conn.createStatement();
             rs = st.executeQuery(sql.toString());
             while (rs.next()) {
@@ -164,7 +164,8 @@ public class UsuarioDAO {
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("    DELETE CLASE.USUARIOS       ");
+            sql.append("    UPDATE CLASE.USUARIOS       ");
+            sql.append("     SET ESTADO = 'I'           ");
             sql.append("     WHERE CODIGO = ?           ");
             ps = conn.prepareStatement(sql.toString());
             ps.setLong(1, idUsuario);
@@ -185,23 +186,29 @@ public class UsuarioDAO {
         return rta;
     }
 
-    public boolean consultarLogin(Integer cedula, String usuario) {
+    public UsuarioEntity consultarLogin(Integer cedula, String usuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        boolean rta = false;
+        UsuarioEntity rta = null;
         try {
             StringBuilder sql = new StringBuilder();
-            sql.append("        SELECT COUNT(*) FROM USUARIOS ");
-            sql.append("        WHERE DOCUMENTO = ?           ");
-            sql.append("        AND CLAVE = ?                 ");
+            sql.append("    SELECT CODIGO, NOMBRE, APELLIDO, DOCUMENTO, CLAVE, ESTADO FROM CLASE.USUARIOS ");
+            sql.append("    WHERE DOCUMENTO = ?                                                           ");
+            sql.append("    AND CLAVE = ?                                                                 ");
+            sql.append("    AND ESTADO = 'A'                                                                 ");
             conn = ConexionDAO.GetConnection();
             ps = conn.prepareStatement(sql.toString());
             ps.setInt(1, cedula);
             ps.setString(2, usuario);
             rs = ps.executeQuery();
             while (rs.next()) {
-                rta = rs.getInt(1) > 0;
+                rta = new UsuarioEntity();
+                rta.setCodigo(rs.getLong("CODIGO"));
+                rta.setNombre(rs.getString("NOMBRE"));
+                rta.setApellido(rs.getString("APELLIDO"));
+                rta.setDocumento(rs.getLong("DOCUMENTO"));
+                rta.setClave(rs.getString("CLAVE"));
             }
         } catch (Exception e) {
             e.printStackTrace();

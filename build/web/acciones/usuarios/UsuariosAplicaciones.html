@@ -30,33 +30,32 @@ and open the template in the editor.
             <form  >
                 <center>
                     <br/>
-                    <table style="width: 50%;" class="table table-striped">
-                        <tr style="text-align: center">
+                    <table style="width: 50%;" id="tablaAplicaciones" class="table table-striped">
+                        <tr style="text-align: center;background-color: #2196f3;color: white;">
                             <td colspan="2"><h1>ASIGNACIÓN DE PERMISOS</h1></td>
                         </tr>
                         <tr>
-                            <td>USUARIO:</td>
+                            <td><strong>USUARIO:</strong></td>
                             <td>
-                                <select style="height: 32px;" ng-init="selectUsuarios = '-1'"  ng-model="selectUsuarios" class="form-control">
+                                <select ng-change="consultarPermisosXUsuario()" style="height: 32px;" ng-init="selectUsuarios = '-1'"  ng-model="selectUsuarios" class="form-control">
                                     <option value="-1" selected="">...</option>
                                     <option  ng-repeat="us in usuariosGeneral" value="{{us.codigo}}">
                                         {{us.nombre}} {{us.apellido}}
                                     </option>
                                 </select>
+
                             </td>
                         </tr>
+
+
+
+                    </table>
+                    <table style="width: 50%;" id="tablaAplicaciones" class="table table-striped">
                         <tr>
-                            <td>
-                                <select style="height: 32px;" ng-init="selectUsuarios = '-1'"  ng-model="selectUsuarios" class="form-control">
-                                    <option value="-1" selected="">...</option>
-                                    <option  ng-repeat="us in usuariosGeneral" value="{{us.codigo}}">
-                                        {{us.nombre}} {{us.apellido}}
-                                    </option>
-                                </select>
+                            <td colspan="2">
+                                <img src="/Proyecto/img/save.png"  ng-click="actualizarPermisos()" ng-disabled="selectUsuarios == '-1'" class="imageBoton" style="float: right;width: 15%;cursor: pointer"/>
                             </td>
                         </tr>
-                        
-                        
                     </table>
                 </center>  
                 <br/>

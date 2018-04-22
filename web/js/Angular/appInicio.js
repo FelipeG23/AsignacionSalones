@@ -5,7 +5,7 @@
  */
 
 
-var app = angular.module("loginApp", ['ui.router', 'ngMaterial']);
+var app = angular.module("loginApp", ['ui.router', 'ngMaterial', 'ngCookies']);
 
 app.config([
     '$stateProvider',
@@ -30,7 +30,7 @@ app.config([
     }
 ]);
 
-app.controller("LoginController", ['$scope', '$http', function ($scope, $http) {
+app.controller("LoginController", ['$scope', '$http', '$cookies', '$cookieStore', function ($scope, $http, $cookies, $cookieStore) {
         var correcto = true;
         $scope.validarCampos = function () {
             if ($scope.usuario == "") {
@@ -65,7 +65,8 @@ app.controller("LoginController", ['$scope', '$http', function ($scope, $http) {
                     method: 'GET',
                     url: pUrl
                 }).then(function (response) {
-                    if (response.data.objeto == true) {
+                    if (response.data.respuesta != "Objeto Nulo") {
+                        $cookieStore.put('datosUsuario', response.data.objeto);
                         var host = window.location.origin + window.location.pathname + "Principal.html#/Inicio";
                         location.replace(host);
                     } else {

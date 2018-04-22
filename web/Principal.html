@@ -23,6 +23,7 @@
         <script src="/Proyecto/js/Angular/angular-messages.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-material.min.js"></script>
         <script src="/Proyecto/js/Angular/angular-ui-router.min.js"></script>
+        <script src="/Proyecto/js/Angular/angular-cookies.js"></script>
         <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
         <script src="/Proyecto/js/dataTables/md-data-table.min.js"></script>
         <script src="/Proyecto/js/Angular/app.js"></script>
@@ -44,7 +45,7 @@
         }
     </style>
     <body >
-        <div>
+        <div ng-controller="PrincipalController">
 
 
             <div id="sidedrawer" class="mui--no-user-select">
@@ -59,21 +60,20 @@
                             <li>
                                 <strong>USUARIOS</strong>
                                 <ul>
-                                    <li><a ui-sref="InsertarUsuario" href="#" >Insertar Usuario</a></li>
-                                    <li><a  ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
+                                    <li><a ng-show="listadoPermisos.indexOf('.1.') >= 0" ui-sref="InsertarUsuario" href="#" >Insertar Usuario</a></li>
+                                    <li><a ng-show="listadoPermisos.indexOf('.2.') >= 0" ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
                                 </ul> 
                             </li>
                             <li>
                                 <strong>APLICACIONES</strong>
                                 <ul>
-                                    <li><a ui-sref="Permisos" href="#" >Aplicaciones x Usuario</a></li>
+                                    <li><a ng-show="listadoPermisos.indexOf('.3.') >= 0" ui-sref="Permisos" href="#" >Aplicaciones x Usuario</a></li>
                                 </ul> 
                             </li>
                         </ul> 
                     </li>
 
 
-                    </li>
                     <!--li>
                         <strong></strong>
                         <ul>
@@ -90,6 +90,7 @@
                             <li><a href="#">Item 3</a></li>
                         </ul>
                     </li-->
+                    
                 </ul>
             </div>
             <header id="header">
@@ -97,6 +98,8 @@
                     <div class="mui-container-fluid">
                         <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
                         <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
+                        <span class="mui--text-title">USUARIO: {{datosUsuario.nombre | uppercase}} {{datosUsuario.apellido | uppercase}} </span>
+                        <h1 style="display: inline;float: right; margin-top: 18px;">SALIR</h1>
                         <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Proyecto</span>
                     </div>
                 </div>

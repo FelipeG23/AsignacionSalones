@@ -5,7 +5,7 @@
  */
 
 
-var app = angular.module("angularApp", ['ui.router', 'ngMaterial', 'md.data.table']);
+var app = angular.module("angularApp", ['ui.router', 'ngMaterial', 'md.data.table', 'ngCookies']);
 
 
 
@@ -380,6 +380,89 @@ app.controller("AsignacionController", ['$scope', '$http', 'usuariosConsulta', f
         consultarAplicaciones();
         $scope.aplicaciones = [];
 
+        $scope.actualizarPermisos = function () {
+            if ($scope.selectUsuarios != '-1') {
+                var permisosSelec = "";
+                for (var x = 0; x < document.forms[0].elements.length; x++) {
+                    if ((document.forms[0].elements[x].type).toLowerCase() == "checkbox") {
+                        if (document.forms[0].elements[x].checked == true) {
+                            permisosSelec += document.forms[0].elements[x].value + ",";
+                        }
+
+                    }
+                }
+                permisosSelec = permisosSelec.substring(0, permisosSelec.length - 1);
+                var param;
+                var envio = new Object();
+                envio.idUsuario = $scope.selectUsuarios;
+                envio.listaPermisos = permisosSelec;
+                param = JSON.stringify(envio);
+                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/actualizarPermisos/" + param;
+                $http({
+                    method: 'GET',
+                    url: pUrl
+                }).then(function (response) {
+                    if (response.data.respuesta == "Ok") {
+                        swal(
+                                'Correcto',
+                                'Se actualizaron los permisos correctamente',
+                                'success'
+                                );
+                        $scope.consultarPermisosXUsuario();
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                });
+            } else {
+                swal(
+                        'Advertencia',
+                        'Seleccione un usuario',
+                        'warning'
+                        );
+            }
+
+        };
+
+        $scope.consultarPermisosXUsuario = function () {
+            var param;
+            var envio = new Object();
+            envio.codigo = $scope.selectUsuarios;
+            param = JSON.stringify(envio);
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarPermisoXUsuario/" + param;
+            $http({
+                method: 'GET',
+                url: pUrl
+            }).then(function (response) {
+                for (var x = 0; x < document.forms[0].elements.length; x++) {
+                    if ((document.forms[0].elements[x].type).toLowerCase() == "checkbox") {
+                        document.forms[0].elements[x].checked = false;
+                    }
+                }
+                if (response.data.respuesta != 'Objeto Nulo') {
+
+                    for (var x = 0; x < document.forms[0].elements.length; x++) {
+                        if ((document.forms[0].elements[x].type).toLowerCase() == "checkbox") {
+                            for (var i = 0; i < response.data.objeto.length; i++) {
+                                if (response.data.objeto[i].codAplicacion == document.forms[0].elements[x].id) {
+                                    document.forms[0].elements[x].checked = true;
+                                }
+
+                            }
+
+                        }
+                    }
+
+
+
+                }
+
+            }).catch(function (err) {
+                alert(err);
+            });
+
+        };
+
+
         function consultarAplicaciones() {
             var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarAplicaciones/";
             $http({
@@ -387,10 +470,54 @@ app.controller("AsignacionController", ['$scope', '$http', 'usuariosConsulta', f
                 url: pUrl
             }).then(function (response) {
                 $scope.aplicaciones = response.data.objeto;
+                var html = "";
+                for (var i = 0; i < $scope.aplicaciones.length; i++) {
+                    var item = $scope.aplicaciones[i];
+                    html += '<tr>';
+                    html += '<td>' + item.nombre + '</td>';
+                    html += '<td><input type="checkbox" id="' + item.codigo + '" value="' + item.codigo + '"</td>';
+                    html += '</tr>';
+                }
+                $("#tablaAplicaciones").append(html);
             }).catch(function (err) {
                 alert(err);
             });
 
-        };
-        
+        }
+        ;
+
+    }]);
+
+app.controller("PrincipalController", ['$scope', '$http', '$cookies', '$cookieStore', function ($scope, $http, $cookies, $cookieStore) {
+
+        if ($cookieStore.get('datosUsuario') != undefined) {
+            $scope.datosUsuario = $cookieStore.get('datosUsuario');
+            var user = $cookieStore.get('datosUsuario');
+            var param;
+            var codigo = user.codigo.toString();
+            var envio = new Object();
+            envio.codigo = codigo;
+            param = JSON.stringify(envio);
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Aplicaciones/consultarPermisoXUsuario/" + param;
+            $http({
+                method: 'GET',
+                url: pUrl
+            }).then(function (response) {
+                $scope.listadoPermisos = "";
+                for (var i = 0; i < response.data.objeto.length; i++) {
+                    $scope.listadoPermisos += "."+response.data.objeto[i].codAplicacion+".";
+                }
+                console.log($scope.listadoPermisos);
+            }).catch(function (err) {
+                alert(err);
+            });
+
+
+
+        } else {
+            var host = window.location.origin + "/Proyecto/#/Inicio";
+            location.replace(host);
+        }
+
+
     }]);

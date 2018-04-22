@@ -140,7 +140,7 @@ public class Usuario {
         try {
             JSONObject json = new JSONObject(datos);
             UsuarioDAO dao = new UsuarioDAO();
-            boolean rta = dao.consultarLogin(json.getInt("usuario"), json.getString("clave"));
+            UsuarioEntity rta = dao.consultarLogin(json.getInt("usuario"), json.getString("clave"));
              objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
