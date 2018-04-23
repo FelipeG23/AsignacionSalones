@@ -55,16 +55,16 @@
                 <div class="mui-divider"></div>
                 <ul>
                     <li>
-                        <strong>PARAMETRIZACIÓN</strong>
+                        <strong>PARAMETRIZACIÓN<i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></strong>
                         <ul style="padding-left: 10px;">
-                            <li>
+                            <li ng-show="listadoPermisos.indexOf('.1.') >= 0 || listadoPermisos.indexOf('.2.') >= 0">
                                 <strong>USUARIOS</strong>
                                 <ul>
                                     <li><a ng-show="listadoPermisos.indexOf('.1.') >= 0" ui-sref="InsertarUsuario" href="#" >Insertar Usuario</a></li>
                                     <li><a ng-show="listadoPermisos.indexOf('.2.') >= 0" ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
                                 </ul> 
                             </li>
-                            <li>
+                            <li ng-show="listadoPermisos.indexOf('.3.') >= 0">
                                 <strong>APLICACIONES</strong>
                                 <ul>
                                     <li><a ng-show="listadoPermisos.indexOf('.3.') >= 0" ui-sref="Permisos" href="#" >Aplicaciones x Usuario</a></li>
@@ -99,7 +99,7 @@
                         <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
                         <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
                         <span class="mui--text-title">USUARIO: {{datosUsuario.nombre | uppercase}} {{datosUsuario.apellido | uppercase}} </span>
-                        <h1 style="display: inline;float: right; margin-top: 18px;">SALIR</h1>
+                        <h1 style="display: inline;float: right; margin-top: 18px;cursor: pointer" ng-click="logOut()">SALIR</h1>
                         <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Proyecto</span>
                     </div>
                 </div>

@@ -489,6 +489,12 @@ app.controller("AsignacionController", ['$scope', '$http', 'usuariosConsulta', f
     }]);
 
 app.controller("PrincipalController", ['$scope', '$http', '$cookies', '$cookieStore', function ($scope, $http, $cookies, $cookieStore) {
+        $scope.logOut = function () {
+            $cookieStore.remove('datosUsuario');
+            var host = window.location.origin + "/Proyecto/#/Inicio";
+            location.replace(host);
+        };
+
 
         if ($cookieStore.get('datosUsuario') != undefined) {
             $scope.datosUsuario = $cookieStore.get('datosUsuario');
@@ -505,7 +511,7 @@ app.controller("PrincipalController", ['$scope', '$http', '$cookies', '$cookieSt
             }).then(function (response) {
                 $scope.listadoPermisos = "";
                 for (var i = 0; i < response.data.objeto.length; i++) {
-                    $scope.listadoPermisos += "."+response.data.objeto[i].codAplicacion+".";
+                    $scope.listadoPermisos += "." + response.data.objeto[i].codAplicacion + ".";
                 }
                 console.log($scope.listadoPermisos);
             }).catch(function (err) {
