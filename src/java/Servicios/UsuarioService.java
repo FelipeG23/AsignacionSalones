@@ -17,7 +17,7 @@ import org.json.JSONObject;
 @Path("Usuario")
 @Stateless
 @WebService
-public class Usuario {
+public class UsuarioService {
 
     /**
      * Web service operation

@@ -27,7 +27,7 @@ import org.json.JSONObject;
 @Path("Aplicaciones")
 @Stateless
 @WebService
-public class UsuarioAplicaciones {
+public class UsuarioAplicacionesService {
 
     @GET
     @Path("consultarAplicaciones/")

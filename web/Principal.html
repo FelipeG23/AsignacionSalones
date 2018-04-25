@@ -27,6 +27,7 @@
         <script src="/Proyecto/js/sweetAlert/sweetalert.min.js"></script>
         <script src="/Proyecto/js/dataTables/md-data-table.min.js"></script>
         <script src="/Proyecto/js/Angular/app.js"></script>
+        <script src="/Proyecto/js/Angular/appEdificios.js"></script>
 
     </head>
     <style>
@@ -64,6 +65,14 @@
                                     <li><a ng-show="listadoPermisos.indexOf('.2.') >= 0" ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
                                 </ul> 
                             </li>
+                            <li ng-show="listadoPermisos.indexOf('.4.') >= 0">
+                                <strong>SALONES</strong>
+                                <ul>
+                                    <li><a  ui-sref="InsertarEdificios" href="#" >Insertar Salones</a></li>
+                                    <li><a  ui-sref="ConsultarEdificios" href="#" >Consultar Edificios</a></li>  
+
+                                </ul> 
+                            </li>
                             <li ng-show="listadoPermisos.indexOf('.3.') >= 0">
                                 <strong>APLICACIONES</strong>
                                 <ul>
@@ -90,7 +99,7 @@
                             <li><a href="#">Item 3</a></li>
                         </ul>
                     </li-->
-                    
+
                 </ul>
             </div>
             <header id="header">
@@ -98,7 +107,7 @@
                     <div class="mui-container-fluid">
                         <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
                         <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
-                        <span class="mui--text-title">USUARIO: {{datosUsuario.nombre | uppercase}} {{datosUsuario.apellido | uppercase}} </span>
+                        <span class="mui--text-title">USUARIO: {{datosUsuario.nombre| uppercase}} {{datosUsuario.apellido| uppercase}} </span>
                         <h1 style="display: inline;float: right; margin-top: 18px;cursor: pointer" ng-click="logOut()">SALIR</h1>
                         <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">Proyecto</span>
                     </div>

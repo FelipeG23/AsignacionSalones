@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
-  <endpoint implementation="Servicios.Usuario" name="Usuario" url-pattern="/Usuario"/>
-  <endpoint implementation="Servicios.UsuarioAplicaciones" name="UsuarioAplicaciones" url-pattern="/UsuarioAplicaciones"/>
+  <endpoint implementation="Servicios.UsuarioService" name="Usuario" url-pattern="/Usuario"/>
+  <endpoint implementation="Servicios.UsuarioAplicacionesService" name="UsuarioAplicaciones" url-pattern="/UsuarioAplicaciones"/>
+  <endpoint implementation="Servicios.EdificioService" name="EdificiosService" url-pattern="/EdificiosService"/>
 </endpoints>

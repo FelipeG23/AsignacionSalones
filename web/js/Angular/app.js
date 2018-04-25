@@ -27,6 +27,24 @@ app.factory("usuariosConsulta", ["$http", function ($http) {
 
         return us;
     }]);
+/**
+ * Factoria de Edificios
+ */
+app.factory("edificiosConsulta", ["$http", function ($http) {
+        var ed = {
+            edificiosConsulta: []
+        };
+
+        ed.getEdificios = function () {
+            return $http.get("/Proyecto/v1/EdificiosService/consultarEdificios/").then(function (data) {
+                angular.copy(data.data.objeto, ed.edificiosConsulta);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
+
+        return ed;
+    }]);
 
 
 
@@ -64,6 +82,27 @@ app.config([
                                 return usuariosConsulta.getUsuarios();
                             }]
                     }
+                })
+                .state('ConsultarEdificios', {
+                    url: "/ConsultarEdificios",
+                    views: {
+                        "main": {
+                            controller: "EdificiosController",
+                            templateUrl: "/Proyecto/acciones/edificios/ConsultaEdificios.html"
+                        }},
+                    resolve: {
+                        postPromise: ['edificiosConsulta', function (edificiosConsulta) {
+                                return edificiosConsulta.getEdificios();
+                            }]
+                    }
+                })
+                .state('InsertarEdificios', {
+                    url: "/InsertarEdificios",
+                    views: {
+                        "main": {
+                            controller: "EdificiosController",
+                            templateUrl: "/Proyecto/acciones/edificios/InsertarEdificios.html"
+                        }}
                 })
                 .state('InsertarUsuario', {
                     url: "/InsertarUsuario",
@@ -510,6 +549,7 @@ app.controller("PrincipalController", ['$scope', '$http', '$cookies', '$cookieSt
                 url: pUrl
             }).then(function (response) {
                 $scope.listadoPermisos = "";
+
                 for (var i = 0; i < response.data.objeto.length; i++) {
                     $scope.listadoPermisos += "." + response.data.objeto[i].codAplicacion + ".";
                 }
