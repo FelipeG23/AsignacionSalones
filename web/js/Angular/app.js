@@ -549,10 +549,12 @@ app.controller("PrincipalController", ['$scope', '$http', '$cookies', '$cookieSt
                 url: pUrl
             }).then(function (response) {
                 $scope.listadoPermisos = "";
-
-                for (var i = 0; i < response.data.objeto.length; i++) {
-                    $scope.listadoPermisos += "." + response.data.objeto[i].codAplicacion + ".";
+                if (response.data.respuesta != 'Objeto Nulo') {
+                    for (var i = 0; i < response.data.objeto.length; i++) {
+                        $scope.listadoPermisos += "." + response.data.objeto[i].codAplicacion + ".";
+                    }
                 }
+
                 console.log($scope.listadoPermisos);
             }).catch(function (err) {
                 alert(err);

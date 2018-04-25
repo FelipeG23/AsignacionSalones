@@ -65,11 +65,11 @@
                                     <li><a ng-show="listadoPermisos.indexOf('.2.') >= 0" ui-sref="ConsultaUsuarios" href="#" >Consultar Usuarios</a></li>  
                                 </ul> 
                             </li>
-                            <li ng-show="listadoPermisos.indexOf('.4.') >= 0">
+                            <li ng-show="listadoPermisos.indexOf('.4.') >= 0 || listadoPermisos.indexOf('.5.') >= 0">
                                 <strong>SALONES</strong>
                                 <ul>
-                                    <li><a  ui-sref="InsertarEdificios" href="#" >Insertar Salones</a></li>
-                                    <li><a  ui-sref="ConsultarEdificios" href="#" >Consultar Edificios</a></li>  
+                                    <li><a ng-show="listadoPermisos.indexOf('.4.') >= 0"  ui-sref="InsertarEdificios" href="#" >Insertar Salones</a></li>
+                                    <li><a ng-show="listadoPermisos.indexOf('.5.') >= 0" ui-sref="ConsultarEdificios" href="#" >Consultar Edificios</a></li>  
 
                                 </ul> 
                             </li>
