@@ -104,6 +104,20 @@ app.config([
                             templateUrl: "/Proyecto/acciones/edificios/InsertarEdificios.html"
                         }}
                 })
+                .state('InsertarSalones', {
+                    url: "/InsertarSalones",
+                    views: {
+                        "main": {
+                            controller: "SalonesController",
+                            templateUrl: "/Proyecto/acciones/salones/InsertarSalones.html"
+                        }},
+                    resolve: {
+                        postPromise: ['edificiosConsulta', function (edificiosConsulta) {
+                                return edificiosConsulta.getEdificios();
+                            }]
+                    }
+                })
+
                 .state('InsertarUsuario', {
                     url: "/InsertarUsuario",
                     views: {

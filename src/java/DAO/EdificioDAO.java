@@ -61,7 +61,8 @@ public class EdificioDAO {
             sql.append("              SET NOMBRE = ?       ");
             sql.append("             WHERE CODIGO = ?      ");
             ps = conn.prepareStatement(sql.toString());
-//            ps.setString(1, idEdificio);
+            ps.setString(1, edificio.getNombre());
+            ps.setLong(2, edificio.getCodigo());
             ps.executeUpdate();
             rta = "OK";
         } catch (Exception e) {
@@ -114,4 +115,30 @@ public class EdificioDAO {
         return lista;
     }
 
+    public String eliminarEdificio(Long idEdificio) {
+        Connection conn = null;
+        String rta = "";
+        PreparedStatement ps = null;
+        try {
+            StringBuilder sql = new StringBuilder();
+            conn = ConexionDAO.GetConnection();
+            sql.append("    UPDATE EDIFICIOS      ");
+            sql.append("       SET ESTADO = 'I'   ");
+            sql.append("     WHERE CODIGO = ?     ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setLong(1, idEdificio);
+            ps.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+    }
 }

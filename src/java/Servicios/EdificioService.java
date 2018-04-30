@@ -59,14 +59,32 @@ public class EdificioService {
     }
 
     @GET
-    @Path("consultarEdificios/{id}")
+    @Path("actualizarEdificio/{datos}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String actualizarEdificio(@PathParam("id") String idEdificio) {
+    public String actualizarEdificio(@PathParam("datos") String datos) {
         String objJson = "";
         try {
-            JSONObject json = new JSONObject(idEdificio);
+            JSONObject json = new JSONObject(datos);
             EdificioDAO dao = new EdificioDAO();
-            String rta = dao.insertarEdificio(json.getString("id"));
+            EdificioEntity edificio = new EdificioEntity();
+            edificio.setNombre(json.getString("nombre"));
+            edificio.setCodigo(json.getLong("idEdificio"));
+            String rta = dao.actualizarEdificio(edificio);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+    @GET
+    @Path("eliminarEdificio/{idEdificio}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String eliminarEdificio(@PathParam("idEdificio") String id) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(id);
+            EdificioDAO dao = new EdificioDAO();
+            String rta = dao.eliminarEdificio(json.getLong("codigo"));
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();

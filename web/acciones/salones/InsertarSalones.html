@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html  >
+    <head>
+
+        <meta charset="UTF-8">
+
+        <style>
+            .form-control{
+                height: 32px !important;
+            }
+            h1{
+                font-family: 'dosisBold';
+            }
+            table{
+                font-family: 'dosisMedium';
+            }
+            .imageBoton:active {
+                transform: translateY(4px);
+            }
+            .image-upload > input
+            {
+                display: none;
+            }
+        </style>
+    </head>
+    <body >
+        <div >
+            <form  >
+                <center>
+                    <br/>
+                    <table style="width: 50%;" class="table table-striped">
+                        <tr style="text-align: center">
+                            <td colspan="2"><h1>INSERTAR SALONES</h1></td>
+                        </tr>
+                        <tr>
+                            <td>Nombre del salón:</td>
+                            <td><input ng-model="nombreSalon" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td>Edificio:</td>
+                            <td>
+                                <select class="form-control" ng-model="selectEdificio" ng-init="selectEdificio = '-1'">
+                                    <option value="-1">...</option>
+                                    <option value="{{edificio.codigo}}" ng-repeat="edificio in edificios">
+                                        {{edificio.nombre}}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Capacidad:</td>
+                            <td><input ng-model="capacidad" type="number" class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <img src="/Proyecto/img/save.png" ng-click="insertar();"  class="imageBoton" style="float: right;width: 15%;cursor: pointer"/>
+                            </td>
+
+                        </tr>
+                    </table>
+                </center>  
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </form>
+
+
+        </div>
+
+
+    </body>
+</html>

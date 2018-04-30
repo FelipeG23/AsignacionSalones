@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="Usuario">
-      <implementation-class>Servicios.Usuario</implementation-class>
+    <service name="EdificioService">
+      <implementation-class>Servicios.EdificioService</implementation-class>
     </service>
-    <service name="UsuarioAplicaciones">
-      <implementation-class>Servicios.UsuarioAplicaciones</implementation-class>
+    <service name="UsuarioAplicacionesService">
+      <implementation-class>Servicios.UsuarioAplicacionesService</implementation-class>
+    </service>
+    <service name="UsuarioService">
+      <implementation-class>Servicios.UsuarioService</implementation-class>
     </service>
   </services>
   <clients/>

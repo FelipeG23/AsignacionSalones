@@ -1,5 +1,5 @@
 var app = angular.module('angularApp');
-app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$mdDialog', function ($scope, edificiosConsulta, $http,$mdDialog) {
+app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http', '$mdDialog', function ($scope, edificiosConsulta, $http, $mdDialog) {
         $scope.edificios = edificiosConsulta.edificiosConsulta;
         $scope.selected = [];
         $scope.limitOptions = [5, 10, 15];
@@ -40,17 +40,12 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                 locals: {dataToPass: item},
                 controller: ['$scope', 'dataToPass', function ($scope, dataToPass) {
                         $scope.item = dataToPass;
-
-                        $scope.closeDialog = function () {
-                            $mdDialog.hide();
-                        };
-
                         $scope.eliminarEdificio = function () {
                             var param;
                             var envio = new Object();
                             envio.codigo = $scope.item.codigo;
                             param = JSON.stringify(envio);
-                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/eliminarUsuario/" + param;
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/eliminarEdificio/" + param;
                             $http({
                                 method: 'GET',
                                 url: pUrl
@@ -58,7 +53,7 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                                 console.log($scope.item.codigo);
                                 swal({
                                     title: "Accion Correcta",
-                                    text: "El usuario se ha eliminado correctamente!",
+                                    text: "El edificio se ha eliminado correctamente!",
                                     type: "success",
                                     showCancelButton: false,
                                     confirmButtonColor: "#DD6B55",
@@ -78,14 +73,12 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                         };
                         $scope.actualizarEdificio = function () {
                             var param;
+                            console.log($scope.item);
                             var envio = new Object();
                             envio.nombre = $scope.item.nombre;
-                            envio.apellido = $scope.item.apellido;
-                            envio.documento = $scope.item.documento;
-                            envio.clave = $scope.item.clave;
-                            envio.codigo = $scope.item.codigo;
+                            envio.idEdificio = $scope.item.codigo;
                             param = JSON.stringify(envio);
-                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/Usuario/actualizarUsuario/" + param;
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/actualizarEdificio/" + param;
                             $http({
                                 method: 'GET',
                                 url: pUrl
@@ -93,7 +86,7 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                                 console.log(response);
                                 swal(
                                         'Exito',
-                                        "Se agrego actualizo un usuario",
+                                        "Se agrego actualizo un edificio",
                                         'success'
                                         );
                             }).catch(function (err) {
@@ -101,14 +94,12 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                             });
                         };
 
-
                     }],
-                templateUrl: 'acciones/utiles/modal/modalInsertarUsuario.html'
+                templateUrl: 'acciones/utiles/modal/modalActualizarEdificio.html'
             }).then(function (answer) {
                 console.log(answer);
             }, function () {
                 $scope.selected = new Array();
-                console.log('modal cerrado');
             });
 
         };
@@ -144,7 +135,6 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http','$
                         );
 
             }
-
 
 
         };

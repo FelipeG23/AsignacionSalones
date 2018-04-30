@@ -42,7 +42,17 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>UsuarioAplicaciones</servlet-name>
+        <servlet-name>EdificioService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>UsuarioAplicacionesService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>UsuarioService</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -50,18 +60,17 @@
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/v1/*</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>Usuario</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>Usuario</servlet-name>
-        <url-pattern>/Usuario</url-pattern>
+        <servlet-name>EdificioService</servlet-name>
+        <url-pattern>/EdificioService</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UsuarioAplicaciones</servlet-name>
-        <url-pattern>/UsuarioAplicaciones</url-pattern>
+        <servlet-name>UsuarioAplicacionesService</servlet-name>
+        <url-pattern>/UsuarioAplicacionesService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsuarioService</servlet-name>
+        <url-pattern>/UsuarioService</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
