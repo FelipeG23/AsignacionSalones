@@ -1,9 +1,14 @@
 var app = angular.module('angularApp');
 
-app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosConsulta', function ($scope, $http, $mdDialog, edificiosConsulta) {
+app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosConsulta', 'salonesConsulta', function ($scope, $http, $mdDialog, edificiosConsulta, salonesConsulta) {
         $scope.edificios = edificiosConsulta.edificiosConsulta;
+        $scope.todosSalones = salonesConsulta.salonesConsulta;
+        console.log($scope.todosSalones);
 
-
+        $scope.selected = [];
+        $scope.limitOptions = [5, 10, 15];
+        
+        
         $scope.insertar = function () {
             if ($scope.nombreSalon != undefined && $scope.nombreSalon != "") {
 
@@ -13,7 +18,7 @@ app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosC
 
                         var param;
                         var envio = new Object();
-                        envio.nombre = $scope.nombre;
+                        envio.nombre = $scope.nombreSalon;
                         envio.edificio = $scope.selectEdificio;
                         envio.capacidad = $scope.capacidad;
 
@@ -29,6 +34,9 @@ app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosC
                                         'Se ha insertado un edificio correctamente',
                                         'success'
                                         );
+                                $scope.nombreSalon = "";
+                                $scope.selectEdificio = -1;
+                                $scope.capacidad = null;
                             } else {
                                 swal(
                                         'Atencion',
@@ -76,4 +84,111 @@ app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosC
             }
 
         };
+
+
+
+
+        /***
+         * FUNCIONES NECESARIAS PARA EL FUNCIONAMIENTO 
+         * DEL DATA TABLE
+         */
+        $scope.options = {
+            rowSelection: true,
+            multiSelect: true,
+            autoSelect: true,
+            decapitate: false,
+            largeEditDialog: false,
+            boundaryLinks: false,
+            limitSelect: true,
+            pageSelect: true
+        };
+        $scope.query = {
+            order: 'nombre',
+            limit: 5,
+            page: 1
+        };
+        $scope.toggleLimitOptions = function () {
+            $scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
+        };
+        $scope.loadStuff = function () {
+            $scope.promise = $timeout(function () {
+                // loading
+            }, 2000);
+        };
+
+        $scope.logItem = function (item) {
+            console.log(item);
+//            /// MODAL CON TEMPLATE
+            $mdDialog.show({
+                locals: {dataToPass: item},
+                controller: ['$scope', 'dataToPass', function ($scope, dataToPass) {
+                        $scope.item = dataToPass;
+                        $scope.edificios = edificiosConsulta.getEdificios();
+                        $scope.eliminarEdificio = function () {
+                            var param;
+                            var envio = new Object();
+                            envio.codigo = $scope.item.codigo;
+                            param = JSON.stringify(envio);
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/eliminarEdificio/" + param;
+                            $http({
+                                method: 'GET',
+                                url: pUrl
+                            }).then(function (response) {
+                                console.log($scope.item.codigo);
+                                swal({
+                                    title: "Accion Correcta",
+                                    text: "El edificio se ha eliminado correctamente!",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "OK",
+                                    closeOnConfirm: false
+                                },
+                                        function (isConfirm) {
+                                            location.reload();
+
+                                        });
+
+                            }).catch(function (err) {
+                                alert(err);
+                            });
+
+
+                        };
+                        $scope.actualizarEdificio = function () {
+                            var param;
+                            console.log($scope.item);
+                            var envio = new Object();
+                            envio.nombre = $scope.item.nombre;
+                            envio.idEdificio = $scope.item.codigo;
+                            param = JSON.stringify(envio);
+                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/actualizarEdificio/" + param;
+                            $http({
+                                method: 'GET',
+                                url: pUrl
+                            }).then(function (response) {
+                                console.log(response);
+                                swal(
+                                        'Exito',
+                                        "Se agrego actualizo un edificio",
+                                        'success'
+                                        );
+                            }).catch(function (err) {
+                                alert(err);
+                            });
+                        };
+
+                    }],
+                templateUrl: 'acciones/utiles/modal/modalActualizarSalon.html'
+            }).then(function (answer) {
+                console.log(answer);
+            }, function () {
+                $scope.selected = new Array();
+            });
+
+        };
+
+
+
+
     }]);

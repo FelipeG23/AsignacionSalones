@@ -15,6 +15,17 @@ public class SalonEntity {
     private String nombre;
     private Long codigoEdificio;
     private Long capacidad;
+    private EdificioEntity edificio;
+
+    public EdificioEntity getEdificio() {
+        return edificio;
+    }
+
+    public void setEdificio(EdificioEntity edificio) {
+        this.edificio = edificio;
+    }
+    
+    
 
     public String getCodigo() {
         return codigo;

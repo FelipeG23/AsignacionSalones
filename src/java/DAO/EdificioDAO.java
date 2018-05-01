@@ -132,6 +132,39 @@ public class EdificioDAO {
             e.printStackTrace();
         } finally {
             try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+    }
+
+    public EdificioEntity consultarEdificioxId(Long idEdificio) {
+        EdificioEntity rta = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("    SELECT CODIGO, NOMBRE, ESTADO FROM CLASE.EDIFICIOS              ");
+            sql.append("    WHERE CODIGO = ?                                                ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setLong(1, idEdificio);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                rta = new EdificioEntity();
+                rta.setCodigo(rs.getLong("CODIGO"));
+                rta.setNombre(rs.getString("NOMBRE"));
+                rta.setEstado(rs.getString("ESTADO"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
                 if(conn != null){
                     conn.close();
                 }

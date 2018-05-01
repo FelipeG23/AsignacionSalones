@@ -9,6 +9,7 @@ import DAO.EdificioDAO;
 import DAO.SalonesDAO;
 import Entities.SalonEntity;
 import Utiles.DeserializaObjeto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
@@ -46,6 +47,22 @@ public class SalonesService {
             ent.setCapacidad(json.getLong("capacidad"));
             String rta = dao.insertarSalon(ent);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("consultarSalones/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarSalones() {
+        String objJson = "";
+        try {
+            
+            SalonesDAO dao = new SalonesDAO();
+            List<SalonEntity> lista = dao.consultarSalones();
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
         } catch (Exception e) {
             e.printStackTrace();
         }

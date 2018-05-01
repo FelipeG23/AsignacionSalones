@@ -45,6 +45,24 @@ app.factory("edificiosConsulta", ["$http", function ($http) {
 
         return ed;
     }]);
+/**
+ * Factoria de Edificios
+ */
+app.factory("salonesConsulta", ["$http", function ($http) {
+        var sal = {
+            salonesConsulta: []
+        };
+
+        sal.getSalones = function () {
+            return $http.get("/Proyecto/v1/SalonesService/consultarSalones/").then(function (data) {
+                angular.copy(data.data.objeto, sal.salonesConsulta);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
+
+        return sal;
+    }]);
 
 
 
@@ -114,6 +132,19 @@ app.config([
                     resolve: {
                         postPromise: ['edificiosConsulta', function (edificiosConsulta) {
                                 return edificiosConsulta.getEdificios();
+                            }]
+                    }
+                })
+                .state('ConsultarSalones', {
+                    url: "/ConsultarSalones",
+                    views: {
+                        "main": {
+                            controller: "SalonesController",
+                            templateUrl: "/Proyecto/acciones/salones/ConsultaSalones.html"
+                        }},
+                    resolve: {
+                        postPromise: ['salonesConsulta', function (salonesConsulta) {
+                                return salonesConsulta.getSalones();
                             }]
                     }
                 })

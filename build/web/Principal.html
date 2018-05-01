@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="angularApp">
     <head>
-        <title>Pagina Principal</title>
+        <title>Adm. Espacios fisicos</title>
         <meta charset="utf-8">
         <meta http-equiv="expires" content="0">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,8 @@
         <link rel="stylesheet" href="/Proyecto/css/sweetAlert/sweetalert.css">
         <link rel="stylesheet" href="/Proyecto/css/dataTables/md-data-table.min.css">
         <link rel="stylesheet" href="/Proyecto/css/material/style.css">
-
+        <link rel="shortcut icon" type="image/png" href="https://realfavicongenerator.net/homepage_icons/platforms/ios_9.png"/>
+            
         <script src="/Proyecto/js/jquery.min.js"></script>
         <script src="/Proyecto/js/funciones.js"></script>
         <script src="/Proyecto/js/mui/mui.min.js"></script>
@@ -78,7 +79,7 @@
                                 <strong>SALONES</strong>
                                 <ul>
                                     <li><a ng-show="listadoPermisos.indexOf('.6.') >= 0"  ui-sref="InsertarSalones" href="#" >Insertar Salones</a></li>
-                                    <li><a ng-show="listadoPermisos.indexOf('.7.') >= 0"  href="#" >Consultar Salones</a></li>  
+                                    <li><a ng-show="listadoPermisos.indexOf('.7.') >= 0"  ui-sref="ConsultarSalones" href="#" >Consultar Salones</a></li>  
 
                                 </ul> 
                             </li>

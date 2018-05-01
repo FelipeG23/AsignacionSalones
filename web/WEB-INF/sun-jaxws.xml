@@ -4,4 +4,5 @@
   <endpoint implementation="Servicios.EdificioService" name="EdificioService" url-pattern="/EdificioService"/>
   <endpoint implementation="Servicios.UsuarioAplicacionesService" name="UsuarioAplicacionesService" url-pattern="/UsuarioAplicacionesService"/>
   <endpoint implementation="Servicios.UsuarioService" name="UsuarioService" url-pattern="/UsuarioService"/>
+  <endpoint implementation="Servicios.SalonesService" name="SalonesService" url-pattern="/SalonesService"/>
 </endpoints>
