@@ -3,12 +3,11 @@ var app = angular.module('angularApp');
 app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosConsulta', 'salonesConsulta', function ($scope, $http, $mdDialog, edificiosConsulta, salonesConsulta) {
         $scope.edificios = edificiosConsulta.edificiosConsulta;
         $scope.todosSalones = salonesConsulta.salonesConsulta;
-        console.log($scope.todosSalones);
 
         $scope.selected = [];
         $scope.limitOptions = [5, 10, 15];
-        
-        
+
+
         $scope.insertar = function () {
             if ($scope.nombreSalon != undefined && $scope.nombreSalon != "") {
 
@@ -117,74 +116,90 @@ app.controller("SalonesController", ['$scope', '$http', '$mdDialog', 'edificiosC
         };
 
         $scope.logItem = function (item) {
-            console.log(item);
-//            /// MODAL CON TEMPLATE
-            $mdDialog.show({
-                locals: {dataToPass: item},
-                controller: ['$scope', 'dataToPass', function ($scope, dataToPass) {
-                        $scope.item = dataToPass;
-                        $scope.edificios = edificiosConsulta.getEdificios();
-                        $scope.eliminarEdificio = function () {
-                            var param;
-                            var envio = new Object();
-                            envio.codigo = $scope.item.codigo;
-                            param = JSON.stringify(envio);
-                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/eliminarEdificio/" + param;
-                            $http({
-                                method: 'GET',
-                                url: pUrl
-                            }).then(function (response) {
-                                console.log($scope.item.codigo);
-                                swal({
-                                    title: "Accion Correcta",
-                                    text: "El edificio se ha eliminado correctamente!",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "OK",
-                                    closeOnConfirm: false
-                                },
-                                        function (isConfirm) {
-                                            location.reload();
-
-                                        });
-
-                            }).catch(function (err) {
-                                alert(err);
-                            });
-
-
-                        };
-                        $scope.actualizarEdificio = function () {
-                            var param;
-                            console.log($scope.item);
-                            var envio = new Object();
-                            envio.nombre = $scope.item.nombre;
-                            envio.idEdificio = $scope.item.codigo;
-                            param = JSON.stringify(envio);
-                            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/EdificiosService/actualizarEdificio/" + param;
-                            $http({
-                                method: 'GET',
-                                url: pUrl
-                            }).then(function (response) {
-                                console.log(response);
-                                swal(
-                                        'Exito',
-                                        "Se agrego actualizo un edificio",
-                                        'success'
-                                        );
-                            }).catch(function (err) {
-                                alert(err);
-                            });
-                        };
-
-                    }],
-                templateUrl: 'acciones/utiles/modal/modalActualizarSalon.html'
-            }).then(function (answer) {
-                console.log(answer);
-            }, function () {
-                $scope.selected = new Array();
+            $http.get("/Proyecto/v1/EdificiosService/consultarEdificios/").then(function (data) {
+                $scope.abrirModal(item, data.data.objeto);
+            }).catch(function (error) {
+                console.log(error);
             });
+
+            $scope.abrirModal = function (item, edificiosConsulta) {
+                console.log(edificiosConsulta)
+                console.log(item)
+
+                $mdDialog.show({
+                    onComplete: afterShowAnimation,
+                    locals: {dataToPass: item, listaEdificios: edificiosConsulta},
+                    controller: ['$scope', 'dataToPass', 'listaEdificios', function ($scope, dataToPass, listaEdificios) {
+                            $scope.edificiosConsulta = listaEdificios;
+                            $scope.item = dataToPass;
+
+                            $scope.eliminarEdificio = function () {
+                                var param;
+                                var envio = new Object();
+                                envio.idSalon = $scope.item.codigo;
+                                param = JSON.stringify(envio);
+                                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/SalonesService/eliminarSalon/" + param;
+                                $http({
+                                    method: 'GET',
+                                    url: pUrl
+                                }).then(function (response) {
+                                    swal({
+                                        title: "Accion Correcta",
+                                        text: "El salon se ha eliminado correctamente!",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#DD6B55",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    },
+                                            function (isConfirm) {
+                                                location.reload();
+
+                                            });
+
+                                }).catch(function (err) {
+                                    alert(err);
+                                });
+
+
+                            };
+                            $scope.actualizarSalon = function () {
+                                var param;
+                                var envio = new Object();
+                                envio.codigo = $scope.item.codigo;
+                                envio.nombre = $scope.item.nombre;
+                                envio.capacidad = $scope.item.capacidad;
+                                envio.edificio = $scope.item.codigoEdificio;
+                                param = JSON.stringify(envio);
+                                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/SalonesService/actualizarSalon/" + param;
+                                $http({
+                                    method: 'GET',
+                                    url: pUrl
+                                }).then(function (response) {
+                                    swal(
+                                            'Exito',
+                                            "Se agrego actualizo un salon correctamente",
+                                            'success'
+                                            );
+                                }).catch(function (err) {
+                                    alert(err);
+                                });
+                            };
+
+                        }],
+
+                    templateUrl: 'acciones/utiles/modal/modalActualizarSalon.html'
+                }).then(function (answer) {
+                    console.log(answer);
+                }, function () {
+                    $scope.selected = new Array();
+                });
+                function afterShowAnimation(scope, element, options) {
+//                    scope.edificioActualiza = scope.item.codigoEdificio;
+//                    console.log(scope.edificioActualiza);
+                }
+            };
+
 
         };
 

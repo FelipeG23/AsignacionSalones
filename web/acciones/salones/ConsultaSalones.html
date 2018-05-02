@@ -19,7 +19,7 @@
             }
         </style>
     </head>
-    <body>
+    <body >
         <br/>
         <br/>
         <br/>
@@ -51,7 +51,6 @@
                         <tr md-row>
                             <th md-column md-order-by="salon.nombre"><span>Nombre</span></th>
                             <th md-column md-order-by="salon.codigo"><span>Codigo</span></th>
-                            <th md-column md-order-by="salon.edificio.nombre"><span>Edificio</span></th>
                             <th md-column md-order-by="salon.capacidad"><span>Capacidad</span></th>
 
                         </tr>
@@ -61,7 +60,6 @@
                             ng-repeat="salon in todosSalones| filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                             <td md-cell>{{salon.nombre}}</td>
                             <td md-cell>{{salon.codigo}}</td>
-                            <td md-cell>{{salon.edificio.nombre}}</td>
                             <td md-cell>{{salon.capacidad}}</td>
                         </tr>
                     </tbody>

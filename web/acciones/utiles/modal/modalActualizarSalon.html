@@ -155,16 +155,23 @@ and open the template in the editor.
                     <md-input-container class="md-block">
                         <label>Nombre</label>
                         <input ng-model="item.nombre">
-                       
+
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Edificio</label>
-                        <input ng-model="item.nombre">
-                       
+                        <br/>   
+                        <md-select ng-model="item.codigoEdificio">
+                            <md-option ng-value="{{edificio.codigo}}" ng-repeat="edificio in edificiosConsulta">{{edificio.nombre}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <br/>   
+                        <label>Capacidad</label>
+                        <input type="number" ng-model="item.capacidad">
                     </md-input-container>
                     <md-input-container class="md-block">
                         <md-button ng-click="eliminarEdificio()" class="md-raised md-warn">ELIMINAR</md-button>
-                        <md-button ng-click="actualizarEdificio()" class="md-raised md-primary">ACTUALIZAR</md-button>
+                        <md-button ng-click="actualizarSalon()" class="md-raised md-primary">ACTUALIZAR</md-button>
                     </md-input-container>
                 </div>
             </div>

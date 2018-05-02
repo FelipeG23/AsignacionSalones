@@ -5,7 +5,6 @@
  */
 package Servicios;
 
-import DAO.EdificioDAO;
 import DAO.SalonesDAO;
 import Entities.SalonEntity;
 import Utiles.DeserializaObjeto;
@@ -59,10 +58,46 @@ public class SalonesService {
     public String consultarSalones() {
         String objJson = "";
         try {
-            
+
             SalonesDAO dao = new SalonesDAO();
             List<SalonEntity> lista = dao.consultarSalones();
             objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("actualizarSalon/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarSalones(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(datos);
+            SalonesDAO dao = new SalonesDAO();
+            SalonEntity ent = new SalonEntity();
+            ent.setCodigo(json.getString("codigo"));
+            ent.setNombre(json.getString("nombre"));
+            ent.setCodigoEdificio(json.getLong("edificio"));
+            ent.setCapacidad(json.getLong("capacidad"));
+            String rta =  dao.actualizarSalon(ent);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+    @GET
+    @Path("eliminarSalon/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String eliminarSalon(@PathParam("datos") String idSalon) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(idSalon);
+            SalonesDAO dao = new SalonesDAO();
+            String rta = dao.eliminarSalon(json.getString("idSalon"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
         }
