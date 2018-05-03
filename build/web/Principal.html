@@ -30,6 +30,7 @@
         <script src="/Proyecto/js/Angular/app.js"></script>
         <script src="/Proyecto/js/Angular/appEdificios.js"></script>
         <script src="/Proyecto/js/Angular/appSalones.js"></script>
+        <script src="/Proyecto/js/Angular/appProgramas.js"></script>
 
     </head>
     <style>
@@ -80,6 +81,14 @@
                                 <ul>
                                     <li><a ng-show="listadoPermisos.indexOf('.6.') >= 0"  ui-sref="InsertarSalones" href="#" >Insertar Salones</a></li>
                                     <li><a ng-show="listadoPermisos.indexOf('.7.') >= 0"  ui-sref="ConsultarSalones" href="#" >Consultar Salones</a></li>  
+
+                                </ul> 
+                            </li>
+                            <li ng-show="listadoPermisos.indexOf('.8.') >= 0 || listadoPermisos.indexOf('.9.') >= 0">
+                                <strong>PROGRAMAS</strong>
+                                <ul>
+                                    <li><a ng-show="listadoPermisos.indexOf('.8.') >= 0"  ui-sref="InsertarProgramas" href="#" >Insertar Programa</a></li>
+                                    <li><a ng-show="listadoPermisos.indexOf('.9.') >= 0"  ui-sref="ConsultarProgramas" href="#" >Consultar Programa</a></li>  
 
                                 </ul> 
                             </li>

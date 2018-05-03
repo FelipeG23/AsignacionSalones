@@ -88,7 +88,7 @@ public class EdificioDAO {
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("    SELECT CODIGO, NOMBRE, ESTADO FROM CLASE.EDIFICIOS      ");
+            sql.append("    SELECT CODIGO, NOMBRE, ESTADO FROM CLASE.EDIFICIOS  WHERE  ESTADO = 'A'  ");
             ps = conn.prepareStatement(sql.toString());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -127,7 +127,7 @@ public class EdificioDAO {
             sql.append("     WHERE CODIGO = ?     ");
             ps = conn.prepareStatement(sql.toString());
             ps.setLong(1, idEdificio);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

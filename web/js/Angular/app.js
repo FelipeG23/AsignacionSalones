@@ -27,6 +27,7 @@ app.factory("usuariosConsulta", ["$http", function ($http) {
 
         return us;
     }]);
+
 /**
  * Factoria de Edificios
  */
@@ -63,8 +64,24 @@ app.factory("salonesConsulta", ["$http", function ($http) {
 
         return sal;
     }]);
+/**
+ * Factory de programas
+ */
+app.factory("programasConsulta", ["$http", function ($http) {
+        var pro = {
+            programasConsulta: []
+        };
 
+        pro.getProgramas = function () {
+            return $http.get("/Proyecto/v1/Programas/consultarProgramas/").then(function (data) {
+                angular.copy(data.data.objeto, pro.programasConsulta);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
 
+        return pro;
+    }]);
 
 // REDIRECCIONES
 
@@ -135,6 +152,7 @@ app.config([
                             }]
                     }
                 })
+
                 .state('ConsultarSalones', {
                     url: "/ConsultarSalones",
                     views: {
@@ -148,7 +166,27 @@ app.config([
                             }]
                     }
                 })
-
+                .state('InsertarProgramas', {
+                    url: "/InsertarProgramas",
+                    views: {
+                        "main": {
+                            controller: "ProgramasController",
+                            templateUrl: "/Proyecto/acciones/programas/InsertarProgramas.html"
+                        }},
+                })
+                .state('ConsultarProgramas', {
+                    url: "/ConsultarProgramas",
+                    views: {
+                        "main": {
+                            controller: "ProgramasController",
+                            templateUrl: "/Proyecto/acciones/programas/ConsultaProgramas.html"
+                        }},
+                    resolve: {
+                        postPromise: ['programasConsulta', function (programasConsulta) {
+                                return programasConsulta.getProgramas();
+                            }]
+                    }
+                })
                 .state('InsertarUsuario', {
                     url: "/InsertarUsuario",
                     views: {

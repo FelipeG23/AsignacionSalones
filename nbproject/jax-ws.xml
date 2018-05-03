@@ -13,6 +13,9 @@
     <service name="SalonesService">
       <implementation-class>Servicios.SalonesService</implementation-class>
     </service>
+    <service name="ProgramasService">
+      <implementation-class>Servicios.ProgramasService</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>
