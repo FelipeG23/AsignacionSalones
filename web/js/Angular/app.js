@@ -64,6 +64,26 @@ app.factory("salonesConsulta", ["$http", function ($http) {
 
         return sal;
     }]);
+
+
+/***
+ * Factory AsignacionManual - Materias
+ */
+app.factory("materiasConsulta", ["$http", function ($http) {
+        var mat = {
+            materiasConsulta: []
+        };
+
+        mat.getMaterias = function () {
+            return $http.get("/Proyecto/v1/AsignacionService/consultarMaterias/").then(function (data) {
+                angular.copy(data.data.objeto, mat.materiasConsulta);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        };
+
+        return mat;
+    }]);
 /**
  * Factory de programas
  */
@@ -172,7 +192,7 @@ app.config([
                         "main": {
                             controller: "ProgramasController",
                             templateUrl: "/Proyecto/acciones/programas/InsertarProgramas.html"
-                        }},
+                        }}
                 })
                 .state('ConsultarProgramas', {
                     url: "/ConsultarProgramas",
@@ -184,6 +204,19 @@ app.config([
                     resolve: {
                         postPromise: ['programasConsulta', function (programasConsulta) {
                                 return programasConsulta.getProgramas();
+                            }]
+                    }
+                })
+                .state('AsignacionManual', {
+                    url: "/AsignacionManual",
+                    views: {
+                        "main": {
+                            controller: "AsignacionManualController",
+                            templateUrl: "/Proyecto/acciones/asignacion/asignacionManual.html"
+                        }},
+                    resolve: {
+                        postPromise: ['materiasConsulta', function (materiasConsulta) {
+                                return materiasConsulta.getMaterias();
                             }]
                     }
                 })

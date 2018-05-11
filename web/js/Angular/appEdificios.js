@@ -50,20 +50,29 @@ app.controller("EdificiosController", ['$scope', 'edificiosConsulta', '$http', '
                                 method: 'GET',
                                 url: pUrl
                             }).then(function (response) {
-                                console.log($scope.item.codigo);
-                                swal({
-                                    title: "Accion Correcta",
-                                    text: "El edificio se ha eliminado correctamente!",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "OK",
-                                    closeOnConfirm: false
-                                },
-                                        function (isConfirm) {
-                                            location.reload();
+                                if (response.data.objeto == "OK") {
+                                    swal({
+                                        title: "Accion Correcta",
+                                        text: "El edificio se ha eliminado correctamente!",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#DD6B55",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    },
+                                            function (isConfirm) {
+                                                location.reload();
 
-                                        });
+                                            });
+                                } else {
+                                    swal(
+                                            'Advertencia',
+                                            response.data.objeto,
+                                            'error'
+                                            );
+
+                                }
+
 
                             }).catch(function (err) {
                                 alert(err);

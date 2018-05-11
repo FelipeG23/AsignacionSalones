@@ -76,6 +76,7 @@ public class EdificioService {
         }
         return objJson;
     }
+
     @GET
     @Path("eliminarEdificio/{idEdificio}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -85,7 +86,12 @@ public class EdificioService {
             JSONObject json = new JSONObject(id);
             EdificioDAO dao = new EdificioDAO();
             String rta = dao.eliminarEdificio(json.getLong("codigo"));
-            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+            if (rta.equalsIgnoreCase("OK")) {
+                objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+            } else {
+                objJson = DeserializaObjeto.creaObjetoJson("Error", rta);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -66,6 +66,11 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>AsignacionService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey REST Service</servlet-name>
         <url-pattern>/v1/*</url-pattern>
@@ -89,6 +94,10 @@
     <servlet-mapping>
         <servlet-name>ProgramasService</servlet-name>
         <url-pattern>/ProgramasService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AsignacionService</servlet-name>
+        <url-pattern>/AsignacionService</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

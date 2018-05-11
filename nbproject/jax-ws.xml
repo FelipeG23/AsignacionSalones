@@ -16,6 +16,9 @@
     <service name="ProgramasService">
       <implementation-class>Servicios.ProgramasService</implementation-class>
     </service>
+    <service name="AsignacionService">
+      <implementation-class>Servicios.AsignacionService</implementation-class>
+    </service>
   </services>
   <clients/>
   <jsr109>false</jsr109>

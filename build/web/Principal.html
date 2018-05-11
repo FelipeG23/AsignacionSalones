@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="/Proyecto/css/dataTables/md-data-table.min.css">
         <link rel="stylesheet" href="/Proyecto/css/material/style.css">
         <link rel="shortcut icon" type="image/png" href="https://realfavicongenerator.net/homepage_icons/platforms/ios_9.png"/>
-            
+
         <script src="/Proyecto/js/jquery.min.js"></script>
         <script src="/Proyecto/js/funciones.js"></script>
         <script src="/Proyecto/js/mui/mui.min.js"></script>
@@ -31,6 +31,7 @@
         <script src="/Proyecto/js/Angular/appEdificios.js"></script>
         <script src="/Proyecto/js/Angular/appSalones.js"></script>
         <script src="/Proyecto/js/Angular/appProgramas.js"></script>
+        <script src="/Proyecto/js/Angular/appAsignacionManual.js"></script>
 
     </head>
     <style>
@@ -98,8 +99,19 @@
                                     <li><a ng-show="listadoPermisos.indexOf('.3.') >= 0" ui-sref="Permisos" href="#" >Aplicaciones x Usuario</a></li>
                                 </ul> 
                             </li>
-                        </ul> 
+                        </ul>
+                        <ul  style="padding-left: 0px;">
+                            <li>
+                                <strong>ASIGNACIÓN<i class="glyphicon glyphicon-wrench" aria-hidden="true"></i></strong>
+                                <ul >
+                                    <li><a  ui-sref="AsignacionManual" href="#" >ASIGNACIÓN MANUAL</a></li>
+                                </ul>
+
+                            </li>
+
+                        </ul>
                     </li>
+
 
 
                     <!--li>

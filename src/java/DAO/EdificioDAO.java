@@ -119,15 +119,35 @@ public class EdificioDAO {
         Connection conn = null;
         String rta = "";
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        Boolean flag = false;
         try {
             StringBuilder sql = new StringBuilder();
             conn = ConexionDAO.GetConnection();
-            sql.append("    UPDATE EDIFICIOS      ");
-            sql.append("       SET ESTADO = 'I'   ");
-            sql.append("     WHERE CODIGO = ?     ");
+            sql.append("        SELECT COUNT(*) FROM EDIFICIOS EDIF                      ");
+            sql.append("        WHERE CODIGO IN (                                        ");
+            sql.append("            SELECT  EDI_CODIGO FROM SALONES WHERE EDI_CODIGO = ? ");
+            sql.append("        )                                                        ");
+            sql.append("                                                                 ");
             ps = conn.prepareStatement(sql.toString());
             ps.setLong(1, idEdificio);
-            ps.executeUpdate();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                flag = rs.getInt(1) > 0;
+            }
+            if (!flag) {
+                sql = new StringBuilder();
+                sql.append("    UPDATE EDIFICIOS      ");
+                sql.append("       SET ESTADO = 'I'   ");
+                sql.append("     WHERE CODIGO = ?     ");
+                ps = conn.prepareStatement(sql.toString());
+                ps.setLong(1, idEdificio);
+                ps.executeUpdate();
+                rta = "OK";
+            }else{
+                rta = "El edificio tiene salones anidados";
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -165,7 +185,7 @@ public class EdificioDAO {
             e.printStackTrace();
         } finally {
             try {
-                if(conn != null){
+                if (conn != null) {
                     conn.close();
                 }
             } catch (Exception e) {
