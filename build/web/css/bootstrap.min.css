@@ -3286,7 +3286,7 @@ input[type=submit].btn-block {
 }
 
 .collapse.show {
-    display: block
+    display: inline-table
 }
 
 tr.collapse.show {

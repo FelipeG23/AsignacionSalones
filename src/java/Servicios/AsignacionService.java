@@ -5,16 +5,21 @@
  */
 package Servicios;
 
+import DAO.AsignacionManualDAO;
 import DAO.MateriasDAO;
+import Entities.AsignacionEntity;
 import Entities.MateriasEntity;
 import Utiles.DeserializaObjeto;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONObject;
 
 /**
  *
@@ -34,6 +39,22 @@ public class AsignacionService {
             MateriasDAO dao = new MateriasDAO();
             List<MateriasEntity> rta = dao.consultarTodasMaterias();
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("consultarAsignacionxMateria/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarAsignacion(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(datos);
+            AsignacionManualDAO dao = new AsignacionManualDAO();
+            ArrayList<AsignacionEntity> lista = dao.consultarAsignaxMateria(json.getString("fecha").replaceAll("-", "/"), ""+json.getLong("materia"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
         } catch (Exception e) {
             e.printStackTrace();
         }
