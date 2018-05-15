@@ -8,6 +8,19 @@ app.controller("AsignacionManualController", ['$scope', 'materiasConsulta', '$ht
         $scope.materiasAll = materiasConsulta.materiasConsulta;
         var json = eval($scope.materiasAll);
         iniciarAutocomplete(json);
+        traerSalones();
+
+        function traerSalones() {
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/SalonesService/consultarSalones/";
+            $http({
+                method: 'GET',
+                url: pUrl
+            }).then(function (response) {
+                $scope.listaSalones = response.data.objeto;
+            }).catch(function (err) {
+                alert(err);
+            });
+        }
 
 
         $scope.filtrarMaterias = function () {
@@ -47,14 +60,20 @@ app.controller("AsignacionManualController", ['$scope', 'materiasConsulta', '$ht
                 if (response.data.objeto != "Objeto Nulo") {
                     var lista = response.data.objeto;
                     var butones = "";
+                    var salonesHTML = "";
                     var divPrincipal = $("#resultados");
                     divPrincipal.empty();
                     $(lista).each(function (index, element) {
-                        console.log(element);
+                        salonesHTML = "";
                         butones += '<br/>';
                         butones += '<button data-toggle="collapse" class="btn btn-primary" style="margin-right: 40%;" data-target="#tabla' + index + '">Ver detalle +</button>';
                         butones += '<br/>';
-                        butones += '<table id="tabla' + index + '" style="width: 50%;" class="table table-striped collapse"><tr style="text-align: center"><td colspan="4"><h1>MATERIA</h1></td></tr><tr><td>Código:</td> <td>'+element.codigoMateria+'</td><td>Nombre:</td><td>'+element.nombreMateria+'</td></tr><tr><td>Fecha:</td><td>'+element.fechaAsignada+'</td><td>Dia Semana:</td><td>'+element.diaSemana+'</td></tr><tr><td>Hora Inicio:</td><td>'+element.horaInicio+'</td><td>Hora Fin:</td><td>'+element.horaFin+'</td></tr><tr> <td colspan="3">Salón:</td><td><select></select></td></tr></table>';
+                        salonesHTML += '<select class="form-control" id="select' + index + '">';
+                        $($scope.listaSalones).each(function (index, element) {
+                            salonesHTML += '<option value=' + element.codigo + '>' + element.nombre + '</option>';
+                        });
+                        salonesHTML += '</select>';
+                        butones += '<table id="tabla' + index + '" style="width: 50%;" class="table table-striped collapse"><tr style="text-align: center"><td colspan="4"><h1>MATERIA</h1></td></tr><tr><td>Código:</td> <td>' + element.codigoMateria + '</td><td>Nombre:</td><td>' + element.nombreMateria + '</td></tr><tr><td>Fecha:</td><td>' + element.fechaAsignada + '</td><td>Dia Semana:</td><td>' + element.diaSemana + '</td></tr><tr><td>Hora Inicio:</td><td>' + element.horaInicio + '</td><td>Hora Fin:</td><td>' + element.horaFin + '</td></tr><tr> <td>Salón:</td><td  colspan="3">' + salonesHTML + '</td></tr></table>';
 
                     });
                     divPrincipal.html(butones);
