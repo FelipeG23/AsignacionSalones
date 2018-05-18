@@ -18,7 +18,9 @@ public class AsignacionEntity {
     private String horaFin;
     private String diaSemana;
     private String salonCodigo;
-
+    
+    
+    
     public String getCodigoMateria() {
         return codigoMateria;
     }

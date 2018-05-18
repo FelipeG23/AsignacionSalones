@@ -18,6 +18,40 @@ import java.util.ArrayList;
  */
 public class AsignacionManualDAO {
 
+    public String actualizarSalonXMateria(AsignacionEntity ent) {
+        String rta = "";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("    UPDATE CLASE.HORARIOS                                                               ");
+            sql.append("       SET SAL_CODIGO = ?                                                               ");
+            sql.append("    WHERE GRU_CODIGO = ? AND TO_CHAR(FECHA,'dd/MM/yyyy') = ? AND  TO_CHAR (HORA_INICIO, 'HH12 PM') = ? AND TO_CHAR (HORA_FIN, 'HH12 PM')  = ?            ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setString(1, ent.getSalonCodigo());
+            ps.setString(2, ent.getCodigoMateria());
+            ps.setString(3, ent.getFechaAsignada());
+            ps.setString(4, ent.getHoraInicio());
+            ps.setString(5, ent.getHoraFin());
+            ps.executeUpdate();
+            rta = "OK";
+        } catch (Exception e) {
+            rta = "ERROR " + e.getMessage();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != conn) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+
+    }
+
     public ArrayList<AsignacionEntity> consultarAsignaxMateria(String fecha, String materia) {
         ArrayList<AsignacionEntity> lista = null;
         PreparedStatement ps = null;

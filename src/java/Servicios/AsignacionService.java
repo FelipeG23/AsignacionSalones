@@ -53,8 +53,30 @@ public class AsignacionService {
         try {
             JSONObject json = new JSONObject(datos);
             AsignacionManualDAO dao = new AsignacionManualDAO();
-            ArrayList<AsignacionEntity> lista = dao.consultarAsignaxMateria(json.getString("fecha").replaceAll("-", "/"), ""+json.getLong("materia"));
+            ArrayList<AsignacionEntity> lista = dao.consultarAsignaxMateria(json.getString("fecha").replaceAll("-", "/"), "" + json.getLong("materia"));
             objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("actualizarSalonHorario/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String actualizarSalonHorario(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            AsignacionManualDAO dao = new AsignacionManualDAO();
+            JSONObject json = new JSONObject(datos);
+            AsignacionEntity aux = new AsignacionEntity();
+            aux.setCodigoMateria(json.getString("codigoMateria"));
+            aux.setFechaAsignada(json.getString("fechaAsignada"));
+            aux.setHoraInicio(json.getString("horaInicio"));
+            aux.setHoraFin(json.getString("horaFin"));
+            aux.setSalonCodigo(json.getString("salonCodigo"));
+            String rta = dao.actualizarSalonXMateria(aux);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,7 +2,6 @@ package Servicios;
 
 import DAO.UsuarioDAO;
 import Entities.UsuarioEntity;
-import Utiles.Correo;
 import Utiles.DeserializaObjeto;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -122,9 +121,9 @@ public class UsuarioService {
     public String consultarEspecifico(@PathParam("correos") String correos, @PathParam("mensaje") String mensaje) {
         String objJson = "";
         try {
-            Correo logica = new Correo();
-            String[] lista = correos.split(",");
-            logica.EnviarCorreo("siadocpruebas@gmail.com", "Pruebas123", mensaje, "Correo clase POO", lista);
+//            Correo logica = new Correo();
+//            String[] lista = correos.split(",");
+//            logica.EnviarCorreo("siadocpruebas@gmail.com", "Pruebas123", mensaje, "Correo clase POO", lista);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
         } catch (Exception e) {
             e.printStackTrace();

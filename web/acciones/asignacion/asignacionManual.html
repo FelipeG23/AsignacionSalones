@@ -12,6 +12,42 @@ and open the template in the editor.
         <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.min.css">
         <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.themes.min.css">
         <script src="/Proyecto/js/autocomplete/jquery.easy-autocomplete.min.js"></script>
+        <style>
+            .form-control{
+                height: 35px;
+
+            }
+        </style>
+        <script>
+
+
+
+
+            function actualizarSalon(index) {
+                var objeto = listaSalones[index];
+                var select = $("#select" + index).val();
+                var envio = new Object();
+                envio = objeto;
+                envio.salonCodigo = select;
+                param = JSON.stringify(envio);
+                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AsignacionService/actualizarSalonHorario/" + param;
+                $.ajax({
+                    type: "GET",
+                    url: pUrl,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (request, status, error) {
+                        console.log(request.responseText);
+                    }
+                });
+
+                console.log(select);
+                console.log(objeto);
+            }
+
+        </script>
     </head>
     <body>
         <br/>
@@ -36,10 +72,11 @@ and open the template in the editor.
             </tr>
         </table>
         <br/>
-        
+
         <div id="resultados">
-            
+
         </div>
+
     </center>  
 
     <br/>
