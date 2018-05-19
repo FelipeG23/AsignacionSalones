@@ -220,6 +220,13 @@ app.config([
                             }]
                     }
                 })
+                .state('ConsultaGeneral', {
+                    url: "/ConsultaGeneral",
+                    views: {
+                        "main": {
+                            templateUrl: "/Proyecto/acciones/asignacion/vistaGeneral.html"
+                        }}
+                })
                 .state('InsertarUsuario', {
                     url: "/InsertarUsuario",
                     views: {
