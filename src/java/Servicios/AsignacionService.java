@@ -7,6 +7,7 @@ package Servicios;
 
 import DAO.AsignacionManualDAO;
 import DAO.MateriasDAO;
+import DAO.SalonesDAO;
 import Entities.AsignacionEntity;
 import Entities.MateriasEntity;
 import Utiles.DeserializaObjeto;
@@ -53,8 +54,43 @@ public class AsignacionService {
         try {
             JSONObject json = new JSONObject(datos);
             AsignacionManualDAO dao = new AsignacionManualDAO();
+            SalonesDAO salonDao = new SalonesDAO();
             ArrayList<AsignacionEntity> lista = dao.consultarAsignaxMateria(json.getString("fecha").replaceAll("-", "/"), "" + json.getLong("materia"));
+            for (AsignacionEntity entidad : lista) {
+                String inicio = entidad.getHoraInicio().replaceAll("AM", "").replaceAll("PM", "").trim();
+                String fin = entidad.getHoraFin().replaceAll("AM", "").replaceAll("PM", "").trim();
+                entidad.setLista(salonDao.consultarSalonesDisponibles(entidad.getFechaAsignada(), inicio, fin));
+            }
+
             objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("eliminarSalonHorario/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String eliminarSalonHorario(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            AsignacionManualDAO dao = new AsignacionManualDAO();
+            JSONObject json = new JSONObject(datos);
+            AsignacionEntity aux = new AsignacionEntity();
+            aux.setCodigoMateria(json.getString("codigoMateria"));
+            aux.setFechaAsignada(json.getString("fechaAsignada").replaceAll("-", "/"));
+            String inicio = json.getString("horaInicio").replaceAll("AM", "");
+            inicio = inicio.replaceAll("PM", "");
+            aux.setHoraInicio(inicio.trim());
+            String fin = json.getString("horaFin").replaceAll("AM", "");
+            fin = fin.replaceFirst("PM", "");
+            aux.setHoraFin(fin.trim());
+            aux.setGrupoCodigo(json.getString("grupoCodigo"));
+            aux.setSalonCodigo(json.getString("salonCodigo"));
+            String rta = dao.eliminarSalonXMateria(aux);
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,9 +107,14 @@ public class AsignacionService {
             JSONObject json = new JSONObject(datos);
             AsignacionEntity aux = new AsignacionEntity();
             aux.setCodigoMateria(json.getString("codigoMateria"));
-            aux.setFechaAsignada(json.getString("fechaAsignada"));
-            aux.setHoraInicio(json.getString("horaInicio"));
-            aux.setHoraFin(json.getString("horaFin"));
+            aux.setFechaAsignada(json.getString("fechaAsignada").replaceAll("-", "/"));
+            String inicio = json.getString("horaInicio").replaceAll("AM", "");
+            inicio = inicio.replaceAll("PM", "");
+            aux.setHoraInicio(inicio.trim());
+            String fin = json.getString("horaFin").replaceAll("AM", "");
+            fin = fin.replaceFirst("PM", "");
+            aux.setHoraFin(fin.trim());
+            aux.setGrupoCodigo(json.getString("grupoCodigo"));
             aux.setSalonCodigo(json.getString("salonCodigo"));
             String rta = dao.actualizarSalonXMateria(aux);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);

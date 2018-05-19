@@ -19,13 +19,60 @@ import java.util.List;
  */
 public class SalonesDAO {
 
+    public List<SalonEntity> consultarSalonesDisponibles(String fecha, String inicio, String fin) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<SalonEntity> lista = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("    SELECT CODIGO, NOMBRE, ESTADO, EDI_CODIGO, CAPACIDAD            ");
+            sql.append("      FROM SALONES                                                  ");
+            sql.append("     WHERE CODIGO NOT IN                                            ");
+            sql.append("               (SELECT SAL_CODIGO                                   ");
+            sql.append("                  FROM CLASE.HORARIOS                               ");
+            sql.append("                 WHERE     TO_CHAR (FECHA, 'dd/MM/yyyy') = ?        ");
+            sql.append("                       AND TO_CHAR (HORA_INICIO, 'HH12') = ?        ");
+            sql.append("                       AND TO_CHAR (HORA_FIN, 'HH12') = ?           ");
+            sql.append("                       AND SAL_CODIGO IS NOT NULL)                  ");
+            sql.append("     AND ESTADO = 'A'                                               ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setString(1, fecha);
+            ps.setString(2, inicio);
+            ps.setString(3, fin);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if (lista == null) {
+                    lista = new ArrayList<>();
+                }
+                SalonEntity aux = new SalonEntity();
+                aux.setCodigo(rs.getString("CODIGO"));
+                aux.setNombre(rs.getString("NOMBRE"));
+                aux.setCodigoEdificio(rs.getLong("EDI_CODIGO"));
+                aux.setCapacidad(rs.getLong("CAPACIDAD"));
+                lista.add(aux);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+    }
+
     public List<SalonEntity> consultarSalones() {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<SalonEntity> lista = null;
         try {
-            EdificioDAO dao = new EdificioDAO();
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
             sql.append(" SELECT CODIGO, NOMBRE, ESTADO, EDI_CODIGO, CAPACIDAD FROM CLASE.SALONES WHERE ESTADO = 'A' ");
@@ -40,7 +87,6 @@ public class SalonesDAO {
                 aux.setNombre(rs.getString("NOMBRE"));
                 aux.setCodigoEdificio(rs.getLong("EDI_CODIGO"));
                 aux.setCapacidad(rs.getLong("CAPACIDAD"));
-//                aux.setEdificio(dao.consultarEdificioxId(aux.getCodigoEdificio()));
                 lista.add(aux);
             }
         } catch (Exception e) {
@@ -145,6 +191,7 @@ public class SalonesDAO {
         }
         return rta;
     }
+
     public String eliminarSalon(String codigoSalon) {
         String rta = "";
         Connection conn = null;

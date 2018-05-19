@@ -65,22 +65,36 @@ app.controller("AsignacionManualController", ['$scope', 'materiasConsulta', '$ht
             }).then(function (response) {
                 if (response.data.objeto != "Objeto Nulo") {
                     var lista = response.data.objeto;
+                    console.log(lista);
                     listaSalones = lista;
                     var butones = "";
+
                     var salonesHTML = "";
                     var divPrincipal = $("#resultados");
                     divPrincipal.empty();
                     $(lista).each(function (index, element) {
                         salonesHTML = "";
+                        var salon = "";
                         butones += '<br/>';
                         butones += '<button data-toggle="collapse" class="btn btn-primary" style="margin-right: 40%;" data-target="#tabla' + index + '">Ver detalle +</button>';
                         butones += '<br/>';
                         salonesHTML += '<select style="height: 30px;" class="form-control" id="select' + index + '">';
-                        $($scope.listaSalones).each(function (index, element) {
+                        salonesHTML += '<option value="-1">Seleccione...</option>';
+
+                        $(element.lista).each(function (index, element) {
                             salonesHTML += '<option value=' + element.codigo + '>' + element.nombre + '</option>';
                         });
                         salonesHTML += '</select>';
-                        butones += '<table id="tabla' + index + '" style="width: 50%;" class="table table-striped collapse"><tr style="text-align: center"><td colspan="4"><h1>MATERIA</h1></td></tr><tr><td>Código:</td> <td>' + element.codigoMateria + '</td><td>Nombre:</td><td>' + element.nombreMateria + '</td></tr><tr><td>Fecha:</td><td>' + element.fechaAsignada + '</td><td>Dia Semana:</td><td>' + element.diaSemana + '</td></tr><tr><td>Hora Inicio:</td><td>' + element.horaInicio + '</td><td>Hora Fin:</td><td>' + element.horaFin + '</td></tr><tr> <td>Salón:</td><td  colspan="3">' + salonesHTML + '</td></tr><tr><td><button class="btn btn-danger" onClick="eliminarSalon(' + index + ')" >Eliminar Salón</button><button class="btn btn-success botonActualizar" type="button" onclick="actualizarSalon(\''+index+'\')" >Actualizar Salón</button></td></tr></table>';
+
+                        salon += '<strong>';
+                        if (element.salonCodigo != undefined) {
+                            salon += element.salonCodigo;
+                        } else {
+                            salon += 'SIN SALÓN ASIGNADO';
+                        }
+                        salon += '</strong>';
+
+                        butones += '<table id="tabla' + index + '" style="width: 50%;" class="table table-striped collapse"><tr style="text-align: center"><td colspan="4"><h1>MATERIA</h1></td></tr><tr><td>Código:</td> <td>' + element.codigoMateria + '</td><td>Nombre:</td><td>' + element.nombreMateria + '</td></tr><tr><td>Fecha:</td><td>' + element.fechaAsignada + '</td><td>Dia Semana:</td><td>' + element.diaSemana + '</td></tr><tr><td>Hora Inicio:</td><td>' + element.horaInicio + '</td><td>Hora Fin:</td><td>' + element.horaFin + '</td></tr> <tr><td>Salón Actual</td><td colspan="3">' + salon + '</td></tr>  <tr> <td >Salones disponibles:</td><td colspan="3">' + salonesHTML + '</td></tr><tr><td colspan="4"><button class="btn btn-danger" style="float:right" onClick="eliminarSalon(' + index + ')" >Eliminar Salón</button><button class="btn btn-success botonActualizar" style="float:right" type="button" onclick="actualizarSalon(\'' + index + '\')" >Actualizar Salón</button></td></tr></table>';
                         butones += '<br/>';
 
 

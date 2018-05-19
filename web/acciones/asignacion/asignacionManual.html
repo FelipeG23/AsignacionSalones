@@ -20,31 +20,78 @@ and open the template in the editor.
         </style>
         <script>
 
+            function replaceAll(str, find, replace) {
+                return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+            }
+            function escapeRegExp(str) {
+                return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+            }
 
 
-
-            function actualizarSalon(index) {
+            function eliminarSalon(index) {
                 var objeto = listaSalones[index];
                 var select = $("#select" + index).val();
                 var envio = new Object();
                 envio = objeto;
+                envio.lista = undefined;
                 envio.salonCodigo = select;
-                param = JSON.stringify(envio);
-                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AsignacionService/actualizarSalonHorario/" + param;
+                envio.fechaAsignada = replaceAll(envio.fechaAsignada, "/", "-");
+                var param = JSON.stringify(envio);
+                var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AsignacionService/eliminarSalonHorario/" + param;
                 $.ajax({
                     type: "GET",
                     url: pUrl,
-                    dataType: "json",
                     success: function (data) {
-                        console.log(data);
+                        swal(
+                                'Atención',
+                                'Se elimino salón correctamente',
+                                'success'
+                                );
                     },
                     error: function (request, status, error) {
                         console.log(request.responseText);
                     }
                 });
 
-                console.log(select);
-                console.log(objeto);
+
+
+            }
+
+
+            function actualizarSalon(index) {
+                var objeto = listaSalones[index];
+                var select = $("#select" + index).val();
+                if (select != "-1") {
+                    var envio = new Object();
+                    envio = objeto;
+                    envio.lista = undefined;
+                    envio.salonCodigo = select;
+                    envio.fechaAsignada = replaceAll(envio.fechaAsignada, "/", "-");
+                    var param = JSON.stringify(envio);
+                    var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AsignacionService/actualizarSalonHorario/" + param;
+                    $.ajax({
+                        type: "GET",
+                        url: pUrl,
+                        success: function (data) {
+                            swal(
+                                    'Atención',
+                                    'Se agrego el salón correctamente',
+                                    'success'
+                                    );
+                        },
+                        error: function (request, status, error) {
+                            console.log(request.responseText);
+                        }
+                    });
+
+                } else {
+                    swal(
+                            'Atención',
+                            'Debe seleccionar un salón',
+                            'warning'
+                            );
+                }
+
             }
 
         </script>

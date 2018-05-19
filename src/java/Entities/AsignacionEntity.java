@@ -5,6 +5,8 @@
  */
 package Entities;
 
+import java.util.List;
+
 /**
  *
  * @author JUAN
@@ -18,6 +20,27 @@ public class AsignacionEntity {
     private String horaFin;
     private String diaSemana;
     private String salonCodigo;
+    private String grupoCodigo;
+    private List<SalonEntity> lista;
+
+    public List<SalonEntity> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<SalonEntity> lista) {
+        this.lista = lista;
+    }
+    
+    
+
+    public String getGrupoCodigo() {
+        return grupoCodigo;
+    }
+
+    public void setGrupoCodigo(String grupoCodigo) {
+        this.grupoCodigo = grupoCodigo;
+    }
+    
     
     
     

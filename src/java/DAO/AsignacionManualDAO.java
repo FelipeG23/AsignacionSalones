@@ -18,6 +18,39 @@ import java.util.ArrayList;
  */
 public class AsignacionManualDAO {
 
+    public String eliminarSalonXMateria(AsignacionEntity ent) {
+        String rta = "";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = ConexionDAO.GetConnection();
+            StringBuilder sql = new StringBuilder();
+            sql.append("    UPDATE CLASE.HORARIOS                                                               ");
+            sql.append("       SET SAL_CODIGO = NULL                                                               ");
+            sql.append("    WHERE GRU_CODIGO = ? AND TO_CHAR(FECHA,'dd/MM/yyyy') = ? AND  TO_CHAR (HORA_INICIO, 'HH12') = ? AND TO_CHAR (HORA_FIN, 'HH12')  = ?            ");
+            ps = conn.prepareStatement(sql.toString());
+            ps.setString(1, ent.getGrupoCodigo());
+            ps.setString(2, ent.getFechaAsignada());
+            ps.setString(3, ent.getHoraInicio());
+            ps.setString(4, ent.getHoraFin());
+            ps.executeUpdate();
+            rta = "OK";
+        } catch (Exception e) {
+            rta = "ERROR " + e.getMessage();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != conn) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rta;
+
+    }
+
     public String actualizarSalonXMateria(AsignacionEntity ent) {
         String rta = "";
         Connection conn = null;
@@ -27,10 +60,10 @@ public class AsignacionManualDAO {
             StringBuilder sql = new StringBuilder();
             sql.append("    UPDATE CLASE.HORARIOS                                                               ");
             sql.append("       SET SAL_CODIGO = ?                                                               ");
-            sql.append("    WHERE GRU_CODIGO = ? AND TO_CHAR(FECHA,'dd/MM/yyyy') = ? AND  TO_CHAR (HORA_INICIO, 'HH12 PM') = ? AND TO_CHAR (HORA_FIN, 'HH12 PM')  = ?            ");
+            sql.append("    WHERE GRU_CODIGO = ? AND TO_CHAR(FECHA,'dd/MM/yyyy') = ? AND  TO_CHAR (HORA_INICIO, 'HH12') = ? AND TO_CHAR (HORA_FIN, 'HH12')  = ?            ");
             ps = conn.prepareStatement(sql.toString());
             ps.setString(1, ent.getSalonCodigo());
-            ps.setString(2, ent.getCodigoMateria());
+            ps.setString(2, ent.getGrupoCodigo());
             ps.setString(3, ent.getFechaAsignada());
             ps.setString(4, ent.getHoraInicio());
             ps.setString(5, ent.getHoraFin());
@@ -65,7 +98,8 @@ public class AsignacionManualDAO {
             sql.append("	         TO_CHAR (HORARIO.HORA_INICIO, 'HH12 PM') INICIO,  ");
             sql.append("	         TO_CHAR (HORARIO.HORA_FIN, 'HH12 PM')  FIN,       ");
             sql.append("	         TO_CHAR (HORARIO.FECHA, 'DAY') DIA,               ");
-            sql.append("	         HORARIO.SAL_CODIGO SALON                          ");
+            sql.append("	         HORARIO.SAL_CODIGO SALON,                          ");
+            sql.append("	         HORARIO.GRU_CODIGO GRU_CODIGO                          ");
             sql.append("	    FROM HORARIOS HORARIO, GRUPOS GRUPO, MATERIAS MATER    ");
             sql.append("	   WHERE     GRUPO.CODIGO = HORARIO.GRU_CODIGO             ");
             sql.append("	         AND GRUPO.COD_MATERIA = MATER.CODIGO              ");
@@ -82,6 +116,7 @@ public class AsignacionManualDAO {
                 }
                 AsignacionEntity aux = new AsignacionEntity();
                 aux.setCodigoMateria(rs.getString("CODIGO"));
+                aux.setGrupoCodigo(rs.getString("GRU_CODIGO"));
                 aux.setNombreMateria(rs.getString("NOMBRE"));
                 aux.setFechaAsignada(rs.getString("FECHA"));
                 aux.setHoraInicio(rs.getString("INICIO"));
