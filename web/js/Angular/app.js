@@ -220,6 +220,20 @@ app.config([
                             }]
                     }
                 })
+                .state('AsignacionMasiva', {
+                    url: "/AsignacionMasiva",
+                    views: {
+                        "main": {
+                            controller: "AsignacionMasivaController",
+                            templateUrl: "/Proyecto/acciones/asignacion/asignacionMasiva.html"
+                        }},
+                    resolve: {
+                        postPromise: ['programasConsulta', function (programasConsulta) {
+                                return programasConsulta.getProgramas();
+
+                            }]
+                    }
+                })
                 .state('ConsultaGeneral', {
                     url: "/ConsultaGeneral",
                     views: {

@@ -6,6 +6,7 @@
 package Servicios;
 
 import DAO.AsignacionManualDAO;
+import DAO.AsignacionMasivaDAO;
 import DAO.MateriasDAO;
 import DAO.SalonesDAO;
 import Entities.AsignacionEntity;
@@ -56,10 +57,12 @@ public class AsignacionService {
             AsignacionManualDAO dao = new AsignacionManualDAO();
             SalonesDAO salonDao = new SalonesDAO();
             ArrayList<AsignacionEntity> lista = dao.consultarAsignaxMateria(json.getString("fecha").replaceAll("-", "/"), "" + json.getLong("materia"));
-            for (AsignacionEntity entidad : lista) {
-                String inicio = entidad.getHoraInicio().replaceAll("AM", "").replaceAll("PM", "").trim();
-                String fin = entidad.getHoraFin().replaceAll("AM", "").replaceAll("PM", "").trim();
-                entidad.setLista(salonDao.consultarSalonesDisponibles(entidad.getFechaAsignada(), inicio, fin));
+            if (lista != null) {
+                for (AsignacionEntity entidad : lista) {
+                    String inicio = entidad.getHoraInicio().replaceAll("AM", "").replaceAll("PM", "").trim();
+                    String fin = entidad.getHoraFin().replaceAll("AM", "").replaceAll("PM", "").trim();
+                    entidad.setLista(salonDao.consultarSalonesDisponibles(entidad.getFechaAsignada(), inicio, fin));
+                }
             }
 
             objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
@@ -90,7 +93,23 @@ public class AsignacionService {
             aux.setSalonCodigo(json.getString("salonCodigo"));
             String rta = dao.eliminarSalonXMateria(aux);
             objJson = DeserializaObjeto.creaObjetoJson("Ok", rta);
-            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("asignacionMasiva/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String asignacionMasiva(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            JSONObject json = new JSONObject(datos);
+            AsignacionMasivaDAO dao = new AsignacionMasivaDAO();
+            dao.asignarMasivo(json.getString("codigo"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
         } catch (Exception e) {
             e.printStackTrace();
         }

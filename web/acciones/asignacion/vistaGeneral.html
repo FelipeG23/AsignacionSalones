@@ -8,6 +8,8 @@ and open the template in the editor.
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
+        <script src="/Proyecto/js/Calendario/locale-all.js"></script>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>
             $(function () {
@@ -15,13 +17,28 @@ and open the template in the editor.
                 // page is now ready, initialize the calendar...
 
                 $('#calendar').fullCalendar({
-                    // put your options and callbacks here
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,listWeek'
+                    },
+                    locale: 'es',
+
                 });
 
             });
         </script>
+        <style>
+            #calendar {
+                max-width: 900px;
+                margin: 0 auto;
+            }
+        </style>
     </head>
     <body>
+        <br/>
+        <br/>
+        <br/>
         <div id='calendar'></div>
 
     </body>

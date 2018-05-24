@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.themes.min.css">
+        <script src="/Proyecto/js/autocomplete/jquery.easy-autocomplete.min.js"></script>
+        <style>
+            h1{
+                font-family: 'dosisBold';
+            }
+            table{
+                font-family: 'dosisMedium';
+            }
+            .imageBoton:active {
+                transform: translateY(4px);
+            }
+            .image-upload > input
+            {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+    <center>
+        <br/>
+        <br/>
+        <br/>
+        <table style="width: 50%;" class="table table-striped">
+            <tr style="text-align: center">
+                <td colspan="2"><h1>ASIGNACIÓN MASIVA</h1></td>
+            </tr>
+            <tr>
+                <td>PROGRAMA:</td>
+                <td><input id="programa" ng-model="programa" name="programa" style="width: 100%;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img src="/Proyecto/img/save.png"  class="imageBoton" ng-click="asignarMasivo()" style="float: right;width: 15%;cursor: pointer"/>
+                </td>
+
+            </tr>
+        </table>
+
+
+    </center>
+    <br/>
+    <br/>
+    <br/>
+</body>
+</html>
