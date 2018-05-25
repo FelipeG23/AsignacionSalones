@@ -45,8 +45,6 @@ AS
 BEGIN
     
     
-    
-    
     --
     --SE RECORREN TODOS LOS GRUPOS DEL PROGRAMA
     --

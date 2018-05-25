@@ -9,7 +9,9 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <script src="/Proyecto/js/Calendario/locale-all.js"></script>
-
+        <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.min.css">
+        <link rel="stylesheet" href="/Proyecto/css/autoComplete/easy-autocomplete.themes.min.css">
+        <script src="/Proyecto/js/autocomplete/jquery.easy-autocomplete.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>
             $(function () {
@@ -33,13 +35,38 @@ and open the template in the editor.
                 max-width: 900px;
                 margin: 0 auto;
             }
+/*            SELECT * FROM HORARIOS HORARIO, GRUPOS GRUPO, SALONES SALON,MATERIAS MATER,PROGRAMAS PROG
+WHERE SAL_CODIGO IS NOT NULL
+AND HORARIO.GRU_CODIGO = GRUPO.CODIGO
+AND HORARIO.SAL_CODIGO = SALON.CODIGO
+AND MATER.CODIGO = GRUPO.COD_MATERIA
+AND GRUPO.PL_CODIGO = PROG.CODIGO*/
         </style>
     </head>
     <body>
         <br/>
         <br/>
         <br/>
-        <div id='calendar'></div>
+    <center>
+        <table class="table ">
+            <tr>
+                <td colspan="2">
+                    <h4>Filtrar por programa : </h4>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input name="programas" id="programas" ng-model="programas">
+                </td>
+            </tr>
+        </table>
+    </center>
 
-    </body>
+
+    
+    
+
+    <div id='calendar'></div>
+
+</body>
 </html>

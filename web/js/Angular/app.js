@@ -238,8 +238,15 @@ app.config([
                     url: "/ConsultaGeneral",
                     views: {
                         "main": {
+                            controller: "VistazoController",
                             templateUrl: "/Proyecto/acciones/asignacion/vistaGeneral.html"
-                        }}
+                        }},
+                    resolve: {
+                        postPromise: ['programasConsulta', function (programasConsulta) {
+                                return programasConsulta.getProgramas();
+
+                            }]
+                    }
                 })
                 .state('InsertarUsuario', {
                     url: "/InsertarUsuario",
