@@ -11,7 +11,19 @@ app.controller("AsignacionMasivaController", ['$scope', 'programasConsulta', '$h
         iniciarAutocomplete(json);
 
 
+
+
+
         $scope.asignarMasivo = function () {
+            swal({
+                title: 'Espere por favor',
+                text: 'Estamos trabajando...',
+                imageUrl: '/Proyecto/img/Robot1.gif',
+                imageAlt: 'Custom image',
+                showCancelButton: false,
+                showConfirmButton: false
+            });
+
             $scope.filtrarProgramas();
             var param;
             var envio = new Object();
@@ -22,7 +34,19 @@ app.controller("AsignacionMasivaController", ['$scope', 'programasConsulta', '$h
                 method: 'GET',
                 url: pUrl
             }).then(function (response) {
-                console.log(response)
+                if (response.data.respuesta == 'Ok') {
+                    swal(
+                            'Correcto!',
+                            'Se finalizo el proceso correctamente!',
+                            'success'
+                            );
+                } else {
+                    swal(
+                            'Oh!',
+                            response.data.objeto,
+                            'error'
+                            );
+                }
             }).catch(function (err) {
                 alert(err);
             });

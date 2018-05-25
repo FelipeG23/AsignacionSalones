@@ -26,12 +26,14 @@ public class AsignacionMasivaDAO {
             cStmt.setString(1, codigoPrograma);
             cStmt.registerOutParameter(2, Types.VARCHAR);
             cStmt.execute();
-            System.out.println(""+cStmt.getString(2));
+            rta = ""+cStmt.getString(2);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-
+                if(conn != null){
+                    conn.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -110,8 +110,13 @@ public class AsignacionService {
         try {
             JSONObject json = new JSONObject(datos);
             AsignacionMasivaDAO dao = new AsignacionMasivaDAO();
-            dao.asignarMasivo("" + json.getLong("codigo"));
-            objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
+            String rta = dao.asignarMasivo("" + json.getLong("codigo"));
+            if (rta.equalsIgnoreCase("OK")) {
+                objJson = DeserializaObjeto.creaObjetoJson("Ok", "OK");
+            } else {
+                objJson = DeserializaObjeto.creaObjetoJson("Error", rta);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
