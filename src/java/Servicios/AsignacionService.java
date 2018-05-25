@@ -9,8 +9,10 @@ import DAO.AsignacionManualDAO;
 import DAO.AsignacionMasivaDAO;
 import DAO.MateriasDAO;
 import DAO.SalonesDAO;
+import DAO.VistaGeneralDAO;
 import Entities.AsignacionEntity;
 import Entities.MateriasEntity;
+import Entities.VistaGeneralEntity;
 import Utiles.DeserializaObjeto;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +110,23 @@ public class AsignacionService {
         try {
             JSONObject json = new JSONObject(datos);
             AsignacionMasivaDAO dao = new AsignacionMasivaDAO();
-            dao.asignarMasivo(""+json.getLong("codigo"));
+            dao.asignarMasivo("" + json.getLong("codigo"));
             objJson = DeserializaObjeto.creaObjetoJson("Ok", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
+    @Path("consultarVistaGeneral/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarVistaGeneral() {
+        String objJson = "";
+        try {
+            VistaGeneralDAO dao = new VistaGeneralDAO();
+            List<VistaGeneralEntity> lista = dao.consultarGeneralCalendario();
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
         } catch (Exception e) {
             e.printStackTrace();
         }

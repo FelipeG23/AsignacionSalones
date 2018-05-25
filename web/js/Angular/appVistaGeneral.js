@@ -12,8 +12,28 @@ app.controller("VistazoController", ['$scope', '$http', 'programasConsulta', fun
         $scope.listaProgramas = programasConsulta.programasConsulta;
         var json = eval($scope.listaProgramas);
         iniciarAutocomplete(json);
-
-
+        consutaInicial();
+        function consutaInicial() {
+            var pUrl = "" + location.protocol + "//" + location.host + "/Proyecto/v1/AsignacionService/consultarVistaGeneral/";
+            $http({
+                method: 'GET',
+                url: pUrl
+            }).then(function (response) {
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,listWeek'
+                    },
+                    eventLimit: true, // allow "more" link when too many events
+                    locale: 'es',
+                    events: eval(response.data.objeto)
+                });
+            }).catch(function (err) {
+                alert(err);
+            });
+        }
+        ;
 
         function iniciarAutocomplete(materias) {
             var options = {
@@ -40,6 +60,5 @@ app.controller("VistazoController", ['$scope', '$http', 'programasConsulta', fun
             $("#programas").easyAutocomplete(options);
         }
         ;
-
 
     }]);
