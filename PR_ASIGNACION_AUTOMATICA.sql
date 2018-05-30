@@ -32,6 +32,32 @@ AS
         AND ROWNUM<2
      ;
      
+    --
+    --BUSCAR EL SALON DISPONIBLE
+    --
+    
+    CURSOR C_BUS_SALON_DIS2 (v_Fecha IN varchar2,v_Inicio IN varchar2, v_Final IN varchar2) IS 
+        SELECT CODIGO
+        FROM SALONES SAL
+        WHERE  1=1
+                    AND SAL.CODIGO NOT IN
+                            (SELECT SAL_CODIGO
+                                FROM CLASE.HORARIOS
+                                WHERE     TO_CHAR (FECHA, 'dd/MM/yyyy') = v_Fecha
+                                    AND EXTRACT (
+                                            HOUR FROM CAST (HORA_INICIO AS TIMESTAMP)) BETWEEN v_Inicio
+                                                                                            AND v_Final
+                                    AND SAL_CODIGO IS NOT NULL)
+                    AND SAL.CODIGO NOT IN
+                            (SELECT SAL_CODIGO
+                                FROM clase.horarios
+                                WHERE     TO_CHAR (fecha, 'dd/MM/yyyy') = v_Fecha
+                                    AND EXTRACT (HOUR FROM CAST (hora_fin AS TIMESTAMP)) BETWEEN v_Inicio
+                                                                                                AND v_Final
+                                    AND sal_codigo IS NOT NULL)
+                    AND SAL.ESTADO = 'A'
+        AND ROWNUM<2
+       ;
      --
      --CURSOR PARA BUSCAR LAS FECHAS SEGUN EL GRUPO
      --
@@ -54,13 +80,18 @@ BEGIN
         ---
         --- BUSCO EL SALON DISPONIBLE
         ---
-        
-        OPEN C_BUS_SALON_DIS (GRUPO.CODIGO);
-        FETCH C_BUS_SALON_DIS INTO v_salonDisponible;
-        CLOSE C_BUS_SALON_DIS;
-        
+        ---
+        ---OPEN C_BUS_SALON_DIS (GRUPO.CODIGO);
+        ---FETCH C_BUS_SALON_DIS INTO v_salonDisponible;
+        ---CLOSE C_BUS_SALON_DIS;
+        ---
         
         FOR ITEM IN C_BUSCARFECHAS(GRUPO.CODIGO)  LOOP
+            
+            OPEN C_BUS_SALON_DIS2(TO_CHAR(ITEM.FECHA,'dd/MM/yyyy'),TO_CHAR(ITEM.INICIO,'HH24'),TO_CHAR(ITEM.FIN,'HH24'));
+            FETCH C_BUS_SALON_DIS2 INTO v_salonDisponible;
+            CLOSE C_BUS_SALON_DIS2;
+            
             
             --
             -- ACTUALIZO CADA FECHA SEGUN EL GRUPO

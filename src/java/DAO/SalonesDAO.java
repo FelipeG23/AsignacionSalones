@@ -27,20 +27,38 @@ public class SalonesDAO {
         try {
             conn = ConexionDAO.GetConnection();
             StringBuilder sql = new StringBuilder();
-            sql.append("    SELECT CODIGO, NOMBRE, ESTADO, EDI_CODIGO, CAPACIDAD            ");
-            sql.append("      FROM SALONES                                                  ");
-            sql.append("     WHERE CODIGO NOT IN                                            ");
-            sql.append("               (SELECT SAL_CODIGO                                   ");
-            sql.append("                  FROM CLASE.HORARIOS                               ");
-            sql.append("                 WHERE     TO_CHAR (FECHA, 'dd/MM/yyyy') = ?        ");
-            sql.append("                       AND TO_CHAR (HORA_INICIO, 'HH12') = ?        ");
-            sql.append("                       AND TO_CHAR (HORA_FIN, 'HH12') = ?           ");
-            sql.append("                       AND SAL_CODIGO IS NOT NULL)                  ");
-            sql.append("     AND ESTADO = 'A'                                               ");
+            sql.append("    SELECT SAL.CODIGO,                                                                       ");
+            sql.append("           SAL.NOMBRE,                                                                       ");
+            sql.append("           SAL.ESTADO,                                                                       ");
+            sql.append("           EDI_CODIGO,                                                                       ");
+            sql.append("           CAPACIDAD                                                                         ");
+            sql.append("      FROM SALONES SAL, EDIFICIOS EF                                                         ");
+            sql.append("     WHERE  1=1                                                           ");
+            sql.append("           AND SAL.CODIGO NOT IN                                                             ");
+            sql.append("                   (SELECT SAL_CODIGO                                                        ");
+            sql.append("                      FROM CLASE.HORARIOS                                                    ");
+            sql.append("                     WHERE     TO_CHAR (FECHA, 'dd/MM/yyyy') = ?                             ");
+            sql.append("                           AND EXTRACT (                                                     ");
+            sql.append("                                   HOUR FROM CAST (HORA_INICIO AS TIMESTAMP)) BETWEEN ?      ");
+            sql.append("                                                                                  AND ?      ");
+            sql.append("                           AND SAL_CODIGO IS NOT NULL)                                       ");
+            sql.append("           AND SAL.CODIGO NOT IN                                                             ");
+            sql.append("                   (SELECT SAL_CODIGO                                                        ");
+            sql.append("                      FROM clase.horarios                                                    ");
+            sql.append("                     WHERE     TO_CHAR (fecha, 'dd/MM/yyyy') = ?                             ");
+            sql.append("                           AND EXTRACT (HOUR FROM CAST (hora_fin AS TIMESTAMP)) BETWEEN ?    ");
+            sql.append("                                                                                    AND ?    ");
+            sql.append("                           AND sal_codigo IS NOT NULL)                                       ");
+            sql.append("           AND SAL.ESTADO = 'A'                                                              ");
+            sql.append("           AND SAL.EDI_CODIGO = EF.CODIGO                                                    ");
+            sql.append("           ORDER BY SAL.CODIGO                                                     ");
             ps = conn.prepareStatement(sql.toString());
             ps.setString(1, fecha);
             ps.setString(2, inicio);
             ps.setString(3, fin);
+            ps.setString(4, fecha);
+            ps.setString(5, inicio);
+            ps.setString(6, fin);
             rs = ps.executeQuery();
             while (rs.next()) {
                 if (lista == null) {

@@ -139,6 +139,22 @@ public class AsignacionService {
     }
 
     @GET
+    @Path("consultarVistaGeneralxPrograma/{datos}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String consultarVistaGeneralxPrograma(@PathParam("datos") String datos) {
+        String objJson = "";
+        try {
+            VistaGeneralDAO dao = new VistaGeneralDAO();
+            JSONObject json = new JSONObject(datos);
+            List<VistaGeneralEntity> lista = dao.consultarGeneralCalendarioXPrograma(json.getLong("codigo"));
+            objJson = DeserializaObjeto.creaObjetoJson("Ok", lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
+    @GET
     @Path("actualizarSalonHorario/{datos}")
     @Produces(MediaType.APPLICATION_JSON)
     public String actualizarSalonHorario(@PathParam("datos") String datos) {
