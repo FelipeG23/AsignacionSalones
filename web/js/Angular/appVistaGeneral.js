@@ -26,6 +26,7 @@ app.controller("VistazoController", ['$scope', '$http', 'programasConsulta', fun
                 method: 'GET',
                 url: pUrl
             }).then(function (response) {
+                console.log(response);
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -52,6 +53,7 @@ app.controller("VistazoController", ['$scope', '$http', 'programasConsulta', fun
                 method: 'GET',
                 url: pUrl
             }).then(function (response) {
+                console.log(response);
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
